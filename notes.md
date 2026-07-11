@@ -1869,3 +1869,79 @@ covariant window because the UV is tame; in d≥2 the UV owns the
 dynamics outright — UV-softness (GV nonlocality) is not optional
 garnish but the price of any state-anchored frame in the physical
 dimension.
+[SUPERSEDED IN PART by the decomposition below: the dichotomy is
+real but its mechanism is the TADPOLE ladder, not the channel
+ladder.]
+
+---
+
+## 2026-07-11 — EXPONENT DECOMPOSITION: the reversal is
+## SOURCE-DRIVEN; classical lattices probe the tadpole ladder,
+## not the channel ladder
+
+Code: `qft_bridge_decomp.py`. Two runs, all λ=0 controls silent.
+
+**Run 1 (source fixed by spectral truncation |k| ≤ K_C; channels
+swept via N).** The purified channel factor is FLAT in both
+dimensions: d=2 rates 0.0317/0.0278/0.0229/0.0253 over k_max
+3.14→12.57 (power exponent −0.20; even the log fit is weak,
+R²=0.80 with the wrong trend); d=1: 0.0222/0.0374/0.0392/0.0281
+(exponent +0.11, noise). If the golden-rule channel-log applied
+classically, d=2 should have grown ×2.2 across this sweep; it did
+not. **The entire ×40 growth of the full d=2 experiment was
+source-driven.**
+
+**Run 2 (channels fixed at one N; source amplitude scaled by a).**
+rate ∝ a^{+4.96} (d=2, N=32) and a^{+4.45} (d=1, N=64) vs the
+perturbative prediction a⁴ — consistent with rate ∝ variance², the
+mild excess plausibly from approach to the parametric-instability
+threshold at large a (noted, not pursued).
+
+**Reconstruction closes:** full d=2 experiment had ⟨φ²⟩₀ ∝
+k_max^{1.16} (measured); rate ∝ variance^{2.48} (Run 2) gives
+k_max^{2.9}, vs the observed k_max^{2.7}. ✓ Within fit noise, the
+exponent is fully accounted: ~2.7 = (source)^{~2.5×1.16} +
+(channels)^{~0}.
+
+### The corrected interpretation (important for paper #2)
+
+There are TWO dimension ladders, and the classical experiment
+measures the other one:
+- **Tadpole ladder** (source): the zero-point variance
+  ⟨φ²⟩ = ∫d^dk/(2ω(2π)^d) diverges as k_max^{d−1} — log at d=1,
+  LINEAR at d=2. This is what the classical-statistical lattice
+  tracks (Runs 1+2 prove it), and it is the true mechanism of the
+  E4-2D continuum-limit dichotomy (still a real dichotomy: d=1
+  converges because the tadpole is log; d≥2 has no continuum limit
+  because the tadpole is power-divergent).
+- **Channel ladder** (golden rule): the reduced decay measure
+  ∫dE E^{3d−6} — convergent d=1, marginal-log d=2 — plus the
+  always-infinite boost orbit. This is the CJM/GSTZ object. The
+  classical dynamics does NOT track it (Run 1 flat), for a clean
+  reason: classical fields cannot spontaneously radiate into EMPTY
+  modes — spontaneous emission into unoccupied channels is
+  intrinsically quantum, and the classical cascade populates high-k
+  only by local-in-k flux, insensitive to where the far cutoff
+  sits. The known classical-statistical limitation (vacuum
+  overcounting/undercounting of spontaneous processes), here
+  measured rather than assumed.
+
+Consequences: (i) the "hotter start" objection to E4-2D is
+CONCEDED and quantified — and conceding it yields the sharper true
+statement above; (ii) numerical support for the channel ladder
+rests on the quantum channel toy (stage-2 E3) and the phase-space
+integrals (stage 3), NOT on lattice dynamics — paper #2 must say
+so; (iii) methods claim for the paper: classical-statistical
+vacuum simulations are tadpole-ladder probes; channel-ladder
+questions require quantum treatment. (iv) The M3/GV framing
+survives unchanged — M3 used thermal (occupied) states where
+classical stimulated dynamics is the right physics.
+
+### Caveats
+
+Run-1 flatness is bounded by ensemble noise (±~20%): a channel-log
+as large as ~×1.3 across the sweep is not excluded, only the ×2.2
+naive prediction; Run-2 exponents carry the threshold-proximity
+systematic; K_C truncation leaves nonlinearly-generated support
+growth unquantified (the local-cascade reading is an
+interpretation, standard in wave turbulence but not proven here).
