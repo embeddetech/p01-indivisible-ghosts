@@ -1,0 +1,13 @@
+# python
+__pycache__/
+*.pyc
+
+# LaTeX build artifacts (tracked compiled PDF lives at repo root)
+paper/main.pdf
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz

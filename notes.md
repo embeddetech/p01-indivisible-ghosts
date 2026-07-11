@@ -1,0 +1,1090 @@
+# Running log — PT-symmetric / indivisible-stochastic bridge
+
+Continuation of `PT_stochastic_handoff.md`. Baseline experiment: `pt_barandes.py`.
+
+---
+
+## 2026-07-10 — §5.1 DONE: Fixed-beable / Kolmogorov-cycle characterization
+
+**Question.** Which non-Hermitian `H` admit a metric `η` diagonal in the
+configuration basis, so the Barandes beables are preserved rather than rotated?
+
+**Answer: the conjecture in the handoff is TRUE, and sharper than expected.**
+Code + numerical verification: `fixed_beable_kolmogorov.py` (all checks pass,
+including 200/200 randomized trials at n = 3..6).
+
+### Theorem (fixed-beable characterization)
+
+`H` admits a positive diagonal metric `η = diag(d)`, `d_i > 0`, with
+`H†η = ηH`, **iff** all of:
+
+- **K1** — every diagonal entry `H_ii` is real;
+- **K2** — symmetric coupling support: `H_ij = 0 ⇔ H_ji = 0`;
+- **K3** — `H_ij H_ji > 0` for every coupled pair (equivalently
+  `arg H_ij + arg H_ji = 0`);
+- **K4** — **Kolmogorov cycle condition**: around every cycle of the coupling
+  graph, the product of coupling moduli one way equals the product the other
+  way.
+
+*Derivation.* The component form of `H†η = ηH` with `η = diag(d)` is
+`d_i H_ij = d_j H*_ji`. The `i=j` component gives K1; existence of positive
+`d` forces K2; the phase of the off-diagonal relation gives K3; its modulus
+gives `d_i/d_j = |H_ji|/|H_ij|`, whose loop-consistency is exactly K4.
+Conversely, build `d` along a spanning forest; K4 makes it well defined.
+
+### Corollaries (each verified numerically)
+
+1. **Reality of the spectrum is derived, not assumed.** K1–K4 imply
+   `h = η^{1/2} H η^{-1/2}` is Hermitian, so the spectrum is automatically
+   real — unbroken antilinearity falls out of the combinatorial conditions.
+2. **Uniqueness — cost 4b resolved in this class.** `d` is unique up to one
+   scale per connected component of the coupling graph, and the fixed-beable
+   process `Γ_ij(t) = (d_i/d_j)|U_ij(t)|²` is invariant under those scales, so
+   the process is **unique**. The metric non-uniqueness problem disappears
+   exactly when the beables are fixed.
+3. **The correction is a pure reweighting.** With diagonal `ρ = diag(√d)`,
+   `Γ_ij = (d_i/d_j)|U_ij|²`: same configurations, same beable set; the metric
+   enters only as importance weights on the naive transition probabilities.
+4. **Classical dictionary (task d).** With hopping rates `q(i→j) := |H_ji|`
+   (Barandes column convention), the distribution `π_i ∝ 1/d_i` satisfies
+   classical detailed balance `π_i q(i→j) = π_j q(j→i)`. So the metric weights
+   are the *inverse* of the Kolmogorov equilibrium distribution of the modulus
+   rate graph, and K4 is literally Kolmogorov's criterion from Markov-chain
+   theory. Structural characterization: fixed-beable `H` = the positive
+   diagonal similarity orbit of Hermitian matrices ("detailed-balanced
+   gain/loss").
+
+### Numerical results (from `fixed_beable_kolmogorov.py`)
+
+- **(b) 2×2 canonical PT model fails, as predicted** — via K1 (diagonal
+  `e^{±iθ}` not real), consistent with the beable rotation seen in
+  `pt_barandes.py`. Note: at n=2 there are no cycles beyond pairs, so K4 is
+  vacuous and fixed-beable ⇔ Hermitian *within that family*. The cycle
+  condition only bites at n ≥ 3.
+- **(c) 3×3 non-Hermitian example passing K1–K4** (built from `d = (1,2,4)`
+  with magnitude-asymmetric, phase-antisymmetric complex couplings;
+  `‖H − H†‖ ≈ 1.69`): spectrum real `{−1.319, 0.210, 2.009}`; recovered
+  `d = (1,2,4)` exactly; naive `|U|²` column sums `(0.40, 1.17, 3.04)` — not
+  stochastic — while the reweighted `Γ` is doubly stochastic with
+  `‖Γ(2t) − Γ(t)²‖ ≈ 0.41` (genuinely indivisible), **with beables fixed**.
+- **Sharp counterexample: only K4 fails.** `H = diag(1,2,3) +` an asymmetric
+  positive ring (cycle products 0.216 vs 0.027). Spectrum still real
+  `{0.847, 1.840, 3.313}`, positive-definite biorthogonal metric exists, valid
+  indivisible process exists (`‖Γ(2t) − Γ(t)²‖ ≈ 0.49`) — but the diagonal
+  intertwiner solution space is exactly zero and `ρ` has an 18% off-diagonal
+  fraction. **K4 gates fixed beables specifically, not process existence.**
+- **Randomized theorem check**: 200/200 trials, n = 3..6 — constructor and
+  independent null-space solver agree; K1–K4 ⇒ unique-up-to-scale `d`, real
+  spectrum, doubly stochastic fixed-beable `Γ`; perturbing one cycle edge's
+  modulus ⇒ K4 fails ⇒ diagonal solution space dimension 0.
+
+### Quotable statement
+
+> A PT/pseudo-Hermitian dynamics admits a fixed-beable indivisible stochastic
+> representation iff its coupling graph satisfies the Kolmogorov
+> detailed-balance conditions (real diagonal, phase-antisymmetric couplings,
+> cycle condition on coupling moduli). The metric weights are then the inverse
+> of the detailed-balance stationary distribution, and the fixed-beable
+> process is unique.
+
+This resolves conceptual cost 4a of the handoff (dynamics-dependent beables)
+by exactly delimiting when it does and doesn't occur, and resolves cost 4b
+(metric/process non-uniqueness) within the fixed-beable class. The
+deflationary reading deepens: the non-Hermiticity compatible with fixed
+beables is precisely classical-detailed-balance gain/loss — a diagonal gauge
+of a Hermitian theory.
+
+---
+
+## 2026-07-10 — §5.2 DONE: Broken phase as an open subsystem via dilation
+
+Code: `dilation_bridge.py`. **Result: the broken phase supports a valid,
+permanently indivisible sub-stochastic process with zero information
+backflow — the two non-Markovianities dissociate, and Barandes
+indivisibility is the strictly stronger notion.**
+
+### Construction
+
+1. **Broken PT = post-selection (exact identity).** The canonical dimer is
+   balanced gain/loss: `H = cosθ·I + i sinθ σ_z-type + s σ_x`. Subtracting
+   the uniform gain, `H_loss = H − i sinθ·I` is pure loss and
+   `e^{-iHt} = e^{+sinθ·t} · C(t)` with `C(t) = e^{-iH_loss t}` a contraction
+   (verified: singular values ≤ 1 for all t, identity to machine precision).
+   The notorious broken-phase runaway is a *scalar normalization*; the
+   conditional (normalized) dynamics coincide. Mannheim's broken phase is
+   survival-conditioned dynamics of a lossy system.
+2. **Halmos dilation, per time t.** `U_big(t) = [[C, √(1−CC†)],[√(1−C†C), −C†]]`
+   is exactly unitary (error ~1e-15) with `Γ_big(0) = I`. Barandes needs only
+   per-time unistochasticity — the family need not be a group (indivisibility
+   *is* the failure to compose) — so `Γ_big(t) = |U_big(t)|²` is an ordinary
+   Barandes indivisible process on 4 configs {1, 2, a1, a2}. A finite
+   Hermitian generator can't reproduce decay for all t (quasi-periodicity),
+   but the per-time dilation sidesteps that entirely.
+3. **Reduced process** `Γ_red(t) = |C(t)_ij|²` = top-left block: entries ≥ 0,
+   column sums ≤ 1 for all t (verified). Column-sum deficit = leak
+   probability; broken-phase survival decays monotonically.
+
+### Diagnostics
+
+- **Divisibility (Barandes-intrinsic).** With `Γ(t₁)` invertible the unique
+  divisor candidate is `M = Γ(t₂)Γ(t₁)⁻¹` (column sums automatic), so
+  divisibility ⇔ `M` entrywise ≥ 0 (+ col sums ≤ 1 if sub-stochastic).
+  Infinitesimal version: classical P-divisibility ⇔ generator
+  `L(t) = Γ̇Γ⁻¹` has nonnegative off-diagonals (exact derivative via
+  `Ċ = −iH_loss C`; condition-number guarded — early runs showed the
+  *magnitudes* of finite-gap violations are conditioning-sensitive, but sign
+  and location are robust, e.g. worst broken-phase point has cond(Γ) ≈ 830).
+- **Backflow (BLP analog).** TV distance between the two basis-state
+  initializations: (a) extended 3-outcome space {1, 2, leaked} — linear;
+  (b) conditional (survival-post-selected). Reported in windows [0,20] and
+  [20,40].
+
+### Findings (θ = π/4, sweep s = 0.3 … 1.3, EP at s = sinθ ≈ 0.7071)
+
+1. **The reduced process is indivisible in BOTH phases** (t* ≈ 1 everywhere),
+   but the *temporal structure* flips at the EP:
+   - **Broken/EP**: `min offdiag L(t)` goes negative at t* and **stays
+     negative forever**, smoothly approaching a strictly negative constant
+     (e.g. −1.207 at s=0.5) — *terminal, persistent indivisibility*, no
+     revivals (lock-in to the slow decay mode).
+   - **Unbroken**: `L(t)` **oscillates** through recurrent positive
+     (divisible) and negative windows at the Rabi period — *recurrent
+     indivisibility*, the open-system shadow of closed-system quasi-periodic
+     interference.
+2. **Information backflow transitions exactly at the EP.** Late-window
+   conditional backflow (bf[20,40]) = 0.0000 for every broken s and at the
+   EP; jumps to 1.32 at s = 0.72. Broken-phase backflow is a finite
+   early-time transient; unbroken accrues per oscillation forever.
+   (Matches known PT open-system results, but here derived at the
+   stochastic-process level.) Extended-space (linear) classical backflow is
+   **identically zero in both phases** — classical marginals with a leak
+   outcome never show backflow in this dilation.
+3. **Answer to the frontier question: YES, with a precise meaning.** Broken
+   PT gives an indivisible process the closed/Hermitian case cannot:
+   *terminally* indivisible with monotone leak and zero backflow. A closed
+   Hermitian system's `Γ = |U|²` is quasi-periodic — its indivisibility is
+   necessarily recurrent. So the two "non-Markovianities" genuinely meet
+   here and **dissociate**: broken PT is backflow-Markovian yet
+   Barandes-indivisible. Indivisibility is the finer probe of the PT phase:
+   it doesn't vanish at the EP — it changes character (recurrent ↔
+   terminal).
+4. Bonus identity: any 2-site lossy Hamiltonian is a shifted PT dimer, so
+   "overdamped open dynamics" and "broken PT" coincide at n=2; the
+   stochastic signature of PT breaking is the recurrent→terminal
+   indivisibility transition plus loss of backflow.
+
+### Caveats
+
+- Near the EP the oscillation period π/√(s²−sin²θ) diverges; any finite
+  window smooths the transition (s=0.72 shows lateNeg=1.00 in [6,12] only
+  because its first revival is at t≈23 — the [20,40] backflow window
+  correctly catches it). The dichotomy is exact as T→∞.
+- Finite-gap violation *magnitudes* are not calibrated (conditioning-
+  sensitive); only sign/location are meaningful. Generator trace is the
+  robust diagnostic.
+- 2×2 toy; terminal-indivisibility asymptote not yet proven analytically.
+
+---
+
+## 2026-07-10 — §5.3 DONE: The exceptional point
+
+Code: `exceptional_point.py`. **Verdict: the EP is a coordinate singularity
+of the similarity-to-Hermitian dictionary, not of the stochastic process.**
+The crack in the deflationary argument is real (no Hermitian partner exists
+at the EP) but harmless at the process level: existence of an indivisible
+process is governed by the dilation (§5.2), which is smooth there.
+
+### At the EP (s* = sinθ)
+
+- `H` defective as expected: double eigenvalue cosθ, rank(H − cosθ·I) = 1,
+  cond(eigenvector matrix) ~ 1e8 (numerically Jordan).
+- Naive `|U|²` grows **polynomially**, fitted exponent 1.95 ≈ 2 (Jordan
+  `t·e^{-iEt}` ⇒ t² in probabilities) — sitting exactly between unbroken
+  (bounded) and broken (exponential).
+- The Hermitian intertwiner space at the EP is 2-dimensional: one **singular
+  PSD rank-1** ray and one indefinite direction. The positive-definite cone
+  is exited exactly through the singular boundary — no `ρ`, no Hermitian
+  partner, the Mostafazadeh deflation genuinely fails *at* this point.
+
+### Collapse scalings from the unbroken side (s = s*(1+ε), κ ~ √(2ε)·sinθ)
+
+Verified over ε = 1e-1 … 1e-7 with log-log slope fits (all to ±0.002):
+
+| quantity | scaling | fitted slope |
+|---|---|---|
+| cond(η) | ε⁻¹ ~ κ⁻² (Petermann-factor divergence) | −0.998 |
+| cond(ρ) (beable-map anisotropy) | ε^(−1/2) ~ κ⁻¹ | −0.499 |
+| ‖Γ_ε(t) − I‖ at fixed lab t | ε ~ (κt)² | +0.999 |
+
+So at any fixed lab time the metric-corrected process **freezes to the
+trivial identity process** (`h → cosθ·I`, Rabi frequency → 0). A regularized
+lab-time limit exists but is trivial — and it is *not* the EP dynamics,
+which grows like t². The limit is discontinuous with respect to the physics.
+
+### What genuinely survives: the critical process in rescaled time
+
+On the critically-slowed clock τ = κt, `Γ_ε(τ/κ)` converges (to 1e-10
+between ε = 1e-4 and 1e-6) to the universal Rabi process
+`Γ_lim(τ) = [[cos²τ, sin²τ],[sin²τ, cos²τ]]` (Rabi axis exactly σ_x — the
+same symmetric form as the baseline's unbroken result), which is genuinely
+indivisible (‖Γ(2τ) − Γ(τ)²‖ ≈ 0.97). The Jordan linear growth is the
+κ → 0 limit of sin(κt)/κ. **But** this survivor is abstract: the beable map
+`ρ_ε` that identifies its states with the original configurations diverges
+(cond ~ κ⁻¹), so the process outlives the EP while its beable interpretation
+does not — the §5.1 beable-rotation cost becoming infinite.
+
+### Reconciliation with §5.2 (the punchline)
+
+Dense sweep s = 0.68 … 0.735 through the EP: every open-side quantity
+(reduced-process entries, survival, indivisibility generator floor) varies
+smoothly and monotonically through s*, while the closed-side cond(η)
+diverges approaching it from above and doesn't exist below. Nothing physical
+happens at the EP in the process description; only the Hermitian dictionary
+blows up. Combined three-phase picture of the naive process growth —
+unbroken: bounded / EP: polynomial / broken: exponential — versus the
+dilated sub-stochastic process, which is valid and indivisible throughout.
+
+---
+
+## 2026-07-10 — LEMMA PROVED: terminal indivisibility is exact and analytic
+
+Code: `lemma_terminal_indivisibility.py` (verifies every claim to 1e-11).
+§5.2 finding 1 is now a theorem, with sharper structure than the numerics
+suggested.
+
+**Lemma.** For the dimer in the broken phase (κ̃ = √(sin²θ − s²) > 0), with
+c = cosh κ̃t, shc = sinh(κ̃t)/κ̃ and
+`p = c + sinθ·shc`, `q = c − sinθ·shc`, `r = s·shc`:
+
+- `Γ_red(t) = e^{-2sinθ·t} [[p², r²],[r², q²]]`, `det Γ_red = e^{-4sinθ·t}(1−2r²)`;
+- the generator off-diagonals are **exactly**
+  `L₁₂ = 2spr/(1−2r²)`, `L₂₁ = 2sqr/(1−2r²)`
+  (the Wronskian-type combinations r′p − p′r and r′q − q′r are both
+  identically the constant s — that is the whole proof).
+
+**Consequences (all verified numerically):**
+1. P-divisibility holds precisely on [0, t_c) with
+   `t_c = κ̃⁻¹ arcsinh(κ̃/(s√2))` — exactly the time at which `det Γ_red`
+   crosses zero. Divisibility dies when and because the process becomes
+   singular. (Explains the finite-gap spikes near t ≈ 1.3 in
+   `dilation_bridge.py`; exact t_c = 1.3170 at s = 0.5 vs the observed
+   grid value 1.35.)
+2. For all t > t_c: `L₁₂ < 0` strictly, forever — permanent indivisibility.
+3. `L₁₂ → −(sinθ + κ̃)`: the numerically observed floor −1.207 at s = 0.5
+   is −(sin(π/4) + 0.5) = −1.2071 exactly; also confirmed at (π/4, 0.3) →
+   −1.3474 and (π/3, 0.5) → −1.5731.
+4. `L₂₁` flips back positive at `t₀ = κ̃⁻¹ artanh(κ̃/sinθ) > t_c`: late-time
+   indivisibility is carried entirely by L₁₂ — transitions *into* the gain
+   site.
+5. One formula, three regimes: analytic continuation κ̃ → iκ gives the
+   unbroken phase, where `1 − 2(s/κ)² sin²(κt)` oscillates through zero
+   forever (recurrent windows; note (s/κ)² > 1 always); at the EP
+   everything is polynomial with `t_c = 1/(s√2)`, and t_c is continuous
+   across the transition (verified to 1e-4).
+
+---
+
+## 2026-07-10 — §5.4 DONE: Pais–Uhlenbeck
+
+Code: `pais_uhlenbeck.py` (grid 44² = 1936 configs, spectral derivatives).
+**Verdict: the stochastic-quantum correspondence and the PT no-ghost
+construction part ways at PU — they resolve the ghost in incompatible
+currencies (beable reality vs energy positivity).**
+
+### A. The ghost realization IS a valid Barandes process (answer to Q-a)
+
+The Ostrogradski Hamiltonian
+`H = p₁q₂ + p₂²/2γ + (γ/2)(ω₁²+ω₂²)q₂² − (γ/2)ω₁²ω₂²q₁²` is **Hermitian on
+the real configuration space (x, ẋ)**. On the grid: `‖H − H†‖ = 0`,
+`Γ = |U|²` doubly stochastic to 2e-14 on 1936 configs, genuinely indivisible
+(‖Γ(2t) − Γ(t)²‖ ≈ 2.7), and validated dynamically — Ehrenfest is exact for
+quadratic H, and ⟨x(t)⟩ tracks the exact classical fourth-order trajectory
+to 3e-3 (residual = packet tails at the box walls). Spectrum runs from −26
+to +140: **unbounded below, and completely irrelevant** — the ghost is an
+energy-accounting pathology, invisible to the free stochastic process.
+Beables are fixed (Hermitian ⇒ K1–K4 with η = 1). Barandes' correspondence
+makes perfect sense for free PU, negative energies and all.
+
+### B. The no-ghost move has no stochastic counterpart (answer to Q-b)
+
+Mannheim's positive spectrum requires the ghost mode's vacuum to satisfy
+`b†Ω = 0` (position space: e^{+y²/2}) — normalizable only on a rotated
+contour. This is a **domain change, not a similarity** (a similarity can't
+flip the spectrum), and finite-dimensional machinery can never see it:
+- null(b) = |0⟩ at every truncation N (the true vacuum, stable);
+  null(b†) = |N−1⟩ — pinned to the truncation edge, escaping to infinite
+  energy as N grows; restricted to any fixed low-energy sector,
+  σ_min(b†) = 1 exactly. **The PT vacuum has no shadow in the
+  real-configuration theory at any cutoff.** Not a beable rotation (§5.1),
+  not a coordinate collapse (§5.3) — an exit from the sample space.
+- The contour-rotation operator `R = e^{(π/2)D}`, `D = (i/2)(a†² − a²)`
+  (the y → −iy dilation): log₁₀ cond(R_N) grows at ~1.2 decades per Fock
+  level (53 decades at N = 48); the would-be metric ~(RR†)⁻¹ is unbounded
+  with unbounded inverse. The §5.3 collapse at every scale at once, with no
+  critical-rescaling survivor.
+
+So: **no valid stochastic process on the original beables realizes the
+positive-energy PU.** Barandes keeps real beables and pays in negative
+energies; Mannheim buys positive energies and pays with the sample space
+itself. The handoff's §4.4a cost (dynamics-dependent beables), taken to the
+PU limit, becomes beable *non-existence*.
+
+### C. Equal frequencies (the PU exceptional point)
+
+Classical normal-mode matrix defective (eigenvector cond ~1e8, Jordan
+block, secular t·sin(ωt) growth) — yet the Hermitian grid realization
+passes through smoothly: ⟨x(t)⟩ tracks the secular classical solution
+`2cos(ωt) + ωt·sin(ωt)` to 9e-4 and Γ stays exactly doubly stochastic.
+PU-scale confirmation of §5.3: the Jordan/EP pathology lives in the
+normal-mode (non-Hermitian) dictionary, never in the process.
+
+### Caveats
+
+Free theory only — interactions (where the ghost instability becomes
+physical via vacuum decay) not addressed; dense-spectrum subtleties
+(ω₁/ω₂ irrational) not probed; Mannheim's specific PU operator equivalences
+not re-derived (the contour-rotation structure of the quadratic ghost mode
+is standard and suffices for the structural conclusion); IR/UV grid cutoffs.
+
+---
+
+## 2026-07-10 — INTERACTING PU: the ghost enters the process in three stages
+
+Code: `interacting_pu.py` (quadratic cascade + classical survey + ghost-pair
+quantum leak) and `quartic_pu_leak.py` (the decisive probe test).
+**Answer to the open question: the instability becomes stochastically
+visible in stages — recurrent → transient → explosive — and becomes a
+genuine probability pathology exactly when the classical flow is
+incomplete.**
+
+### Stage 1 — quadratic interaction: valid process, now TRANSIENT
+
+`H = ω₁a†a − ω₂b†b + g(a†b† + ab)` is Hermitian, so `Γ = |U|²` stays
+exactly doubly stochastic forever (verified 2e-14). But the ghost sign
+collapses the instability threshold from `g > (ω₁+ω₂)/2` (normal twin, sum
+frequency) to `g > |ω₁−ω₂|/2` (difference frequency — zero at resonance).
+Exact benchmarks, all matched to ~4 decimals: cascade `⟨n⟩ = sinh²(gt)`;
+escape law `P(n ≤ K) = 1 − tanh^{2K+2}(gt) → 0` (rate 2g); detuned growth
+consistent with `(g²/κ²)sinh²(κt)`, `κ = √(g²−δ²/4)`; normal twin bounded at
+⟨n⟩ ~ 0.006. Energy books exactly balanced throughout: `E_normal = +8.301`,
+`E_ghost = −8.301`, `⟨H⟩ = 0` conserved. **"Vacuum decay" is a
+configuration-space cascade with balanced energy books: the process is
+valid and indivisible but transient — it permanently escapes every finite
+region.** First stage where the ghost is *visible* to the process
+(transience), still not a pathology.
+
+### Stage 2 — nonlinear, benign regime (Smilga): still only transience
+
+Classical survey: the ghost pair
+`(p₁²+ω₁²x₁²)/2 − (p₂²+ω₂²x₂²)/2 + λx₁²x₂²` at moderate amplitude is mostly
+*bounded* (benign islands; one escape found at λ=−0.05, x₁=3.5, t*≈72).
+Quantum leak test with absorber: onset drifts strongly with box size
+(4.4 → 14.4 for L = 12 → 18) — tail-driven asymptotic escape at most.
+Benign classically ⇒ transient (at most) stochastically.
+
+### Stage 3 — malicious nonlinearity: EXPLOSIVE — no closed process
+
+Quartic PU (`x⁗ + Ωẍ + ω̄x = (4λ/γ)x³`): classical **finite-time blowup**
+for both signs of λ at every amplitude tested (t* = 3.3–6.9, decreasing
+with amplitude; dominant balance `x ~ A(t*−t)⁻²`, `A = √(30γ/λ)`).
+Quantum (split-step with the three-factor Strang decomposition for the
+`p₁q₂` coupling, absorbing layer):
+- **Lattice subtlety (decisive for methodology):** finite-time escape needs
+  unbounded acceleration, so a grid transports the wavefront only while the
+  classical arrival speed < k_max = π/dx. Box-scaling onsets (2.3 → 3.4 →
+  9.5 for L = 12/18/24) correlate exactly with v_cl(edge)/k_max =
+  1.4/2.4/3.4: the drift is the lattice confining, not the physics. This is
+  the same structural fact as §5.4-B: a non-essentially-self-adjoint H has
+  **no faithful finite truncation**.
+- **Probe test (resolved regime):** quantum probability arrives at radii
+  r = 5–8 at t ≈ 1.8–2.2 with bulk weight (>5%), *earlier* than the
+  classical center-trajectory law t_cl ≈ 3.0–3.5 (the packet ensemble
+  contains faster-escaping ICs), while the free control never passes r ≈ 6.
+  Quantum arrival tracks/undercuts the classical finite-time law wherever
+  the grid can resolve it; that law saturates at t* < ∞ as r → ∞.
+
+Conclusion: in the continuum/infinite-volume limit, probability reaches
+infinity at finite time. **No closed stochastic process on the real
+configurations exists for the malicious interacting ghost — only a
+sub-stochastic leaky one (the §5.2 dilation structure, now forced by
+Hermitian physics rather than PT breaking).**
+
+### The dictionary (closing entry)
+
+In standard stochastic-process language the hierarchy is exactly:
+- free / normal-sign: **conservative, recurrent** process;
+- ghost + quadratic (and benign nonlinear): **transient** process — valid,
+  indivisible, escapes to infinity asymptotically at rate 2g;
+- ghost + malicious nonlinear: **explosive** process (the probabilist's
+  term of art: infinitely many transitions in finite time, mass leaves the
+  state space) — the semigroup is non-conservative and the closed Barandes
+  representation fails.
+
+So the Ostrogradski ghost was never an energy problem for the
+stochastic-quantum correspondence: it is a *recurrence-classification*
+problem. Energetics (unboundedness below) is the classical-physics
+diagnosis; transience/explosion is the same disease expressed in the
+process's own currency.
+
+### Caveats
+
+- Blowup times are tolerance-sensitive (t* = 5.13 at rtol 1e-8 vs 5.336 at
+  1e-11 for the same IC); qualitative structure robust.
+- Probe onsets use a 5% bulk-weight threshold; the quantum-earlier-than-
+  classical arrivals reflect ensemble spread, not superluminal transport.
+- The r → ∞ saturation itself is inferred from (proven) classical blowup +
+  quantum tracking in the resolved window — no fixed grid can verify it
+  directly (that impossibility being itself one of the findings).
+- 2-DOF quantum mechanics; field-theoretic vacuum decay not addressed.
+
+---
+
+## 2026-07-10 — THEOREM: the explosion dictionary (stage 3 sharpened)
+
+Code: `explosion_theorem.py` (all five verifications pass). Stage 3 of the
+interacting-ghost result is now a theorem (physics rigor: Weyl alternative
+and Reed–Simon II Thms X.9/X.10 cited as rigorous inputs; WKB and
+semiclassical quantization used at standard validity; Feller boundary
+classification for the stochastic leg).
+
+### Theorem (explosion dictionary, 1D mechanism model)
+
+For `H = p²/2 + V` on the line with an escaping end (`V → −∞`), define the
+classical time of flight `T(E) = ∫^∞ dx/√(2(E−V))`.
+
+1. **T = ∞** (sub-quadratic fall, e.g. `V ≳ −Kx²`): limit point ⇒ H
+   essentially self-adjoint ⇒ unique unitary `U(t)` ⇒ unique conservative
+   Barandes process. The ghost is at most transient.
+2. **T < ∞** (super-quadratic fall — the malicious case): limit circle.
+   **The one-line identity that runs the whole theorem:** WKB gives
+   `|ψ±|² ≈ [2(E−V)]^(−1/2)` for *both* solutions of `(H−z)ψ = 0`, so the
+   deficiency solution's L² norm near the escaping end **is** the classical
+   time of flight. H loses essential self-adjointness exactly when the
+   classical particle reaches infinity in finite time. Consequently:
+   - (a) no canonical unitary dynamics: a U(1) family of self-adjoint
+     extensions per escaping end (U(2) for two ends, including completions
+     that *transmit through infinity*) — boundary data at infinity, not
+     contained in H;
+   - (b) every extension is conservative but returns probability from
+     infinity after the finite classical round trip: discrete spectrum with
+     local level spacing `ΔE = π/T_cross(E)`;
+   - (c) the regulator-independent (Feller-minimal) object is
+     sub-stochastic: an **explosive** process losing mass at the classical
+     escape rate; conservativity costs extra-theoretic boundary data;
+   - (d) one integral decides all three theories: classical completeness,
+     quantum self-adjointness (Weyl), stochastic conservativity (Feller
+     exit boundary).
+
+### Verifications (V = −x⁴ malicious vs V = −x² marginal control)
+
+- **V1** — the integral: convergent exactly for α > 2 (α=4: 0.6484 →
+  0.6555 over four decades of cutoff; α=2: log-divergent 3.1 → 9.6).
+- **V2** — level-spacing law `ΔE = π/T_cross(E, L)` matches measured
+  spacings to ~1–3% in all 8 (potential, L) cases; for −x⁴ the spacing
+  *saturates* (2.32 vs predicted 2.32 at L=16 — reflection off infinity at
+  finite recurrence time), for −x² it decays toward the continuum.
+- **V3** — extension = regulator data: the eigenvalue nearest E=10 sweeps
+  erratically as the wall moves (10.06, 8.84, 9.82, 10.72, …): no L→∞
+  limit for any individual completion, while the spacing is stable.
+- **V4** — the minimal process converges and explodes: 1D absorbing-layer
+  evolution (1D beats the lattice resolution barrier that blocked the 2D
+  runs): absorbed mass at t=1 is 98.6–98.8% **independent of box size**
+  (L = 8/12/16), and the onset saturates tracking the classical arrival
+  times (0.34/0.38/0.40 → T_esc = 0.4635). Direct verification that
+  probability reaches infinity at finite time.
+- **V5** — completions observably differ: with a Dirichlet wall the
+  probability leaves rightward and returns from the right (P(x>5) = 0.047,
+  P(x<−5) = 0.000 at revival); with periodic identification it returns
+  from the **left** (0.035 vs 0.013) — a +∞→−∞ wormhole. Both revive
+  ~95% of the probability after the finite round trip. Same H on C₀^∞,
+  different physics: the completion is genuinely new data.
+
+### Interpretation, tied back to the program
+
+The malicious interacting ghost forces a trilemma, and each horn is now a
+computed object: (i) accept the **minimal explosive process** — exactly the
+§5.2 sub-stochastic dilation structure, and the only regulator-independent
+choice; (ii) buy conservativity with **boundary data at infinity** —
+unphysical completions that resurrect probability from infinity (from a
+side of your choosing); (iii) repair the spectrum à la Mannheim by moving
+the domain — which §5.4-B showed exits the sample space entirely. The
+Barandes currency makes (i) the canonical answer: vacuum decay of the
+malicious ghost *is* explosion in the standard probabilistic sense.
+
+### Caveats
+
+- The theorem is for the 1D mechanism model; the reduction of the 2-DOF
+  malicious systems to it is by dominant-balance structure (super-quadratic
+  effective fall along the escape direction), not a rigorous
+  multi-dimensional deficiency analysis.
+- Spacing law and WKB norms are semiclassical-standard, not re-proven;
+  R–S X.9/X.10 supply the rigorous LP/LC inputs.
+- V4 onset is earlier than the classical rest-start arrival (packet
+  momentum tails), as expected; the L-trend is the claim being tested.
+
+---
+
+## 2026-07-10 — MULTIDIMENSIONAL DEFICIENCY ANALYSIS (the rigorous layer)
+
+Code: `deficiency_multiD.py` (all verifications pass). The 1D explosion
+dictionary is upgraded to a channel-based multidimensional theory. Crucial
+context: in n ≥ 2 the naive dictionary "classical incompleteness ⇔ quantum
+non-self-adjointness" is **false in general** (Rauch & Reed, Commun. Math.
+Phys. 29, 105 (1973)) — so the correct structure is channel-wise, and
+proving it adds content the 1D story cannot supply.
+
+### Theorem C — quadratic ghosts are rigorously safe
+
+Any at-most-quadratic Hamiltonian on ℝⁿ — including the indefinite
+cascade `H = ω₁a†a − ω₂b†b + g(a†b†+ab)` at *any* coupling (even deep in
+the unstable phase) and the free PU Ostrogradski operator — is essentially
+self-adjoint on the Hermite span. *Proof:* quadratics map Hermite level N
+into level ≤ N+2 with coefficients O(N), so
+`‖Hⁿψ_N‖ ≤ (2C)ⁿ(N/2+n)!/(N/2)!` and every Hermite function is an analytic
+vector; Nelson's analytic vector theorem applies. ∎
+**Consequence:** unique unitary, unique conservative Barandes process —
+"instability ≠ non-uniqueness/explosion" is now a theorem. The
+transient/explosive dichotomy of the interacting-ghost section is rigorous
+on the transient side.
+
+### Theorem A — channel additivity of deficiency (separable multiD)
+
+Let `H = h₁⊗1 + 1⊗h_⊥` on L²(ℝ×ℝᵐ), with `h₁ = ½p² + V₁`, `V₁`
+super-quadratically falling (finite time of flight; limit circle by
+R–S X.10), and `h_⊥` self-adjoint with orthonormal eigenbasis {φₙ, Eₙ}.
+Since the limit-circle property is independent of the spectral parameter
+(Weyl), for **every** channel n, **every** solution u of
+`(h₁ − (±i − Eₙ))u = 0` is L², and a two-line distributional computation
+gives `H*(u⊗φₙ) = ±i(u⊗φₙ)`, i.e. `u⊗φₙ ∈ ker(H* ∓ i)`. Orthogonality
+across n ⇒ **deficiency indices (∞,∞)** (2 per channel for a two-ended
+escape; (2M,2M) in an M-channel truncation). ∎
+**Consequence:** the conservative completions are parametrized by
+unitaries between infinite-dimensional deficiency spaces — a genuine
+**S-matrix at infinity**, including completions that scramble the
+transverse state on reflection.
+
+### Theorem B — central malicious potentials in ℝᵈ
+
+`−½Δ − c|x|^α`, α > 2: partial-wave separation reduces to radial channels
+whose effective potentials differ by subquadratic centrifugal terms ⇒
+each channel is limit-circle at infinity ⇒ deficiency indices (∞,∞). ∎
+
+### Theorem D — non-separable channel mixing, rigorously
+
+`H = ½p₂² − |x₂|^α + h_⊥(x₁) + μ f(x₁)g(x₂)` with f, g **bounded**, α > 2:
+a bounded symmetric perturbation preserves deficiency indices exactly
+(Kato stability), so the indices remain infinite while the coupling
+genuinely mixes channels (f odd ⇒ n ↔ n±1). ∎
+**Honest boundary:** the physically-arising *unbounded* diagonal couplings
+(λx₁²x₂² in the ghost pair, λq₁⁴ in the PU chain) defeat both separation
+and relative-boundedness. Whether they preserve infinite deficiency — or
+even *restore* essential self-adjointness (a quantum completion, which
+Rauch–Reed shows is possible in principle) — is genuinely open. Note the
+indefinite-kinetic structure adds a second obstruction: for
+`H₀ = h₁⊗1 + 1⊗h_⊥` with h₁ unbounded below, transverse observables are
+NOT H₀-bounded (joint spectral cancellations), so the standard
+Kato–Rellich transfer fails even for mildly unbounded couplings.
+
+### Numerical fingerprints (M = 4 channels, V₁ = −|x|^{5/2}, bounded
+### coupling μ·tanh(x₁)·x₂²/(1+x₂²/10), μ = 0.2)
+
+- **N1 — channel additivity**: wall-regularized level counts in [5,17]:
+  measured 34 (L=8) and 37 (L=12) vs channel-sum semiclassical prediction
+  `Σₙ∫ T_cross(E−Eₙ,L)/π dE` = 32.3 and 37.1 (3–5%, i.e. ±1–2 levels).
+  At μ=0 the spectrum is *exactly* the union of shifted 1D ladders
+  (deviation 1e-12).
+- **N2 — Kato stability visible**: switching the coupling on (μ: 0 → 0.2)
+  shifts individual levels but leaves the window count unchanged
+  (34 → 34, 37 → 36).
+- **N3 — the S-matrix at infinity (star demo)**: a channel-0 packet slides
+  out, reflects off the regulator, and **returns as a channel mixture
+  whose content depends on where "infinity" was regularized**:
+  fractions (n = 0..3) = (0.583, 0.346, 0.058, 0.014) for L=6 versus
+  (0.401, 0.421, 0.143, 0.035) for L=9, with 96%/93% of the probability
+  returning and revival times tracking the classical round trips
+  (arrivals 0.88/1.06). The completion doesn't just choose a reflection
+  phase — it chooses how the transverse state is scrambled.
+
+### Upshot for the program
+
+1. Both sides of the transient/explosive dichotomy are now theorem-level
+   for their model classes: quadratic/transient ⇒ rigorously unique and
+   conservative (Theorem C); channelized malicious ⇒ rigorously infinite
+   deficiency (Theorems A, B, D).
+2. In multi-D the trilemma's second horn gets much worse: conservative
+   completions of a malicious ghost require an infinite-dimensional,
+   channel-scrambling S-matrix at infinity — decoherence-like data
+   injected at infinity. The canonical status of the minimal explosive
+   (sub-stochastic, §5.2-structured) process is correspondingly stronger.
+3. Sharp open problem, precisely delimited: essential self-adjointness of
+   the exact quartic-PU Ostrogradski operator and of the λx₁²x₂² ghost
+   pair — obstructed by unbounded diagonal coupling + indefinite kinetic
+   form; either outcome (infinite deficiency or quantum completion) would
+   be interesting.
+
+---
+
+## 2026-07-10 — LITERATURE SWEEP (novelty check; paper updated)
+
+Verdict per result; the paper was amended (8 new citations, attribution
+remarks inserted; recompiles clean at 19 pp.):
+
+1. **Dissociation theorem — novelty intact, framing sharpened.** Key prior
+   art: Kawabata–Ashida–Ueda, PRL 119, 190401 (2017) — information
+   retrieval possible only in the unbroken phase, power-law criticality at
+   the EP, and a unitary-embedding ("hidden entangled partner")
+   perspective. They did NOT compute divisibility or generators, and work
+   with quantum states, not the classical configuration process; no exact
+   t_c/floor forms; no terminal-vs-recurrent structure. Also:
+   divisibility- vs information-flow-Markovianity are known to be
+   inequivalent for quantum channels (Chruściński–Rivas–Størmer, PRL 121,
+   080407 (2018)) — our contribution is that the dissociation is exact,
+   phase-locked, and permanent at the classical process level. Paper now
+   cites both and presents the dilation as the process-level counterpart
+   of KAU's embedding. No paper found computing P-divisibility/generator
+   negativity of the PT dimer's conditional process.
+2. **K1–K4 — matrix core is classical, as suspected.** Parter–Youngs,
+   J. Math. Anal. Appl. 4, 102 (1962); Engel–Schneider, Linear Algebra
+   Appl. 7, 301 (1973). Paper now attributes the algebra and claims only
+   the beables/detailed-balance/uniqueness/real-spectrum reading.
+   Reverse direction cited: Van Wesemael et al., arXiv:2510.09467 (Dyson
+   maps restoring detailed balance in classical Markov processes).
+3. **Barandes × PT bridge — clear.** Nothing found connecting the
+   stochastic-quantum correspondence to non-Hermitian/PT systems.
+4. **Ghost/explosion framing — clear, and timely.** Two April-2026 papers
+   (Deffayet–Fathe Jalali–Held–Mukohyama–Vikman, arXiv:2604.21823;
+   Ewasiuk–Profumo, arXiv:2604.21348) prove interacting-ghost stability
+   via conserved quantities / moment bounds — complementary
+   (recurrence-enforcing mechanisms in our language); no domain theory,
+   explosion, or stochastic reading. Salvio–Strumia, EPJC 76, 227 (2016)
+   cited in §6 as the negative-norm-configuration-space alternative. No
+   prior essential-self-adjointness/deficiency/Feller treatment of
+   interacting PU found.
+5. **Skin-effect/K1–K4 follow-up — open.** No beables/ontology reading of
+   the skin effect found; non-Bloch methods for classical stochastic
+   processes exist (useful related work, not preemption).
+
+Net: all three headline claims survive; attribution is now correct; the
+interacting-ghost topic is demonstrably active (two 2026 papers).
+
+---
+
+## 2026-07-10 — THEOREM: the skin effect is the obstruction to fixed beables
+
+Code: `skin_effect_beables.py` (all checks pass; produces
+`paper/figs/fig_skin.pdf`). The K1–K4 gauge/continuum question is closed;
+the paper gained §3.1 ("Gauge form: the non-Hermitian skin effect is the
+obstruction"), Theorem 3.4, Fig. 8, and the Okuma–Kawabata–Shiozaki–Sato
+citation (PRL 124, 086801 (2020)). Now 21 pages, compiles clean.
+
+### Gauge-form lemma
+
+K2+K3 ⟺ the couplings can be written uniquely as
+`H_jk = t_jk e^{iφ_jk + w_jk}` with `t` symmetric positive, `φ, w`
+antisymmetric real — a lattice Peierls substitution `p → p − A − iW` with
+real gauge field φ and **imaginary gauge field w** (Hatano–Nelson). K1 =
+no on-site gain/loss.
+
+### Theorem (skin obstruction)
+
+1. Fixed beables exist iff the **imaginary flux vanishes through every
+   cycle** (Σ_C w = 0 — this is exactly K4). Then `w_jk = χ_j − χ_k` is
+   pure gauge, `η = diag(e^{−2χ})` is the exponentiated imaginary gauge
+   transformation, and `Γ_jk = e^{2(χ_k−χ_j)}|U_jk|²`. **Real magnetic
+   flux is unconstrained.**
+2. Classical dictionary: with rates `q(j→k) = |H_kj|`, imaginary flux =
+   cycle affinity; zero iff the chain is reversible (Kolmogorov); nonzero
+   iff there is a steady-state cycle current. **The skin effect is the
+   quantum image of a detailed-balance-violating (irreversible) classical
+   cycle.**
+3. Hatano–Nelson: a ring with uniform w carries flux Nw ⇒ no fixed
+   beables; the PBC spectrum is a complex loop (spectral winding — the
+   topological invariant of the skin effect) ⇒ no closed process at all.
+   An open chain is a tree ⇒ fixed beables exist at every finite N with
+   `d_i = e^{2wi}`; the OBC/PBC dichotomy of the skin effect IS the
+   pure-gauge/flux dichotomy.
+
+### Verification (all exact)
+
+- 50/50 random gauge-form graphs with arbitrary real fluxes: constructed
+  metric = e^{−2χ} exactly, spectrum real; one quantum of imaginary flux
+  through any cycle ⇒ diagonal solution space dim 0.
+- HN chain: OBC spectrum = Hermitian chain spectrum to 1e-10; skin
+  eigenvectors = e^{−wi} × Hermitian eigenvectors to 5e-15;
+  cond(η) = e^{2w(N−1)} to 4 digits at N = 8/16/24/32 — fixed beables
+  exact at finite N, exponentially degenerate as N → ∞ (the PU
+  unbounded-metric pathology in 1D lattice form).
+- HN ring: max|Im E| = 2 sinh w exactly (complex loop).
+- Classical ring current: J = −3e-17 at zero imaginary flux, monotone
+  nonzero with flux (reversibility ⟺ K4, verified).
+- Sub-transition regime (diagonally dominated triangle): binary criterion
+  trips at any nonzero flux; beable rotation grows continuously
+  (0 → 0.31 for flux 0 → 1.5).
+
+---
+
+## 2026-07-10 — PU-DEFICIENCY EVIDENCE CAMPAIGN (Open Problem 9.6)
+
+Code: `pu_deficiency_evidence.py`. Design: Fock-space (Hermite)
+compression as the regulator (regulates position AND momentum — the PU
+escape accelerates without bound — and avoids lattice doublers from
+p₁q₂; a mode-1 Fourier rotation makes the quartic PU real symmetric);
+diagnostic = matched-eigenvalue drift between successive truncations,
+measured relative to local spacing in a window near E = 0; calibrated on
+known 1D operators; verdicts required to be robust under a basis-scale
+change.
+
+### Calibration (window E ∈ [5,15])
+
+- discrete e.s.a. (`p²/2 + x⁴`): drift ratio exactly 0.000 ✓
+- continuous e.s.a. (`p²/2 − x²`): ratio → ~0.15, spacing shrinking ✓
+- limit circle (`p²/2 − x⁴`, indices (2,2)): spacing saturates, ratio
+  stays O(1) erratically forever (0.54, 2.02, 0.42, 0.77) ✓ — the Fock
+  analog of the sweeping-wall diagnostic.
+- free PU (e.s.a. by the quadratic/Nelson theorem): the 2D baseline:
+  ratio ~0.15–0.3, spectrum densifying, old states persisting ✓.
+
+### Verdicts (N per mode = 24…48)
+
+1. **Quartic PU (λ = 0.05): limit-circle-like — evidence AGAINST
+   essential self-adjointness.** Drift ratios 1.21, 0.85, 0.79, 1.57
+   (basis scale ν₁ = 1.0) and 0.34, 0.98, 0.98, 1.96 (ν₁ = 0.7):
+   persistently O(1), NOT decaying with N (largest at the finest
+   truncation), ~5× the free-PU baseline computed with identical
+   machinery minus the quartic term. The window spectrum reorganizes
+   completely between truncations at both basis scales. Evidence that
+   the explosion dictionary applies to the physical Mannheim operator
+   with (presumably infinite) deficiency indices.
+2. **Ghost pair λ = +0.05: quantum-complete, as predicted.**
+   Born–Oppenheimer channels W_n(x₂) = ½ω₂²x₂² − (n+½)√(ω₁²+2λx₂²) are
+   all confining (quadratic dominates); drift ratios 0.07–0.28 = e.s.a.
+   baseline. Prediction → confirmation.
+3. **Ghost pair λ = −0.05: SURPRISE — looks quantum-complete despite
+   classical maliciousness.** Transverse collapse beyond x₂ = 3.16 and
+   classical finite-time escape, yet drift ratios 0.22–0.29,
+   indistinguishable from λ > 0. Either diagnostic insensitivity at
+   these truncations, or a genuine **Rauch–Reed-type quantum
+   completion**: the escape valley is a narrow diagonal channel that
+   zero-point energy may wall off. If real: *interactions can
+   quantum-cure a classically malicious ghost* — the most interesting
+   single finding of the campaign. Tentative; needs larger truncations
+   and a valley-resolved (adapted-basis) diagnostic.
+
+### Caveats
+
+Evidence, not proof (no finite computation decides a domain question);
+the drift diagnostic's regimes are empirical calibrations; the λ<0
+verdict in particular is sensitive to whether N ≤ 48 resolves the
+escape valley. The quartic-PU verdict is the strongest (two basis
+scales, growing-with-N signal, clean e.s.a. control on the same
+operator family).
+
+---
+
+## 2026-07-11 — CONTINUATION 1: exact channelization of the quartic PU
+
+Code: `pu_bo_channels.py`. Open Problem 9.6 advanced from "drift
+evidence" to "structural argument + confirmed sign prediction".
+
+### Proposition (exact displaced-oscillator channelization)
+
+In the Fourier-rotated rep (p₁→y, q₁→−p_y), with
+`U = exp(−iyp₂/(γΩ))`:
+`U(H_PU + λq₁⁴)U† = T(p_y + p₂/(γΩ)) + p₂²/2γ + (γΩ/2)q₂² − y²/(2γΩ)`,
+`T(p) = λp⁴ − (γω̄²/2)p²`. **Exact** (hand algebra + Fock-space check via
+the terminating BCH series, residual 1.3e-9; note: a naive expm-based
+check fails at truncation — displacement operators aren't banded — the
+BCH form is the right numerical test). Channel-diagonal part in the
+k = p_y representation = **minus** `p̂²/(2γΩ) − λk⁴ + (γω̄²/2)k²`;
+interchannel couplings degree ≤ 3 in k (subordinate).
+
+- **λ>0: every channel limit-circle** (channel time of flight 1.74 +
+  convergent tail) ⇒ channel-additivity argument for indices (∞,∞).
+  Gap to rigor: deficiency stability under the subordinate degree-3
+  couplings.
+- **λ<0: every channel confining** ⇒ predict quantum completion —
+  despite classical finite-time blowup at BOTH signs.
+
+### The sign prediction tested (drift diagnostic)
+
+- Quartic PU λ=−0.05: ratios 0.46, 0.26, 0.36, 0.37 (ν₁=1.0) and 0.17,
+  0.33, 0.35, 0.38 (ν₁=0.7): near e.s.a. baseline, sharply separated
+  from λ=+0.05 (0.79–1.96). **Prediction confirmed** — the strongest
+  evidence yet, being differential (same operator family, same
+  diagnostic, opposite verdicts as predicted).
+- Extended truncations: λ=+0.05 stays LC-like at N=48→64 (ratios 3.77,
+  1.06); ghost pair λ=−0.05 stays at baseline (0.49, 0.32).
+- Verdict picture: λ>0 quartic PU escapes through MOMENTUM space along
+  LC channels (deficiency); λ<0 quartic PU and λ<0 ghost pair are
+  Rauch–Reed quantum-completion candidates (classical escape walled off
+  quantum mechanically).
+
+Paper: Proposition 9.7 added to §9 with the confirmed prediction;
+`pu_bo_channels.py` in code availability.
+
+---
+
+## 2026-07-11 — CONTINUATION 2: topological classification of the
+## skin obstruction
+
+Code: `skin_topology_beables.py`. Paper: Corollary 3.5 added to §3.1.
+
+**Corollary.** For gauge-form couplings, the fixed-beable obstruction is
+the class of the imaginary gauge field in H¹(G, ℝ): imaginary FIELD
+STRENGTH must vanish through every contractible cycle (no imaginary
+magnetic flux — a pointwise condition band-language winding does not
+see) and the imaginary HOLONOMY through every non-contractible one (on a
+d-torus: ℝ^d of windings, matching the multi-directional skin
+classification).
+
+Verified: 3×4 torus — diagonal-metric dim 1 iff (wind_x, wind_y, plaq)
+= (0,0,0); each of the three obstructs alone. Cylinder — winding along
+the open direction is gauge-removable, periodic direction obstructs
+(obstruction lives in H¹ of the actual geometry). **Z₂-type ladder** —
+two opposite HN chains (net winding zero, the doubled/Kramers structure
+of the Z₂ skin effect): uncoupled dim 2 (metrics e^{±2wi} per chain);
+any reciprocal rung coupling ⇒ dim 0 via inter-chain cycles of
+circulation 2w (and, in this instance, complex eigenvalues too): **the
+beable obstruction detects the doubled skin structure that net winding
+misses.** (Side observation for future work: non-gauge-form couplings —
+e.g. complex-symmetric hoppings of reciprocal skin classes — are
+obstructed at the pairwise level K3, so the full obstruction is graded:
+K1 gain/loss ⊕ K3 non-gauge phases ⊕ K4 = H¹ class.)
+
+---
+
+## 2026-07-11 — GAP CLOSED (finite-channel): deficiency stability theorem
+
+Code: `gap_closure_channels.py`. Paper: Theorem 9.8 added after Prop 9.7.
+
+**The observation that closes it:** the PU interchannel couplings are
+NOT generic subordinate couplings — `T(k𝟙 + cP₂)` is a polynomial in the
+single Hermitian operator P₂, so it is EXACTLY diagonal in the constant
+(k-independent) eigenframe of the truncated P₂,M (simple eigenvalues p_ν
+= scaled Gauss–Hermite points). No Levinson asymptotics needed.
+
+**Theorem (finite-channel deficiency stability).** For every M, the
+M-channel Galerkin model
+`S_M = p̂²/(2γΩ) − T(k𝟙 + cP₂,M) − √Ω(N+½)|_M` (λ>0) has deficiency
+indices (2M, 2M).
+*Proof:* exact frame decoupling into scalar branches
+`p̂²/(2γΩ) − T(k + cp_ν)` — each limit-circle at both ends (R–S X.10),
+contributing (2,2) — plus the rotated channel-energy matrix, a CONSTANT
+BOUNDED Hermitian perturbation, which preserves deficiency indices
+(Kato, relative bound 0). ∎
+
+**Verification (all pass):**
+- Frame identity: eig(−T(k𝟙+cP₂,M)) = −T(k+cp_ν) to 1.3e-13; the exact
+  Fock compression differs from the Galerkin model ONLY on the top ~4
+  channels (0.00e0 on the bulk, O(13) on the edge at k=3.7, M=8).
+- Falsifiable consequence: with couplings ON, the wall-regularized level
+  density equals the all-2M-branch sum Σ_ν T_cross,ν/π: count-based
+  spacing matches the prediction at every (M, L) tested (M=1: 1.33 vs
+  1.30; M=2: 0.67 vs 0.66; M=3: 0.44 vs 0.45; etc.). Statistics note:
+  the MEDIAN gap is biased low where the ±p_ν branch ladders lock into
+  near-degenerate parity doublets (M=2 at small L) — count-based density
+  is the right statistic.
+- Regulator sweep (M=2): the eigenvalue nearest E never converges (LC
+  behavior of the coupled system).
+
+**Remaining (sharply delimited, full operator only):** channel-tail
+control as M→∞ — the exact compression's top-4-channel edge terms, and
+decay of deficiency vectors in channel number. Structurally: the full
+operator is a direct integral of LC fibers over spec(p₂) coupled across
+fibers by the transverse oscillator (a hybrid of Theorem-A summands and
+a fiber-kinetic term). This, plus the rigorous status of the two
+quantum-completion candidates (λ<0 quartic PU, λ<0 ghost pair), is what
+a specialist would take up.
+
+---
+
+## 2026-07-11 — COMPLETION CANDIDATES: rigorous status + mechanisms
+
+Code: `completion_candidates.py`. Paper: Corollary 9.9 (sign dichotomy)
++ mechanisms paragraph added to §9.
+
+### Corollary (sign dichotomy at every finite channel number) — RIGOROUS
+
+For λ<0 the Theorem-9.8 frame decoupling gives confining branches
+`p̂²/(2γΩ) + |λ|(k+cp_ν)⁴ + O(k²)` — each e.s.a. — plus the bounded
+rotated channel-energy term (Kato–Rellich): every finite-channel
+Galerkin model of the λ<0 quartic PU is essentially self-adjoint. So at
+every M: indices (2M,2M) for λ>0, (0,0) for λ<0.
+Verified: λ<0 wall spectra converge exponentially (matched drift 2.9e-8
+at L 6→8, then 1.1e-13 at 8→10) — maximal contrast to the λ>0 sweep.
+
+### Null-escape analysis: one confirmation, one falsification
+
+Kinetic-form ratio on the escaping momentum (0 = null, 1 = definite),
+tracked along actual blowup trajectories at amplitudes 1e2…1e5:
+- PU λ>0 (deficiency case): 0.94 → 0.9997 — DEFINITE ✓ (as computed
+  analytically: p_u ~ 24γAτ⁻⁵ dominates).
+- Ghost pair λ<0: 0.066, 0.014, 0.021, 0.063 — NULL ✓ (diagonal escape,
+  p₁² − p₂² ≈ 0): structural rationale for quantum completion (no
+  definite-kinetic WKB transport along a null direction).
+- **PU λ<0: 0.35 → 0.9998 — FALSIFIES the naive "completion ⇔ null
+  escape" conjecture.** Mechanism identified: it climbs a RISING
+  potential using negative kinetic energy while hugging u = −cv — i.e.,
+  escapes through arbitrarily high mode-2 channels: exactly the channel
+  tail the Galerkin models exclude. Two distinct completion mechanisms:
+  null-direction escape (ghost pair) vs channel-tail escape (λ<0 PU),
+  the latter more tail-sensitive.
+
+### Valley-adapted drift test (λ<0 ghost pair) — verdict robust
+
+Rotated (s,d) Fock bases aligned with the escape diagonal,
+(ν_s, ν_d) ∈ {(1,1), (0.5,1.5), (0.3,2.0)}: drift ratios 0.16–0.45 in
+all cases, interleaving the free (λ=0, e.s.a.) control's range
+(0.09–0.30); nothing near the LC band (0.8–3.8). The completion verdict
+is not a basis artifact.
+
+---
+
+## 2026-07-11 — THE M→∞ TAIL: no-compact-witness theorem, 1D certified,
+## 2D reduced to fiber-vs-ridge
+
+Code: `tail_certificate.py` (closure-defect diagnostic; original
+certificate design corrected) and `glued_certificate_1d.py` (genuine
+certificate). Paper: Proposition 9.11 + Remark 9.12 + status paragraph.
+
+### The conceptual result (found by falsifying my own design)
+
+**No compact witnesses.** For any symmetric operator on C₀^∞ and any
+Im z ≠ 0, EVERY compactly supported smooth ψ lies in D(S̄), where
+‖(S−z)ψ‖ ≥ |Im z|‖ψ‖ holds unconditionally. So no truncated, windowed,
+or lattice-regularized function can ever witness deficiency — the
+completion data lives entirely at infinity (the domain-side twin of the
+S-matrix-at-infinity picture). Consequence: ALL truncation-based
+diagnostics (drift, spectra, windows — everything we and anyone else
+can run on finite data) are evidence in principle, never proof. My
+first certificate design violated this and the numerics faithfully
+enforced the bound (all ratios ≥ 1) — theorem as bug-detector.
+
+### The genuine certificate (1D, machine-checked)
+
+Glue WKB tails (only residual: the explicit remainder
+a[q″/4q − (5/16)(q′/q)²]) to an exactly integrated interior, C¹ at the
+junction: non-compact candidate in D(S*). Results:
+- falling quartic (the PU fiber): ratio = **0.0011** ≪ 1 —
+  **CERTIFIED not essentially self-adjoint** (von Neumann inequality
+  violated by three orders of magnitude).
+- confining control: left continuation contains a non-L² real
+  exponential — no candidate exists (correct failure).
+- falling quadratic (LP-marginal): growing branch polynomial k^{Z/1.12},
+  non-L² for Z > 1.12 — no candidate (correct, sharp failure).
+
+### The 2D status (closure-defect diagnostic + reduction)
+
+Windowed 2D candidates measure proximity to the forbidden bound:
+falling-channel class hugs it (all five λ>0 beam launches: 1.21–1.29;
+1D LC control 1.22), e.s.a. class sits far above (1D confining 4.9;
+2D λ<0 control **641**). Evidence-grade: λ>0 behaves LC-like, λ<0
+e.s.a.-like, consistent with everything prior.
+
+**Proposition (direct-integral).** The oscillator-free part
+A = P̂_k²/(2γΩ) − T(k+cp₂) commutes with p₂: direct integral of LC
+fibers, n±(A) = ∞ (rigorous). The full operator adds the transverse
+oscillator — unbounded in this frame (Galerkin norms √Ω(M−½) → ∞):
+the exact form of the tail question.
+
+**The reduction.** The potential ridge p ≈ −k/c falls only
+QUADRATICALLY (limit-point-marginal); fixed-p fibers fall quartically
+(LC); beams drift ridge-ward at dp/dk = O(1). A 2D certificate needs
+analytic beam tails under the ridge drift: **the fiber-vs-ridge
+competition is the mathematical heart of the M→∞ question** — now
+precisely what a specialist must resolve, with the 1D machinery
+validated end-to-end as the template.
+
+---
+
+## 2026-07-11 — MASLOV FEASIBILITY STUDY: the 2D certificate is
+## assembly, not new mathematics
+
+Code: `maslov_feasibility.py`. Paper: feasibility paragraph added to §9.
+
+### Setup insights (before computing)
+
+- In the null-frame (s,w) coordinates the ray equations of the symbol
+  reduce EXACTLY to the quartic-PU law s⁗ + γΩs̈ + γω̄²s = 4λs³: the
+  escape-ray family IS the classical blowup, with universal amplitude
+  S = √(30γ/λ) — a sharp numerical check.
+- Time-reversal symmetry ⇒ rest-data rays are DOUBLY explosive (escape
+  at both temporal ends) ⇒ the time-integral quasimode
+  ψ = ∫e^{izt}φ_t dt has only e^{−Zt*} ≈ 1e-14 boundary terms.
+- My earlier "ridge-drift obstacle" applied to artificial fixed-p beam
+  launches; true rays don't drift off themselves — beams follow rays.
+
+### Results (all criteria computed)
+
+- **F1**: exponent −1.999; amplitude 24.546/24.547/24.547/24.545 vs
+  √600 = 24.4949 (0.2% = finite-s harmonic correction), at four launch
+  points, both time directions ✓. (Two numerical traps fixed en route:
+  event-time ≠ true t* biases naive exponent fits — extract t* from the
+  exact linear law 1/√s = (t*−t)/√S; and the Schur-complement
+  transverse curvature is noise-dominated when Im M degenerates along
+  the flow — use the second eigenvalue + flow-alignment check.)
+- **F2**: Siegel positivity holds along the whole ray (min eig −7e-11 =
+  numerical zero, null direction aligned with flow to 1.0000 — benign);
+  transverse curvature stays positive (min 1.0e-4), strong terminal
+  focusing (σ⊥ = 5.3e-3 at the escape end); zero caustics.
+- **F3**: |det δq| ~ τ^{−3.1} ⇒ beam-norm integrand ~ τ^{3.1} → 0:
+  N = 0.0824 at Z=6, converged. Anharmonic residual proxy
+  η = |U_sss|σ³/(|U|+Z): weighted integral 0.026, decaying fast along
+  the escape; η fails (peak 8.2e3) ONLY in a compact interior episode
+  of transverse defocusing.
+
+### Verdict
+
+The escape-ray family supports L²-transportable Gaussian-beam tails
+exactly where the certificate needs them (the asymptotic ends); the
+single-Gaussian ansatz breaks only on a compact interior segment —
+which is precisely what the validated 1D template handles by exact
+numerical solution. **The 2D glued certificate architecture: numeric
+interior (compact) + Gaussian-beam tails along the numerically known
+rays + gluing where η is small. Remaining work is assembly and
+quantitative error control, not new asymptotic machinery.** All beam
+data (t*, S, curvatures, widths, det-exponent, N, η-profile) are
+computed and reproducible for whoever assembles it.
+
+---
+
+## 2026-07-11 — FINAL AUDIT + SECOND REFERENCE SWEEP
+
+Full read-through of main.tex (all ~1700 lines) + reference sweep for
+the newest material. Findings, all fixed:
+
+1. **Front matter staleness**: abstract and intro item 8 predated the
+   last five results — extended to cover channelization + sign
+   prediction, finite-channel stability + sign dichotomy,
+   no-compact-witness principle, 1D glued-tail certificate, Maslov
+   feasibility reduction.
+2. **Formatting**: two `\end{figure} Text` jams (Secs. 6 and 7) fixed;
+   local-notation note added to the terminal-indivisibility theorem
+   (c, σ, p, q, r reused there); outlook updated to state the
+   assembly-only reduction; remaining overfulls are 3.7pt and 0.6pt
+   (sub-visible).
+3. **Bibliography usage**: all entries cited ✓ (34 → 36 after sweep).
+4. **Reference sweep finds**: (a) Ralston, MAA Studies in Math 23,
+   206 (1982) — the standard Gaussian-beam citation, now cited in the
+   feasibility paragraph; (b) **Fischer–Burgarth–Lonigro, J. Phys. A
+   59, 255203 (2026)** (arXiv:2508.09044): deficiency indices of
+   higher-order squeezing (polynomial-oscillator) operators, including
+   cases where added terms RESTORE essential self-adjointness — an
+   operator-theoretic precedent for completion-by-interaction, cited
+   next to the Open Problem. Nothing found preempting the main claims.
+5. **Authorship/AI disclosure**: "we" is the standard authorial
+   convention (kept); an Acknowledgments section added disclosing
+   extensive AI (Claude/Anthropic) assistance — user may rephrase.
+
+Final: 25 pages, clean compile, submission-grade front-to-back.
+
+### Program status
+
+Sixteen results. Handoff to the physicist reviewer:
+1. 2D certificate: architecture + all beam data supplied
+   (`maslov_feasibility.py`); assembly/error-control remains.
+2. Rigorous e.s.a. for the two completion candidates (λ<0 PU:
+   channel-tail escape; λ<0 ghost pair: null-direction escape) —
+   genuinely open, mechanisms identified.
+- Paper: 25 pp., all claims labeled theorem / certified / evidence;
+  review-ready.
