@@ -2029,3 +2029,62 @@ principle. Caveat: classical amplitude statistics (exponential/
 chaotic-light per mode); a quantum treatment would replace scatter
 with quantum estimation bounds — the shape, not the scale, is the
 claim.
+
+---
+
+## 2026-07-11 — S2: THE INFINITY-CHANNEL PROTOCOL — all four
+## pre-registered predictions confirmed
+
+Code: `s2_infinity_channel.py`. Alice gates the right exit of
+V = −x⁴ (explosive) or V = −x² (marginal) with a barrier (her bit);
+Bob is a direction-resolved current detector at x = −L+3 (triggers
+only on flux ENTERING from the left boundary = arrivals from
+infinity); completions: periodic identification (the conservative
+"wormhole" of paper-1 V5) vs absorbing layers (the minimal
+process). Separation swept L = 6..12 (L=6 flagged: Alice's station
+overlaps the launch packet — broken geometry, excluded).
+
+Final table (norm_end certifies the mechanism):
+- **Explosive + wormhole: a working one-bit channel through
+  infinity with DISTANCE-INDEPENDENT latency.** bit=0: t_B =
+  0.179/0.150/0.160 at L = 8/10/12 (flat within the 0.01 timing
+  resolution); bit=1: silence (Jmax ≤ 1e-5). Unitary throughout
+  (norm 1.000). Latency saturation = the dictionary's finite
+  time of flight; measured earlier than the rest-start classical
+  round trip (0.43→0.36) via packet momentum tails — the same
+  documented effect as paper-1 V4.
+- **Explosive + minimal: TOTAL SILENCE at every L and both bits
+  (Jmax ≤ 3e-5), norm_end = 0.000** — all mass genuinely lost to
+  infinity. Causality by mass loss, exactly as claimed.
+- **Marginal + wormhole: the channel exists but its latency GROWS
+  with separation** (t_B = 0.940/1.020/1.100 at L = 8/10/12,
+  monotonic): no distance-independent channel at or below the
+  dictionary's boundary.
+- **Marginal + minimal: silence, norm 0.000.**
+
+**"Causality selects the minimal process" is now a table:** the
+same interior Hamiltonian either contains a distance-independent
+bit channel through infinity (conservative completion, explosive
+class — the operationally acausal choice), a distance-penalized
+one (marginal class), or none (minimal process). The completion —
+regulator data, not physics in H — decides. The explosion
+dictionary's time-of-flight integral is measurable as the flat vs
+rising latency curve.
+
+Methods note (third caught artifact of the day): the first runs'
+timestep was throttled by k_max²/2 — a leapfrog stability criterion
+that split-step FFT does not have (its kinetic factor is exact);
+fixing dt = 0.3/V_max cut the runtime ~400× for the marginal runs
+with identical physics. Earlier CAP-strength leak (absorbing rows
+false-triggering at small L) fixed by class-dependent η₀; the
+norm_end = 0.000 column now certifies absorption.
+
+### Simulation program S1–S3: COMPLETE
+
+S1: FTL lives only in conditioning (machine-precision no-signaling
+for closed/dilated; new corollary TV∞ = κ̃/sinθ). S2: completions
+are operationally acausal channels iff explosive class;
+minimal = causal. S3: foliation determinacy vanishes continuously
+at the vacuum. Together with E1–E4/2D, decomposition, and M3: nine
+simulations, every one with inline controls, three documented
+self-corrections. Paper #2 numerics closed.
