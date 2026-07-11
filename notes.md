@@ -1214,3 +1214,78 @@ Perturbative (golden-rule) reasoning where CJM/GSTZ are perturbative;
 the instantaneous-state statement B2 inherits whichever side of the
 B4 dichotomy is true — B2 is CJM's horn, stated sharply, not a
 resolution; no gravity constraints; 1+1D toys only at stage 2.
+
+---
+
+## 2026-07-11 — QFT BRIDGE STAGE 2: numerics (all four experiments)
+
+Code: `qft_bridge_stage2.py` (~2 min). All four signatures came out as
+designed; E4's verdict is the one genuinely new datum.
+
+**E1 (Feller onset, the V4 diagnostic transported to Fock space).**
+Pure-birth ladder λ_n = n^α, absorbing top N ∈ {200…1600}, absorbed
+mass at t=6:
+- α=0.8: 0.0000 at every N; α=1.0 (Yule, marginal): 0.61 → 0.02,
+  decaying with N — regular;
+- α=1.25: 0.961/0.954/0.947/0.941 and α=1.5: 0.988/0.987/0.987/0.987 —
+  **N-independent absorption ≈ 1 = explosion**, exactly the
+  box-independence signature of `explosion_theorem.py` V4.
+
+**E2 (the paper's dichotomy IS Feller's).** Ladder exponent
+α_eff = d log ṅ / d log n: identity α_eff = 1 + 1/m for algebraic
+blowup n ~ (t*−t)^{−m}, = 1 for exponential growth. Measured:
+quadratic cascade slope 1.0000 (transient/marginal ✓); classical
+quartic-PU blowup slope 1.1720 vs predicted 7/6 = 1.1667 (energy
+proxy n ~ τ^{−6}) ✓ explosive. One-line lemma worth keeping:
+*finite-time blowup ⇔ α_eff > 1 ⇔ Feller explosion of the ladder
+image* — the growth LAW, not the growth amount, decides.
+
+**E3 (channel multiplicity vs orbit measure — B4 made concrete).**
+Vacuum coupled to M flat quasi-continua (g=0.02, band ±8, ρ=10,
+Γ₁ = 0.0253, exact eigendecomposition up to dim 5153):
+- flat measure (boost-orbit stand-in): fitted Γ = 0.0252, 0.0504,
+  0.1009, 0.2027, 0.4088, 0.8302 for M = 1…32 vs prediction M·Γ₁ =
+  0.0253…0.8093 — **within 3% throughout, unbounded growth**: the
+  instantaneous-state trend (CJM horn);
+- decaying measure g_k = g e^{−k/4}: Γ converges to 0.0640 vs
+  predicted plateau 0.0643 (GSTZ/metastable horn).
+Channel counting is the entire difference; with a finite band the
+flat case would eventually hit the hybridization ceiling Γ ~ W
+(observed in a first run with Γ ≈ W — kept as a methodological note:
+golden-rule fits need Γ ≪ bandwidth ≪ recurrence).
+
+**E4 (classical lattice vacuum decay vs UV cutoff — SUPPRESSED, not
+divergent).** φ (normal) + χ (ghost) on N sites at FIXED volume
+L=32, coupling 2λφ²χ² in the eqs (λ=0.25), vacuum-mimic zero-point
+initial data, absolute energy-transfer threshold ΔE_φ = 25, median
+ensemble times:
+- N = 8/16/32: t_thr = 106/64/46 (rate rising with cutoff);
+- N = 64: t_thr = 149 — rate DROPS ~3×. Confirmed with an
+  independent seed and 16 samples: N=32 median 55.9 [45.3, 68.2] vs
+  N=64 median 158.9 [120.9, 194.2] — non-overlapping quartiles.
+- λ=0 control: no growth at any N ✓.
+**Verdict: the classical zero-point cascade is UV-finite — even
+UV-suppressed.** Plausible mechanism (conjectural): self-consistent
+effective-mass shifts m_φ² += 2λ⟨χ²⟩, m_χ² −= 2λ⟨φ²⟩ grow with the
+cutoff (⟨φ²⟩ ~ log Λ in 1+1D) and detune the φ↔χ pair resonance.
+Consequence for the bridge: the instantaneity danger is NOT visible
+in classical lattice dynamics at fixed volume — it lives in the
+quantum channel measure (E3), i.e., precisely in the B4 question of
+whether the boost orbit counts as multiplicity. Coherent with B2.
+
+### Combined stage-2 statement
+
+The explosion dictionary acquires a verified Fock-space column
+(E1+E2); the QFT vacuum question is isolated into a single measured
+dichotomy (E3): rate ∝ channel count (no limit) vs rate ∝ measure
+(finite) — and the classical field theory (E4) declines to produce
+the divergence on its own. What remains for a real QFT statement:
+compute the golden-rule channel measure of the actual boost orbit
+(relativistic 2-ghost + 2-photon final states) and decide
+multiplicity-vs-redundancy — a calculation, not a simulation.
+
+### Caveats
+
+E3 is channel counting without Lorentz kinematics; E4 is classical,
+1+1D, median-of-8/16, and the detuning mechanism is unproven;
+`qft_bridge_stage2.py` runtime dominated by E4's stiff ensembles.
