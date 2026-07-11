@@ -1557,3 +1557,171 @@ for ghosts the dichotomy is not a calculation error but a genuine
 ontological fork, which is precisely what a beables-first
 reformulation is equipped to say. Barandes-side novelty: first
 infinite-configuration-space / QFT contact for the correspondence.
+
+---
+
+## 2026-07-11 — THE FOLIATION THREAD (QFT bridge, stage 4 theory)
+
+Soft spot 5 developed. The pieces assemble into the sharpest
+statement of the program so far.
+
+**F1 (structural).** A beables-first QFT needs configurations, and
+field configurations (or mode occupations) live on SPATIAL SLICES:
+choosing the configuration space is choosing a foliation. This is
+not a defect peculiar to us — it is the well-known structure of
+Bohmian QFT (hypersurface Bohm–Dirac models), and Barandes' own
+corpus stays on finite configuration spaces, deferring exactly this
+question. So the natural extension of the correspondence to QFT is
+foliation-anchored BY CONSTRUCTION, and the B4 dichotomy is answered
+structurally within it: relative to its own foliation, boost-orbit
+members are distinct configurations — the MULTIPLICITY horn.
+
+**F2 (the equilibrium shield, and where it fails).** Bohmian lore:
+the preferred foliation is empirically invisible in quantum
+equilibrium (no-signaling); statistical predictions stay Lorentz
+invariant though the ontology is not. Our result says exactly where
+this shield BREAKS: a coupled ghost sector makes the foliation
+OBSERVABLE, because q_vac — and the decay spectrum, isotropic
+precisely in the preferred frame, peaked at the cutoff Λ measured in
+that frame — depends on the channel individuation. **Ghosts are
+foliation detectors.** For healthy sectors the foliation hides; for
+ghost sectors it prints itself on a gamma-ray spectrum (CJM's
+EGRET bound is literally this measurement, null so far).
+
+**F3 (the vacuum determines no foliation — instantaneity as
+foliation-indeterminacy).** DGNSZ (arXiv:1307.1714, Proc. R. Soc. A
+2014) propose extracting the foliation covariantly FROM the wave
+function — no absolute structure. Apply it here: the Minkowski
+vacuum is Lorentz-invariant, so it determines NO foliation. For a
+ghost-coupled theory in pure Minkowski, the beables-first process is
+therefore ill-posed in a precise dynamical sense — our zero-lifetime
+/ instantaneous-killing statement is the DYNAMICAL EXPRESSION of the
+foliation's indeterminacy on a Lorentz-invariant state. The
+mathematical pathology and the ontological indeterminacy are the
+same fact in two languages.
+
+**F4 (the real universe supplies the foliation — CJM's frame choice
+is canonical, not ad hoc).** The actual cosmological quantum state
+is NOT the Minkowski vacuum: it has a rest frame (the comoving/CMB
+frame), so the DGNSZ extraction succeeds and yields the comoving
+foliation. Consequence: CJM's decision to impose the cutoff in the
+CMB frame — presented by them as a pragmatic choice — is exactly
+what a wave-function-determined-foliation beables theory PRESCRIBES.
+In this reading: ghost decay in our universe is well-posed, frame =
+comoving, rate finite for finite Λ, and the phantom phenomenology
+(isotropy of the would-be gamma-ray signal in the CMB frame; a
+dipole matching the CMB dipole from any moving detector) is a
+direct empirical probe of the preferred foliation. If DESI-era
+w < −1 were confirmed AND the CJM signal ever seen with the CMB
+dipole — that would be a foliation detection.
+
+**F5 (the pick-two trilemma — the slogan-grade statement).**
+  GHOSTS, LORENTZ INVARIANCE, DEFINITE CONFIGURATIONS: PICK TWO.
+- ghosts + beables ⇒ preferred foliation (ghost condensate, Hořava,
+  CJM's cutoff frame — all existing rescues in fact pick frames);
+- Lorentz + beables ⇒ no coupled ghosts (healthy QFT; the foliation
+  exists ontologically but hides at equilibrium);
+- ghosts + Lorentz ⇒ no beables (Mannheim/PT, Hawking–Hertog:
+  definition-level rescues that exit the sample space — the paper-#1
+  verdict, now seen as one horn of a three-way trade).
+This upgrades paper #1's trilemma from a menu of completions to a
+statement about what any ontology of QFT can simultaneously hold.
+
+**Honesty flags (must appear in any writeup).** (a) F1 states the
+NATURAL extension of Barandes' framework, not his committed
+position — he explicitly defers infinite configuration spaces; other
+extensions (e.g., genuinely covariant beables, if constructible)
+would evade F1. (b) The equilibrium-shield leg (F2) is imported from
+Bohmian analysis; its transfer to indivisible-process dynamics needs
+its own proof. (c) F3/F4 apply DGNSZ's extraction idea in a context
+they never considered. (d) All of F2–F4 presume the multiplicity
+horn, which the beables framing motivates but which fundamental
+frameworks without beables can still dispute (GSTZ's hoped-for
+bounce). The trilemma F5 is robust to (d): it is a statement about
+combinations, not about which is true.
+
+**Next concrete steps for this thread:** (i) check whether the
+equilibrium shield (F2) can be proven within the correspondence
+(does no-signaling of the indivisible process protect foliation
+invisibility for conservative sectors?); (ii) the dipole
+phenomenology of F4 (one paragraph of kinematics — decay products
+isotropic in the comoving frame, detector moving at 370 km/s sees a
+computable dipole); (iii) position against Kawabata–Ashida–Ueda-type
+information results if any apply.
+
+---
+
+## 2026-07-11 — GARRIGA–VILENKIN DEEP READ: soft spot 1 RESOLVED;
+## the foliation thread gains its third leg
+
+Full equation-level read of 1202.1239 (+ companion GSV 1109.3422).
+Classification of their D>2 rescue against our (a)–(e) menu:
+**(a) finite-vacuum-age orbit cutoff, with (d) as the phenomenology
+step; explicitly NOT frame-dependent form factors, NOT a different
+observable.** Details:
+
+1. **They CONFIRM our premise.** Their own Secs. II–III prove a
+   Lorentz-invariant form factor cannot cut the orbit: local vertex
+   in D=4 diverges linearly in |P| EVEN AT FINITE T (the energy
+   defect Ω → 0 along the orbit, so the time window "provides no
+   suppression there"); a single-invariant form factor tames the
+   orbit only via the T-window, and then the invariant-mass
+   integrals blow up instead (their surprise: "energy is not
+   conserved because the interaction is switched on and off").
+   Full rescue needs BOTH: (i) the vacuum's finite age — creation
+   on a spacelike surface Σ, Gaussian window e^{−x₀²/T²}, "this
+   surface breaks Lorentz invariance spontaneously" — cutting the
+   orbit at P_max ~ μ²t; AND (ii) full LI nonlocality in all SIX
+   vertex invariants, which collimates the decay products
+   (θ ≲ μ/p_*) and bounds the invariant masses. Result: Γ_total(t)
+   ~ 10⁻⁶(μ⁸/M_Pl⁴)(μt)² — finite at every t, GROWING as t²
+   (D=2 analog: ln(mT)). "Metastable" = born-and-aging, never a
+   constant rate. They explicitly fault CJM for missing the
+   essential role of nonlocality, and Kaplan–Sundrum's
+   invariant-softening for the s,s′ runaway.
+
+2. **The literature's own criterion for multiplicity vs redundancy**
+   (GV footnote 5 + GSV 1109.3422): the boost integral is an
+   OVERCOUNTING precisely when the final state is a boost SINGLET —
+   the fluctuation-dressed bubble state is boost-invariant, so
+   boosts map it to itself (GSV's answer to Dvali, with Schwinger
+   pair creation as the controlled prototype). Non-invariant
+   perturbative multiparticle finals (ghost + matter with definite
+   P) are genuinely distinct channels; the orbit volume is real,
+   and only the vacuum's age regulates it. **So the B4 dichotomy is
+   not a global ontology switch — the literature resolves it
+   state-by-state via the invariance of the final state, and
+   perturbative ghost decay sits on the multiplicity side by this
+   criterion.** Our beables framing agrees and explains WHY
+   (configurations are frame-anchored); the open GSTZ hope is
+   equivalent to finding a boost-singlet saddle for ghost decay.
+
+3. **Fix A, refined (the sharpest form of the instantaneity
+   statement):** q_vac is infinite only for the ETERNAL
+   Lorentz-invariant vacuum. A vacuum with a birth surface Σ has
+   finite, growing exit rate (GV's (μt)²; survival
+   S(t) = exp(−V∫Γdt) finite for all finite t). **"A
+   Lorentz-invariant ghost vacuum can exist only if it was born —
+   and its birth certificate is a foliation."** The instantaneous
+   state is the eternal-vacuum idealization, exactly the state
+   that (F3) determines no foliation.
+
+4. **Foliation thread, third leg (F4').** Every rescue on record
+   supplies a frame/foliation somewhere: CJM — CMB-frame momentum
+   cutoff; ghost condensate — the condensate background; Hořava —
+   explicit; **GV — the creation surface Σ, doing its work through
+   "spontaneous" Lorentz breaking by the vacuum's own history.**
+   The pick-two trilemma survives every known example: ghosts +
+   beables/calculability ⇒ a foliation enters (as cutoff frame or
+   birth surface); ghosts + Lorentz ⇒ exit the sample space;
+   Lorentz + beables ⇒ no coupled ghosts.
+
+5. Technical notes for paper #2: GV's loop remark (the orbit
+   divergence lives in external momenta only — vacuum-energy loops
+   cut at μ, so Λ ~ μ⁴ survives); their allowed window μ ≈
+   2×10⁻³ eV (gamma-ray cascade bound vs 0.1 mm gravity tests,
+   "marginally consistent"); their P_max ~ μ²T dominance in the
+   fully nonlocal model is an ESTIMATE, rigorous only in the
+   restricted model — flag if we lean on it. Novelty intact: no
+   Fock/rate-equation/Markov treatment of the vacuum anywhere in
+   GV or GSV.
