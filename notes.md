@@ -1088,3 +1088,129 @@ Sixteen results. Handoff to the physicist reviewer:
    genuinely open, mechanisms identified.
 - Paper: 25 pp., all claims labeled theorem / certified / evidence;
   review-ready.
+
+---
+
+## 2026-07-11 — FOLLOW-UP THREAD: the QFT bridge (theory stage)
+
+Post-v1.0 work; the released paper is frozen. Question (paper's
+Outlook, item 2): does "the ghost is an explosion problem" survive the
+passage to QFT vacuum decay?
+
+### Literature anchors (all verified by web search 2026-07-11)
+
+- **Carroll–Hoffman–Trodden**, PRD 68, 023509 (2003)
+  (astro-ph/0301273): phantom (ghost) dark energy vacuum decays into
+  positive-energy matter + negative-energy phantoms; "the decay rate
+  is naively infinite because there is no boundary to the allowed
+  phase space"; a ~10⁻³ eV momentum cutoff keeps the vacuum alive for
+  the age of the universe.
+- **Cline–Jeon–Moore**, PRD 70, 043543 (2004) (hep-ph/0311312), "The
+  phantom menaced": vacuum → ghost pairs + photon pairs through
+  GRAVITY alone; divergent final-state phase-space integral; only a
+  LORENTZ-VIOLATING UV cutoff Λ tames it (Λ ≲ 3 MeV from the cosmic
+  gamma-ray background); "theories of ghosts with a Lorentz-conserving
+  cutoff are completely excluded."
+- **Gross–Strumia–Teresi–Zirilli**, PRD 103, 115025 (2021)
+  (arXiv:2007.05541), "Is negative kinetic energy metastable?": the
+  divergence is an integral over the NON-COMPACT LORENTZ BOOST ORBIT
+  of the final state; whether this means fast decay or exponentially
+  suppressed (metastable) decay is NOT settled; they argue
+  metastability up to cosmological times is possible.
+- **Novelty check**: no prior work found connecting ghost vacuum decay
+  to Markov explosion / instantaneous states / non-conservative
+  minimal semigroups. The bridge below appears to be new.
+- **Probability side (standard)**: a birth-type continuous-time Markov
+  chain with rates λ_n explodes (infinitely many jumps in finite time,
+  mass exits the state space) iff Σ 1/λ_n < ∞ (Feller); a state with
+  TOTAL exit rate q = ∞ is an *instantaneous state*, and no honest
+  (stable, standard) Markov process exists with one.
+
+### The bridge
+
+Configuration space: Fock occupation configurations n = {n_k} over
+momentum modes (countable at finite volume + cutoff) — beables in the
+Barandes sense. At lowest order the effective dynamics out of a
+configuration is a jump process with golden-rule rates; the
+regulator-independent object is the MINIMAL semigroup (paper §8).
+
+**B1 (dictionary extension — time of flight has a Fock-space
+sibling).** The 1D dictionary's classical integral T = ∫dx/√(2(E−V))
+= Σ(sojourn times to infinity) has the exact jump-process image
+T_Fock = Σ_n 1/λ_n = expected time to reach infinite occupation.
+Explosion ⇔ T_Fock < ∞ is Feller's criterion — the same "finite total
+time to infinity" statement in the fourth currency. (QM cross-check:
+the quadratic cascade grows coherently, ⟨n⟩ = sinh²(gt), classical
+field-space escape time = ∞ → transient ✓ matches Theorem-C
+uniqueness; the malicious quartic has field-space T < ∞ → explosive ✓.
+The coherent/incoherent distinction matters: naive golden-rule ladder
+rates λ_n ∝ n² for the two-mode cascade would wrongly predict
+explosion — the incoherent-jump reduction is only valid with a dense
+final-state continuum, i.e., genuine QFT, not two isolated modes.
+This validity condition must be stated honestly in any writeup.)
+
+**B2 (the Lorentz-invariant ghost vacuum is an INSTANTANEOUS state).**
+CJM's divergence, read stochastically: the vacuum's total exit rate
+q_vac = Σ_channels (finite per-channel rates) diverges because the
+channels form a non-compact Lorentz-orbit family. q = ∞ is precisely
+the instantaneous-state pathology: NO Markov process — conservative,
+minimal, or otherwise — exists. This is strictly WORSE than the QM
+malicious case (explosive: finite nonzero t*). The QM → QFT passage
+upgrades the pathology: explosion (t* > 0) → instantaneity (t* = 0⁺),
+driven not by faster per-channel escape but by infinite channel
+multiplicity — the field-theoretic image of the deficiency channel
+count going from (2M,2M) → (∞,∞) → continuum-per-unit-volume.
+
+**B3 (the cutoff is conservativity data, and it must break Lorentz).**
+A UV cutoff compactifies the channel orbit → q < ∞ → the minimal
+process exists again (explosive or transient by B1). CJM's "no
+Lorentz-conserving cutoff" becomes: *the data needed to make the ghost
+vacuum a valid stochastic process cannot be specified
+Lorentz-invariantly* — the same structural statement as the paper's
+"conservative completions are an S-matrix at infinity, data not
+contained in H," now with the twist that in QFT even the MINIMAL
+process needs regulator data (because instantaneity, unlike explosion,
+kills the minimal semigroup too). Choose: Lorentz invariance or a
+well-defined process on the beables — not both, for a coupled ghost.
+
+**B4 (the CJM ↔ GSTZ dispute is a sharp dichotomy in this currency).**
+The open QFT question "fast decay vs metastable" is exactly: does the
+boost orbit contribute CHANNEL MULTIPLICITY (distinct final
+configurations ⇒ rates add ⇒ q = ∞ ⇒ instantaneous) or GAUGE
+REDUNDANCY (boost-related finals identified / measure-zero overlap ⇒
+finite physical rate ⇒ transient/metastable)? The stochastic framing
+does not resolve the dispute but states it as a single binary question
+about the configuration space — which configurations are distinct
+beables — rather than about regularization technique. Note the
+resonance with the paper's H¹ theme: what must be quotiented is a
+group orbit.
+
+**B5 (trilemma, QFT edition).** The paper's trilemma survives with
+sharpened horns: (i) minimal explosive process — now requires Lorentz
+violation even to EXIST (B3); (ii) conservativity via S-matrix at
+infinity — now an infinite-dimensional reflection law per unit volume;
+(iii) exit the sample space (PT/no-ghost quantization) — unchanged,
+and now visibly the only Lorentz-invariant option on the menu, at the
+price of no configuration-space probability at all. This may be the
+sharpest available statement of what Mannheim's program is buying.
+
+### Stage-2 numerics (planned, laptop-scale)
+
+1. Mode-scaling: 1+1D lattice ghost+normal fields, N modes; classical
+   field-space escape time vs N (does inf over escape family → 0?);
+   total quantum leak rate vs N (extensive = transient per volume vs
+   super-extensive = instantaneity fingerprint).
+2. Rate-growth dichotomy at QM level: engineered ladders with
+   λ_n ~ n^α — verify explosion onset at α > 1 (Feller) with the Fock
+   drift/leak machinery; the malicious quartic should sit in the
+   explosive class via its ladder image.
+3. Boost-orbit toy: non-relativistic stand-in for channel multiplicity
+   (couple the escape to a k-continuum of transverse channels with
+   flat measure) — watch q_vac diverge with channel count.
+
+### Caveats
+
+Perturbative (golden-rule) reasoning where CJM/GSTZ are perturbative;
+the instantaneous-state statement B2 inherits whichever side of the
+B4 dichotomy is true — B2 is CJM's horn, stated sharply, not a
+resolution; no gravity constraints; 1+1D toys only at stage 2.
