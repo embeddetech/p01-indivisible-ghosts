@@ -1495,6 +1495,52 @@ divergence resistant, and is exactly why the sample-space question
   derivation); Kaplan–Sundrum hep-th/0505265; Rubakov
   hep-th/0604153.
 
+### PRECISION FIXES (referee-hardening, soft spots 2 and 4)
+
+**Fix A — the instantaneous-state statement, probabilist-proof form.**
+Overstated version (retire it): "q = ∞ ⇒ no Markov process exists."
+Correct version: a state with infinite total exit rate is
+*instantaneous*; chains with instantaneous states exist (Kolmogorov's
+and Blackwell's examples) but are non-standard — no STABLE, standard,
+right-continuous realization. For the regulated family with cutoff Λ,
+q_vac(Λ) < ∞ and the minimal semigroup exists; as Λ → ∞ the vacuum
+survival probability e^{−q_vac(Λ)t} → 0 for every t > 0: **the
+minimal object degenerates to instantaneous killing — the process
+exists in the limit only as "the vacuum has zero lifetime."** This is
+the sharp statement: not nonexistence, but a zero-lifetime beable
+state, with the regulator (= frame) the only thing standing between
+the theory and that limit.
+
+**Fix B — two distinct pathologies, kept separate.** (i) LADDER
+EXPLOSION: exit rates finite everywhere but growing with occupation,
+Σ1/λ_n < ∞ — infinitely many jumps accumulate in finite NONZERO time
+(the paper-#1 malicious class; E1/E2). (ii) INSTANTANEITY: infinite
+exit rate AT the vacuum itself, from summing finitely-contributing
+channels over a non-compact orbit — zero lifetime, t* = 0⁺ (the
+Lorentz-invariant QFT ghost, on the multiplicity horn). Both are
+failures of conservativity, but (i) is a tail phenomenon in
+configuration space while (ii) is a local divergence of the Q-matrix;
+paper #2 must not let readers conflate them. The QM→QFT passage is:
+malicious QM ghosts realize (i); Lorentz-invariant coupled QFT ghosts
+threaten (ii); cutoff-regulated QFT ghosts sit between (transient or
+explosive by the ladder criterion, with q_vac(Λ) finite).
+
+**Fix C — Born–Markov scope (soft spot 3, the physicist's
+objection).** The jump process is DERIVED from the golden rule; the
+instantaneity diagnosis is a translation of the divergent
+perturbative rate, inheriting its validity and its doubts (GSTZ: "we
+do not know the true rate"). The framework's contribution is that the
+translation exposes the disputed assumption — whether boost-orbit
+members are distinct outcomes — as a statement about the sample
+space, not that it independently settles the rate. State this
+verbatim-ish in paper #2.
+
+**Fix D — bubble-contrast scope (soft spot 7).** The degeneracy of
+orbit members in |M| is a TREE-LEVEL statement. Whether resummation
+generates a Dine–Draper–Park-style suppression for ghost pairs is
+open — indeed that unknown IS GSTZ's open question restated. Claim
+the absence of the bubble mechanisms only at the order computed.
+
 ### Paper #2 thesis, sharpened by the read
 
 The ghost QFT question GSTZ left open ("we do not know the true
