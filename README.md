@@ -47,10 +47,10 @@ of AI" section.
 **Timeline.** The question was posed around 6 P.M. on July 10, 2026. The paper
 was fully drafted by roughly 11 P.M. the same evening, with extensions continuing
 to about 2 A.M. — the research program and manuscript were, in wall-clock terms,
-one evening's work. The following morning was spent on adversarial audits
-(reference verification, numerics cross-checks, error fixes), figure and
-formatting polish, and publication of this repository. The lab notebook's dated
-entries (`notes.md`) reflect this chronology.
+one evening's work. This repository was first published around 2:30–3 A.M., and
+the following morning went to adversarial audits (reference verification,
+numerics cross-checks, error fixes), the provenance apparatus, and the final
+release. The lab notebook's dated entries (`notes.md`) reflect this chronology.
 
 **Not peer-reviewed.** Numerical claims are reproducible from the scripts below;
 analytic claims are stated with proofs or explicit verification checks in the
