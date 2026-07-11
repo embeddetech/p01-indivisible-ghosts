@@ -2000,3 +2000,32 @@ three bookkeepings, signal in precisely one of them, with its
 magnitude now a theorem. Connects to the paper-1 theme (the broken
 phase is survival-conditioned dynamics) and the paper-2 theme (the
 pathology enters through the choice of sample space).
+
+---
+
+## 2026-07-11 — S3: FOLIATION DETERMINACY CURVE (F3 quantitative)
+
+Code: `s3_foliation_determinacy.py` (~1 min; 400 realizations per
+point). Construction: 1D lattice ensembles = frame-symmetric
+zero-point part (n=1/2 per mode, split ±k — the classical mimic of
+the boost-invariant vacuum) + boosted thermal part n_th = T/(u·k)
+at v=0.35; frame extraction v̂ = P/E per realization (the 1D
+timelike-eigenframe estimator of ⟨T^μν⟩).
+
+Result — the determinacy curve:
+  T=0 (vacuum): mean v̂ = 0.0013, scatter 0.121, SNR ≈ 0 — the
+  extracted foliation is PURE NOISE; T=0.01: mean −0.012 (wrong
+  sign, SNR 1.8 — indeterminacy regime made vivid); T=0.1: 0.024
+  (SNR 4); T=1: 0.150 (SNR 34); T=3: 0.219 (SNR 51), tracking the
+  thermal (frame-carrying) energy share (0.012 → 0.79) toward the
+  massive-bath streaming velocity.
+
+**F3 upgraded from algebra (⟨T^μν⟩ ∝ η^μν has no eigenframe) to a
+measured, continuous determinacy curve: the foliation information
+content of a state vanishes smoothly at the vacuum.** Ties to F4:
+any real cosmological state (thermal share > 0) sits at finite SNR
+— the comoving frame is extractable in practice, not just in
+principle. Caveat: classical amplitude statistics (exponential/
+chaotic-light per mode); a quantum treatment would replace scatter
+with quantum estimation bounds — the shape, not the scale, is the
+claim.
