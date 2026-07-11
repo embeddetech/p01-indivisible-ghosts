@@ -2,6 +2,8 @@
 
 ![Stochastic ghost dynamics: a ghost escapes down V = -λx⁴ to infinity in finite time along a stochastic trajectory that scissors cannot cut](indivisible-ghosts-small.png)
 
+<sub>*Banner image: prompt written by Claude Fable 5 (Anthropic), rendered by ChatGPT (OpenAI).*</sub>
+
 Numerical scripts, lab notes, and manuscript for:
 
 > **Indivisible stochastic processes for non-Hermitian and higher-derivative
