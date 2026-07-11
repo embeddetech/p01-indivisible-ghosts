@@ -52,6 +52,10 @@ the following morning went to adversarial audits (reference verification,
 numerics cross-checks, error fixes), the provenance apparatus, and the final
 release. The lab notebook's dated entries (`notes.md`) reflect this chronology.
 
+*(For calibration: earlier that same day, AI had failed to help the author pair
+a replacement garage door opener remote. Draw whatever conclusions seem
+warranted.)*
+
 **Not peer-reviewed.** Numerical claims are reproducible from the scripts below;
 analytic claims are stated with proofs or explicit verification checks in the
 paper, but none of it has been independently refereed. Read accordingly.
