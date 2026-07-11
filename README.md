@@ -95,6 +95,8 @@ expected output):
 | `tail_certificate.py` | No-compact-witness principle / closure-defect diagnostic |
 | `glued_certificate_1d.py` | Certified 1D glued von Neumann deficiency certificate |
 | `maslov_feasibility.py` | Gaussian-beam (Maslov) feasibility study for the 2D certificate |
+| `qft_bridge_stage2.py` | *(post-v1.0)* QFT bridge numerics: Feller onset, growth-law slopes, channel multiplicity, lattice UV trend |
+| `qft_bridge_stage3.py` | *(post-v1.0)* Boost-orbit factorization of the ghost vacuum rate; dimension ladder (Λ⁰/Λ⁴/Λ⁸) |
 
 ## Running
 

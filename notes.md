@@ -1289,3 +1289,86 @@ multiplicity-vs-redundancy — a calculation, not a simulation.
 E3 is channel counting without Lorentz kinematics; E4 is classical,
 1+1D, median-of-8/16, and the detuning mechanism is unproven;
 `qft_bridge_stage2.py` runtime dominated by E4's stiff ensembles.
+
+---
+
+## 2026-07-11 — QFT BRIDGE STAGE 3: the relativistic channel measure
+
+Code: `qft_bridge_stage3.py` (~1 min). The boost-orbit structure of
+ghost vacuum decay, computed and numerically verified.
+
+### Theorem (orbit factorization of the ghost vacuum rate)
+
+For vacuum → (normal pair) + (ghost pair) with any Lorentz-invariant
+|M|², total 4-momentum zero forces the normal pair's 4-momentum q to
+equal the sign-flipped ghost pair's, and (shown in 1+1d; the
+structure is general)
+
+  Γ/V = ∫ d²q/(2π)² ρ_n(q) ρ_g(q) |M|²
+      = [∫ dη] × (1/2)(2π)⁻² ∫ ds ρ_n(s) ρ_g(s) |M(s)|²,
+
+with ρ(s) the invariant two-body phase-space density and η the pair
+rapidity. The first factor — the boost-orbit volume — is INFINITE in
+every spatial dimension d; all d-dependence lives in the reduced
+∫ds. **Numerical verification (V1, m_n=1, m_g=0.7, contact |M|²=1):**
+brute-force integration of the constrained (k1,k2) phase space with
+rapidity cutoff |η|<H gives Γ(H)/[H·I_s/(2π)²] = 0.999, 1.000,
+1.001, 1.000 at H = 1,2,3,4 (I_s = 0.619222) — linear in the orbit
+volume, slope the reduced integral, to 0.1%.
+
+**Self-correction logged:** the stage-1 back-of-envelope "d=1
+converges" (scale counting E^{3d−6}) samples a NON-orbit direction
+and misses a vanishing Jacobian (v₃ → v₄ van Hove line) along the
+boost flow; the orbit-volume divergence is present in d=1 too. The
+numerics confirmed the invariance argument over the naive counting.
+
+### Corollary 1 (dimension ladder of the REDUCED measure)
+
+V2, fitted log-log slopes vs the s-cutoff (exact to 3 decimals):
+d=1 contact: 0.000 (UV-FINITE reduced integral); d=3 contact: 2.000
+(= Λ⁴ in energy); d=3 with the CJM gravitational vertex |M|² ~
+s²/M_Pl⁴: 4.000 (= Λ⁸/M_Pl⁴) — **Cline–Jeon–Moore's published
+scaling recovered from the orbit-quotiented measure alone.**
+
+### Corollary 2 (E4 coherence)
+
+The classical 1+1D lattice (stage 2, E4) follows single trajectories
+— no sum over orthogonal orbit channels — and its rate was UV-finite
+/ suppressed: consistent with the d=1 reduced integral's slope 0.
+The stage-2 surprise is the quotient-side physics, as it must be.
+
+### Corollary 3 (frame individuation; B3/B4 sharpened)
+
+Members of a boost orbit are distinct outcomes only relative to a
+frame (a detector, a bath, a cutoff surface). CJM's conclusion that
+only a Lorentz-VIOLATING cutoff regulates the rate is, in this
+currency, the statement that the frame which individuates the
+channels must be supplied before q_vac is finite: **a coupled ghost
+admits a well-defined configuration-space stochastic process only
+relative to a preferred frame.** The B4 dichotomy
+(multiplicity/instantaneous vs redundancy/metastable) is the choice
+of sample space: momentum configurations in a frame vs boost-orbit
+equivalence classes. GSTZ metastability = the quotient choice, whose
+rate is the reduced integral (UV-finite in d=1, Λ⁴ or Λ⁸/M_Pl⁴ in
+d=3).
+
+### Status of paper #2
+
+Theory bridge (B1–B5) + stage-2 numerics (E1–E4) + stage-3 theorem,
+corollaries, and verifications now form a complete arc: *the
+Ostrogradski ghost's QFT catastrophe is the divergence of a channel
+measure over the Lorentz group; whether it is instantaneity or
+metastability is the choice of beables; either way the sample space
+requires a frame.* Remaining before drafting: (i) check the
+factorization statement in d=3 numerically (only d=1 verified);
+(ii) read GSTZ §-level to align the redundancy horn with their
+actual argument (only the abstract-level claim used so far);
+(iii) decide venue/format (letter-length follow-up vs section in a
+v2).
+
+### Caveats
+
+Contact-model kinematics; perturbative golden rule throughout; the
+d>1 factorization asserted by invariance, verified only in d=1; the
+frame-individuation corollary is an interpretation of CJM's result,
+not new mathematics; GSTZ engaged only at abstract level so far.
