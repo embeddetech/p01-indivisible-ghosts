@@ -1725,3 +1725,70 @@ observable.** Details:
    restricted model — flag if we lean on it. Novelty intact: no
    Fock/rate-equation/Markov treatment of the vacuum anywhere in
    GV or GSV.
+
+---
+
+## 2026-07-11 — M3 RUN: who individuates the frame — RESULT:
+## a two-epoch structure (state first, regulator ultimately)
+
+Code: `foliation_m3.py` (+ scratch diagnostics). Design: boosted
+thermal baths (classical Jüttner n(k)=T/(u·k), traveling-wave
+construction so the φ–π correlation carries direction; fixed spectral
+support |k| ≤ 1.2 so the STATE is N-independent), ghost bath hotter
+(T_χ=2, T_φ=1; GSTZ drift ∝ T₁T₂(T₂−T₁) vanishes at equal T), frame
+estimator v* = (dP_φ/dt)/(dE_φ/dt) by regression (kinematic identity:
+production isotropic in the state frame ⇒ v* = v exactly,
+mass-independent; lattice-anchored ⇒ v* = 0). Self-test: right-mover
+P/E = k/ω ✓. Controls: λ=0 → dE/dt = 0.00000 ✓; v=0 → v* ≈ 0 ✓.
+
+**Run 1 (v=0.35, full window to back-reaction guard):** v*(N) =
+0.045 / −0.001 / −0.031 / −0.036 for N = 16/32/64/128 (IQR ~ ±0.15)
+— consistent with ZERO at every cutoff, rejecting the naive
+state-anchored 0.35.
+
+**Run 2 (spectral diagnosis, N=64, t=80 deep cascade):** the
+transferred energy is UV-DIRECTED: fractions 0.10 / 0.27 / 0.57 /
+0.05 in bands |k|≤1.3 / 1.3–3 / 3–6 / >6 — the classical ghost
+cascade (GSTZ sec. 4 turbulence) pumps energy far above the bath
+support; and EVERY band shows v*_band ≈ 0 ± 0.1: deep in the
+cascade, the state's frame is erased. Even at N=128 the
+energy-carrying band sits where lattice dispersion is ~15%
+non-covariant: the cascade always terminates in regulator-owned
+territory.
+
+**Run 3 (decisive early-window test, v=0.6, t ∈ [3,25]):**
+v* = +0.022 [−0.18, +0.22] at N=64 → **+0.230 [−0.01, +0.45] at
+N=128** — the EARLY transfer carries the state's frame, more
+faithfully as the lattice recedes (bath streaming P/E ≈ 0.2 for
+these massive quanta; isotropic-in-state-frame target 0.6; the
+measured value sits in that band at N=128 and nowhere near it at
+N=64).
+
+### Interpretation (the M3 theorem-shape)
+
+**Two epochs. Early, covariant epoch: the state individuates — the
+transfer is comoving with the bath, and better so as the cutoff
+recedes (foliation-from-state confirmed where the dynamics is
+continuum-covariant). Late, cascade epoch: ghost dynamics is
+UV-seeking, the energy runs to the regulator's territory, and the
+state's frame is erased — the regulator individuates.** Whoever owns
+the UV ultimately owns the frame. This is precisely the dynamical
+content of Garriga–Vilenkin's requirement: without UV-softness
+(their nonlocality) the state/age frame cannot hold the line against
+the cascade; UV-soft couplings are what let the state's frame
+survive its own ghost. Our lattice model exhibits the REASON for
+their condition. For the foliation thread: F4 ("the cosmological
+state picks the frame") holds in the covariant window but is NOT
+sufficient in a UV-local theory — the honest statement is
+conditional: state-individuation survives iff the ghost coupling is
+UV-soft below the scale where the regulator's frame takes over.
+
+### Caveats
+
+Classical 1+1D, one coupling; wide IQRs (16 runs); N=256
+unconfirmed (trend N=64→128 is one step); early-window target band
+[bath P/E ≈ 0.2, isotropic 0.6] not sharply discriminated within
+noise; the two-epoch reading rests on Run 2's spectral bands plus
+Run 3's trend — a dedicated scan (v*, band-resolved, vs time and N)
+would firm it. Vacuum runs are impossible in principle (the vacuum
+cannot be boosted) — which is F3 in experimental form.
