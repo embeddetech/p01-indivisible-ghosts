@@ -1372,3 +1372,142 @@ Contact-model kinematics; perturbative golden rule throughout; the
 d>1 factorization asserted by invariance, verified only in d=1; the
 frame-individuation corollary is an interpretation of CJM's result,
 not new mathematics; GSTZ engaged only at abstract level so far.
+
+---
+
+## 2026-07-11 — QFT BRIDGE: LITERATURE DEEP READ + ATTRIBUTION
+## CORRECTIONS (three parallel full-text reads)
+
+Full-text reads of CJM (hep-ph/0311312), GSTZ (2007.05541), and a
+wide sweep. Everything below supersedes the attribution language of
+the stage-3 entry.
+
+### CORRECTION 1 — the factorization is GSTZ's, not ours.
+
+GSTZ eq. (88) (quartic coupling, vacuum rate in d spatial dims) is
+EXACTLY the [reduced ∫ds] × [divergent boost-orbit ∫dK₀] structure of
+our stage-3 "theorem":
+  ρ̇₁ ∝ ∫_{4m²}^∞ ds (s−4m²)^{d−2}/s × ∫_{√s}^∞ dK₀ K₀ (K₀²−s)^{d/2−1},
+with their diagnosis verbatim: "the vacuum initial state ∅ is now
+Lorentz-invariant so that the final state too must be the same in all
+frames. This is why the rate contains a dK₀ integral over the
+non-compact Lorentz group." CJM's eq. (9) is the regulated special
+case (boost capped by formation time γ < t₀√s → Λ¹⁰t₀²/M_Pl⁴; their
+Λ⁸/M_Pl⁴ is dimensional analysis under a CMB-frame 3-momentum
+cutoff). **Status of our stage 3, corrected: independent rederivation
++ first numerical verification (0.1%, d=1 brute force) of the
+GSTZ/CJM decomposition — not a new theorem.** GSTZ is the mandatory
+citation for the decomposition; CJM for the Lorentz-violating-cutoff
+horn.
+
+### What remains genuinely novel (triple-checked, no prior art found
+### under any phrasing)
+
+1. The Markov reading: instantaneous states / Feller explosion /
+   minimal non-conservative semigroups applied to ghost vacua; the
+   Fock-ladder column of the explosion dictionary (Σ1/λ_n as time to
+   infinity); the E1/E2 verifications.
+2. Naming the crux: CJM-vs-GSTZ as CHANNEL MULTIPLICITY vs GAUGE
+   REDUNDANCY of the boost orbit. GSTZ draw the split only in
+   footnote 11 ("other authors regulate the boost divergence ...
+   adding a Lorentz-breaking or non-local cut-off"); nobody develops
+   it as the decisive question, and nobody ports the bubble
+   literature's resolution machinery (below) to ghosts.
+3. Frame individuation as a sample-space statement — precedented for
+   BUBBLES (Garriga–Kanno–Tanaka 1304.6681: detectors individuate
+   the nucleation frame), never applied to ghosts; supported by the
+   ghost-condensate mechanism (healthy precisely because the
+   background selects a frame).
+4. First contact of the stochastic–quantum correspondence with QFT:
+   Barandes' corpus is finite-configuration-space throughout and
+   explicitly defers infinite ones.
+
+### The decisive map (GSTZ section 5, at equation level)
+
+GSTZ's ladder: classical mechanics = metastable (Nekhoroshev/KAM
+"spontaneous lockdown", exponentially long); QM = metastable
+(ground-like state, exponentially small outgoing flux, "analogously
+to usual tunnelling"); CLASSICAL field theory = NOT metastable
+(resonances destroy the hidden invariants; no thermal equilibrium —
+ghost temperature T₂<0, entropy grows forever; drift ∝ λ²,
+polynomial, lattice-verified); QFT = OPEN: "we do not know the true
+rate." Their hoped-for resolution: the V-instability precedent —
+Zeldovich/Kobzarev–Okun–Voloshin found the SAME divergent boost
+integral for ordinary vacuum decay; Coleman (and Garriga–Shlaer–
+Vilenkin) resolved it by expanding around the Lorentz-invariant
+bounce, the boost integral being "an over-counting of the same
+configuration" (redundancy!). For ghosts, no positive Euclidean
+action → no bounce formulation found → question mark in their title
+is genuine. They never advocate a preferred frame.
+
+### The bubble-literature precedent (the strongest structural prior)
+
+Kobzarev–Okun–Voloshin (1975) → Coleman (O(4) bounce: boost orbit =
+stabilizer of the saddle, not moduli) → Dvali 1109.3422 (revival) →
+Dine–Draper–Park 1206.5880 (boosted bubble = DIFFERENT process but
+amplitude-suppressed like exp(−(ΔE³/S₁)^{1/2}) → sum converges) →
+Garriga–Kanno–Tanaka 1304.6681 (detector individuates the frame).
+**The sharp new statement available to us: both bubble resolutions —
+saddle symmetry and excitation cost — are structurally ABSENT for
+perturbative ghost pair creation, where boost-orbit members are
+exactly degenerate in |M|. That absence is what makes the ghost
+divergence resistant, and is exactly why the sample-space question
+(which configurations are distinct beables) is forced.**
+
+### Other load-bearing reads
+
+- Garriga–Vilenkin 1202.1239 (closest metastable-side precedent):
+  D=2 Lorentz-invariant rate FINITE, log-growing in time — matches
+  our d=1 reduced integral (slope 0) + causally-capped orbit
+  (η_max ~ ln t). In D>2: divergent for point vertices, tamed by
+  UV-soft NONLOCAL form factors. They accept multiplicity (boost
+  integral = real phase space) and tame |M| instead. [To verify at
+  equation level before citing: how an invariant form factor
+  interacts with the orbit volume — likely via the same causal
+  regulator.]
+- CJM details: process is vacuum → 2 ghosts + 2 photons via ONE
+  virtual graviton; |M|² effectively s²/M_Pl⁴; Λ ≲ 3 MeV from EGRET
+  diffuse gamma flux (Eqs. 4–8); "Lorentz-invariant cutoff fails"
+  argument = cutting s leaves the boost integral divergent (their
+  words); they DEBUNK CHT's specific φ→gφφ process (vertex removable
+  by field redefinition; CHT's 10⁻³ eV bound "incorrect") — cite CHT
+  qualitatively only.
+- Deffayet–Held–Mukohyama–Vikman 2504.11437 (2025): classical 1+1d
+  ghost fields can be benign; high-frequency modes MORE stable
+  ("heavy high-frequency ghost fields seem to not violate the
+  decoupling theorem") — independent support for our E4 UV
+  suppression. Held 2509.18049: global stability results.
+- GSTZ sec. 4 vs our E4: their thermal classical drift ∝ λ²T₁T₂(...)
+  is the THERMAL regime; our E4 is vacuum-mimic amplitudes — E4
+  should be positioned as the zero-point analogue, with their
+  lattice-verified Boltzmann drift as the calibrated thermal limit.
+- Also for paper #2's related-work section: Hawking–Hertog
+  hep-th/0107088 (definition-level rescue — same CATEGORY as
+  Mannheim's, exits the state space); Könnig et al. 1605.08757
+  (heavy ghosts decay slowly even with trans-Planckian cutoff);
+  ghost condensate hep-th/0312099 (frame-selection as cure);
+  Babichev 2412.20093 (ghost decay = Cherenkov, manifestly
+  frame-anchored); Buoninfante 2606.18349 (ghosts vs unstable
+  particles: whether "decay" is even the word); Gomes 2605.21689
+  (Lindblad-dissipative ghost stabilization — nearest THEMATIC
+  neighbor to a stochastic framing, no explosion mathematics);
+  Andreassen–Farhi–Frost–Schwartz 1604.06090 (modern Γ/V
+  derivation); Kaplan–Sundrum hep-th/0505265; Rubakov
+  hep-th/0604153.
+
+### Paper #2 thesis, sharpened by the read
+
+The ghost QFT question GSTZ left open ("we do not know the true
+rate") is, in the stochastic currency, the question of the sample
+space: beables = frame-anchored momentum configurations ⇒ the boost
+orbit is channel multiplicity ⇒ q_vac = ∞ ⇒ instantaneous state (no
+process; CJM's cutoff = the frame that restores one); beables =
+boost-equivalence classes ⇒ redundancy ⇒ rate = the reduced integral
+(GSTZ's hoped-for Coleman-analogue; UV-finite in d=1 per our slope-0
+result and Garriga–Vilenkin's D=2 finiteness). The bubble literature
+resolved the same dichotomy toward redundancy USING structures
+(Euclidean saddle symmetry, excitation cost) that ghosts lack — so
+for ghosts the dichotomy is not a calculation error but a genuine
+ontological fork, which is precisely what a beables-first
+reformulation is equipped to say. Barandes-side novelty: first
+infinite-configuration-space / QFT contact for the correspondence.
