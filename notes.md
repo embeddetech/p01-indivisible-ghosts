@@ -1945,3 +1945,58 @@ naive prediction; Run-2 exponents carry the threshold-proximity
 systematic; K_C truncation leaves nonlinearly-generated support
 growth unquantified (the local-cascade reading is an
 interpretation, standard in wave turbulence but not proven here).
+
+---
+
+## 2026-07-11 — S1: THE NO-SIGNALING STRESS TEST — all four
+## treatments as predicted; NEW COROLLARY (the LHFL signal in
+## closed form)
+
+Code: `s1_no_signaling.py` (seconds). Context: Lee–Hsieh–Flammia–
+Lee, PRL 112, 130404 (2014) — local PT evolution on one arm of an
+entangled pair, treated as fundamental, permits superluminal
+signaling. Our framework predicts exactly where the signal lives.
+Setup: Bell pair; Alice's message = loss orientation (site 1 vs
+site 2 of the dimer); signal = TV distance between Bob's marginals.
+
+**(i) Metric-corrected closed dynamics: NO SIGNAL — max TV
+1.7e-16** over t ∈ [0.2,8] (deflation: PT = Hermitian partner's
+unitary; local unitaries cannot signal).
+**(ii) Dilated open dynamics, no post-selection: NO SIGNAL — max
+TV 4.4e-16** (Halmos unitarity 2.6e-15). This was the framework's
+kill-shot test: any leak here would falsify paper 1's dilation
+story. It is clean.
+**(iii) Survival-conditioned (broken phase): the signal appears,
+with closed-form magnitude** — verified to 2.2e-16 against
+
+    TV(t) = |p²−q²| / (p²+q²+2r²),   p,q,r as in the
+    terminal-indivisibility theorem;  TV(∞) = κ̃/sinθ
+           = sqrt(1 − (s/sinθ)²).
+
+Numerics: asymptote 0.707107 hit to 6 digits at t=16 (s=0.5,
+θ=π/4); s-sweep at t=25 matches κ̃/sinθ to 6 digits away from the
+EP (0.959166, 0.824621, 0.529150 at s=0.2/0.4/0.6; residuals at
+s≥0.7 are finite-t, κ̃t ≲ 1.4). TV is non-monotonic: peaks ~0.797
+near t≈1 before settling to the asymptote. **NEW COROLLARY of the
+terminal-indivisibility theorem: the conditioning ("LHFL") signal
+strength of a broken-PT local operation is κ̃/sinθ — zero at the
+exceptional point, → 1 deep in the broken phase.**
+**(iv) Unbroken PT + conditioning (the actual LHFL construction):
+signal present (max TV 0.5774 ≈ 1/√3) under conditioning, ZERO
+under treatment (i) with the SAME Hamiltonians.**
+
+### Interpretation (paper-2 FTL section, ready)
+
+The "faster-than-light" capability of local PT operations is
+located exactly: it lives in the CONDITIONING — treating the
+sub-stochastic (survival-renormalized) process as the whole sample
+space — and nowhere else. The closed and dilated dynamics are
+no-signaling to machine precision. And the conditioned "signal" is
+not operational FTL: constructing the post-selected ensemble
+requires Alice-side survival information, which travels
+classically; Bob alone cannot filter. So the stochastic currency
+resolves the LHFL controversy constructively: same Hamiltonians,
+three bookkeepings, signal in precisely one of them, with its
+magnitude now a theorem. Connects to the paper-1 theme (the broken
+phase is survival-conditioned dynamics) and the paper-2 theme (the
+pathology enters through the choice of sample space).
