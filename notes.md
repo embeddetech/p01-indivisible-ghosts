@@ -1792,3 +1792,80 @@ noise; the two-epoch reading rests on Run 2's spectral bands plus
 Run 3's trend — a dedicated scan (v*, band-resolved, vs time and N)
 would firm it. Vacuum runs are impossible in principle (the vacuum
 cannot be boosted) — which is F3 in experimental form.
+
+---
+
+## 2026-07-11 — E4-2D: THE DIMENSIONAL REVERSAL, CONFIRMED — after
+## two caught artifacts and one formal RETRACTION
+
+Code: `qft_bridge_e4_2d.py` (identical leapfrog machinery in d=1 and
+d=2; pre-registered prediction in the docstring BEFORE the data:
+d=1 flat/suppressed, d=2 growing — the marginal dimension of the
+reduced measure ∫dE E^{3d−6}).
+
+### RETRACTION: the E4-1D "UV-suppression" result was an artifact.
+
+The original E4 vacuum construction (`qft_bridge_stage2.py`,
+`vacuum_field`) underweights fine lattices: mode amplitudes were
+N^{d}/(2ω)-normalized instead of N^{2d}/(2ω L^d), an error of
+(N/L)^{d/2} — the zero-point source SHRANK as the cutoff grew, and
+the observed "suppression" (t_thr 46→149 at N=32→64, "confirmed"
+with independent seed) was the shrinking source, not physics.
+Diagnosed by the ⟨φ²⟩₀ column of the new script (fell with N; the
+physical vacuum variance must rise — log in d=1, linear in d=2);
+verified by the zp≈1.00 self-check after the fix.
+**Scope of contamination:** stage-2 E4's verdict ("classical
+cascade UV-finite, even UV-suppressed") — RETRACTED, replaced
+below; the "self-consistent mass-detuning" conjecture — retracted;
+stage-3 "Corollary 2 (E4 coherence)" — superseded (the corrected
+d=1 result is coherent with the slope-0 reduced measure via
+SATURATION, see below). **Unaffected:** E1–E3 (no field
+construction), all of stage 3's phase-space numerics, M3 entirely
+(its thermal bath used the explicit per-mode loop, correctly
+normalized), and everything in paper #1.
+Second artifact caught in the same sweep: at dt·ω_max = 0.5 the
+Verlet drift (up to 21 energy units) exceeded the d=2 threshold and
+made the λ=0 CONTROL fire at N≥48 — fixed with dt·ω_max ≤ 0.15;
+final run has all controls silent and max drift 1.0 vs thresholds
+10/25. Methods lesson, banked: the ⟨φ²⟩₀ column caught bug 1, the
+λ=0 control column caught bug 2; each alone would have produced a
+publishable-looking false trend.
+
+### RESULT (corrected, controls clean)
+
+Classical ghost vacuum decay rate (1/median t_thr to absorb fixed
+ΔE) vs UV cutoff k_max = πN/L at fixed volume, vacuum-mimic data:
+
+d=1 (L=32, λ=0.25, ΔE=25):  N=16..128 → rate 0.0127 / 0.0175 /
+  0.0242 / 0.0249 — rising then SATURATING (64→128: +3%): the
+  classical decay has a CONTINUUM LIMIT in 1+1d. Consistent with
+  the UV-convergent d=1 reduced measure (stage-3 slope 0) and with
+  Garriga–Vilenkin's finite D=2 rate.
+d=2 (L=16, λ=0.1, ΔE=10):  N=16..64 → rate 0.0205 / 0.1034 /
+  0.2712 / 0.8186 — ×40 over ×4 in cutoff, effective power
+  k_max^{~2.7}, NO saturation: no continuum limit. THE REVERSAL,
+  in the pre-registered direction.
+
+Exponent honesty: the naive channel-counting prediction at the
+marginal dimension is log growth; the observed ~k_max^{2.7} is
+steeper because the zero-point amplitudes themselves grow with the
+cutoff in d≥2 (⟨φ²⟩₀ ∝ k_max: 0.243→1.205 across the sweep),
+enhancing the effective vertex — a classical-statistical effect on
+top of the phase-space counting. Decomposing the exponent
+(amplitude² ~ k_max² × residual log?) is a clean follow-up; the
+DIRECTION of the dichotomy (saturation vs unbounded growth) is the
+claim, and it is unambiguous.
+
+### Upshot
+
+The dimension ladder is now DYNAMICAL, not just kinematic:
+1+1d classical ghost decay converges to a finite continuum rate;
+2+1d grows without bound as the regulator recedes — the classical
+field theory tracks the reduced-measure dichotomy across its
+critical dimension. This patches the "everything numerical was
+d=1" vulnerability, replaces a wrong result with a stronger correct
+one, and sharpens the M3/GV story: in d=1 the state's frame has a
+covariant window because the UV is tame; in d≥2 the UV owns the
+dynamics outright — UV-softness (GV nonlocality) is not optional
+garnish but the price of any state-anchored frame in the physical
+dimension.
