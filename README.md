@@ -1,6 +1,6 @@
 # indivisible-ghosts
 
-*Paper 1 of the [Indivisible Ghosts program](https://github.com/embeddetech/ghosts-program).*
+*Paper 1 of the [Ghosts program](https://github.com/embeddetech/ghosts-program).*
 
 ![indivisible-ghosts](indivisible-ghosts.png)
 
