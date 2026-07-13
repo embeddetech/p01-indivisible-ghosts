@@ -42,7 +42,9 @@ whose deficiency indices are (2M, 2M) by the theorems:
      spectrum is exactly the union of shifted 1D ladders.
  N2  Kato stability made visible: switching on the bounded coupling
      (mu = 0 -> 0.2) shifts individual levels but leaves the window
-     count / level density unchanged.
+     count / level density essentially unchanged (34 -> 34 at L = 8;
+     37 -> 36 at L = 12, a one-level window-edge shift within count
+     granularity).
  N3  The S-matrix at infinity: a channel-0 packet slides out, reflects
      off the regulator ("infinity"), and RETURNS IN A MIXTURE OF
      CHANNELS; the returned channel content depends on the regulator

@@ -1,12 +1,12 @@
 """
-Section 5.3 of PT_stochastic_handoff.md:
+Section 5.3 of PT_stochastic_handoff.md (= paper Sec. 5):
 The exceptional point -- what survives when the metric dies.
 
 SETUP. Canonical dimer H(s) = [[e^{i th}, s], [s, e^{-i th}]], th = pi/4.
 EP at s* = sin(th): eigenvalues cos(th) +- kappa with kappa = sqrt(s^2 -
 sin^2 th) -> 0. Approach from the unbroken side, s = s*(1 + eps).
 
-The deflationary argument (handoff section 4.2) rests on rho = eta^{1/2}
+The deflationary argument (handoff section 4.2 = paper Sec. 2) rests on rho = eta^{1/2}
 existing. At the EP, H is defective, eta singular, rho nonexistent. This
 script quantifies the collapse and asks what survives in regularized limits:
 
@@ -23,7 +23,7 @@ script quantifies the collapse and asks what survives in regularized limits:
      to a nontrivial indivisible Rabi process -- but in coordinates whose
      beable map rho_eps diverges. An abstract process survives; its
      identification with the original configurations does not.
- (D) Reconciliation with section 5.2: the DILATED (open-system) sub-
+ (D) Reconciliation with section 5.2 (= paper Sec. 4): the DILATED (open-system) sub-
      stochastic process and its indivisibility generator pass SMOOTHLY
      through the same point. The EP is a coordinate singularity of the
      Hermitian dictionary, not of the stochastic process.
@@ -200,7 +200,7 @@ print("   ABSTRACT -- its identification with the original configurations")
 print("   degenerates along with rho.")
 
 # ----------------------------------------------------------------------
-# D. The open-system (section 5.2) picture is smooth through the EP
+# D. The open-system (handoff 5.2 = paper Sec. 4) picture is smooth through the EP
 # ----------------------------------------------------------------------
 print()
 print("=" * 72)
@@ -237,5 +237,5 @@ print("closed-side metric condition number diverges (and does not exist")
 print("below). VERDICT: the EP is a coordinate singularity of the")
 print("similarity-to-Hermitian dictionary, not of the stochastic process.")
 print("Existence of an indivisible process is governed by the dilation")
-print("(section 5.2); the deflation (section 4.2) fails AT the EP only")
+print("(paper Sec. 4); the deflation (paper Sec. 2) fails AT the EP only")
 print("because its coordinates do, and nothing physical is lost there.")

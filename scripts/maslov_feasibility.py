@@ -10,7 +10,7 @@ because b c^2 = a). The classical symbol of S is
 whose ray equations reduce, along the escape, to the quartic-PU law
 s'''' = 4 lam s^3 (plus the harmonic corrections). Consequences used as
 sharp numerical checks:
-  - blowup s ~ S (t*-t)^{-2} with UNIVERSAL amplitude S = sqrt(30/lam);
+  - blowup s ~ S (t*-t)^{-2} with UNIVERSAL amplitude S = sqrt(30 gam/lam);
   - time-reversal symmetry: rest initial data escapes at BOTH temporal
     ends, so the time-integral quasimode psi = int e^{izt} phi_t dt has
     only e^{-Z t*} boundary terms (no O(1) leftover).
@@ -93,7 +93,7 @@ def fit_blowup(sol, tev):
 # ---------------------------------------------------------------- F1
 print("=" * 72)
 print("F1. Escape-ray family: two-sided finite-time blowup, universal")
-print(f"    amplitude S = sqrt(30/lam) = {S_UNIV:.4f}")
+print(f"    amplitude S = sqrt(30 gam/lam) = {S_UNIV:.4f}")
 print("=" * 72)
 print(f"{'IC (s0,w0,ps0,pw0)':>24} {'t*+':>8} {'t*-':>8} "
       f"{'exponent':>9} {'amplitude':>10}")

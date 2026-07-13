@@ -1,5 +1,5 @@
 """
-Follow-up to section 5.4: THE INTERACTING GHOST.
+Follow-up to handoff section 5.4 (= paper Secs. 7-8): THE INTERACTING GHOST.
 Does the Ostrogradski instability, once interactions are switched on, show
 up as a STOCHASTIC pathology (loss of a valid indivisible process), or
 still only as energetics?
@@ -212,10 +212,10 @@ def survival_run(lam, L, n, tmax=20.0, dt=1e-3, x0=(2.5, 0.3), sig=0.7,
     return np.array(ts_out), np.array(S_out)
 
 
-runs = [("malicious lam=+0.05, L=12", 0.05, 12.0, 96),
-        ("malicious lam=+0.05, L=18", 0.05, 18.0, 144),
-        ("free      lam= 0.00, L=12", 0.00, 12.0, 96),
-        ("benign?   lam=-0.05, L=12", -0.05, 12.0, 96)]
+runs = [("lam=+0.05 (cl. bounded here; leaky), L=12", 0.05, 12.0, 96),
+        ("lam=+0.05 (cl. bounded here; leaky), L=18", 0.05, 18.0, 144),
+        ("free      lam= 0.00,               L=12", 0.00, 12.0, 96),
+        ("lam=-0.05 (cl. escaping, sect. B),  L=12", -0.05, 12.0, 96)]
 curves = {}
 for label, lam, L, n in runs:
     t_, S_ = survival_run(lam, L, n)
@@ -226,7 +226,7 @@ for label, lam, L, n in runs:
           f"S(20) = {S_[-1]:.4f}  onset(S<0.99) = "
           + (f"{onset:.2f}" if onset else ">20"))
 print()
-print("Interpretation: compare the two malicious rows. If the leak onset")
+print("Interpretation: compare the two lam=+0.05 rows. If the leak onset")
 print("time saturates (stays ~equal) as the box grows L=12 -> 18, the")
 print("escaping flux reaches ANY radius at essentially the same time --")
 print("the infinite-volume closed process fails; probability genuinely")

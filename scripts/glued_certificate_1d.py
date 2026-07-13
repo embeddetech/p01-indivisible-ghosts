@@ -25,7 +25,10 @@ essentially self-adjoint. The method is intrinsically sharp:
   - confining quartic (e.s.a.): the left continuation contains a
     growing REAL exponential branch: no L^2 candidate exists;
   - falling quadratic (limit point, marginal): the growing branch is
-    polynomial, k^{+Z/1.12}: not L^2 for Z > 1.12: no candidate.
+    polynomial, |psi| ~ k^{-1/2 + Z/1.12}, whose density integral
+    diverges for EVERY Z > 0: no candidate (the decaying branch is
+    the unique L^2 solution -- limit point, as the dictionary
+    requires).
 The pipeline reports these failures via the divergence of the left-tail
 norm integrand.
 

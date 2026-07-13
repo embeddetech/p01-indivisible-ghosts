@@ -2,6 +2,13 @@
 Rigorous status of the two quantum-completion candidates
 (lam < 0 quartic PU; lam < 0 ghost pair).
 
+RUNTIME NOTE: Section B integrates finite-time (t*-t)^-2 blowups with
+solve_ivp (rtol 1e-10, no max_step); near each singularity the stepper
+slows sharply, and the full script takes ~30 minutes on the reference
+machine (two complete exit-0 runs on record), machine- and
+SciPy-version-dependent. If it appears stalled mid-Section-B, let it
+run; stdout is buffered, so partial output files can look frozen.
+
 A. THEOREM (sign dichotomy at every finite channel number). For lam < 0
    the finite-channel Galerkin models of the channelized quartic PU,
        S_M = p^2/(2gO) - T(k1 + cP2_M) - sqrt(O)(N+1/2)|_M,
@@ -21,10 +28,10 @@ B. NULL-ESCAPE STRUCTURE (the conjecture both candidates suggest). The
      - lam < 0 PU: escape along the degenerate direction of the
        (Fourier-rotated) kinetic form -p_u^2/(2gO) + (gO/2) p_v^2;
    whereas the lam > 0 PU escape (deficiency!) rides its own conjugate
-   momentum: the kinetic-form ratio tends to ONE. Conjecture: quantum
-   completion occurs iff the classical escape is null for the kinetic
-   form (a null direction supports no WKB transport channel).
-   Verified on the actual blowup trajectories below.
+   momentum: the kinetic-form ratio tends to ONE. The measured
+   trajectories below show the lam < 0 PU ratio ALSO tends to one,
+   FALSIFYING the naive 'completion iff null escape' conjecture (the
+   paper reports exactly this); only the ghost pair is null.
 
 C. VALLEY-ADAPTED DRIFT TEST (lam < 0 ghost pair). Rotated coordinates
    s = (x1+x2)/sqrt2, d = (x1-x2)/sqrt2 align the Fock basis with the
@@ -33,7 +40,7 @@ C. VALLEY-ADAPTED DRIFT TEST (lam < 0 ghost pair). Rotated coordinates
    (nu_s, nu_d): if the e.s.a. baseline persists in bases built to
    resolve the valley, the completion verdict is not a basis artifact.
 
-Run:  python -u completion_candidates.py     (~4-6 minutes)
+Run:  python -u completion_candidates.py     (~30 minutes; see RUNTIME NOTE)
 """
 
 import functools
@@ -167,9 +174,11 @@ for th in ths:
     row = [d.get(th, float("nan")) for d in (rp, rm, rg)]
     print(f"{th:>10.0e} {row[0]:>10.4f} {row[1]:>10.4f} {row[2]:>12.4f}")
 print("=> the deficiency case (PU lam>0) escapes along a DEFINITE kinetic")
-print("   direction (ratio -> 1); both completion candidates escape along")
-print("   NULL directions (ratio -> 0). Conjecture: quantum completion")
-print("   iff the classical escape is null for the kinetic form.")
+print("   direction (ratio -> 1); the GHOST PAIR escapes along a NULL")
+print("   direction (ratio -> 0), but the lam<0 PU ratio ALSO tends to one")
+print("   (see table): the naive conjecture 'quantum completion iff null")
+print("   classical escape' is FALSIFIED by the lam<0 PU, as the paper")
+print("   reports; its completion evidence rides the channel tail.")
 
 # ---------------------------------------------------------------- C
 print()

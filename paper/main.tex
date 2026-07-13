@@ -36,7 +36,7 @@ detailed balance, broken $\PT$ symmetry, and the explosion of ghosts}
 \author{Jonathan Torkelson\\[2pt]
 \small Embeddetech, Inc., Tulsa, Oklahoma, USA\\
 \small\texttt{jtorkelson@embeddetech.com}}
-\date{July 11, 2026}
+\date{July 11, 2026 (v1.1: Sec.~10, experimental probes, added)}
 
 \begin{document}
 \maketitle
@@ -49,8 +49,11 @@ by $\PT$ symmetry, recovering unitarity in a modified inner product. We ask
 whether these two reconstructions are compatible, and follow the question
 from the canonical $2\times 2$ $\PT$ dimer to interacting
 Pais--Uhlenbeck-type ghosts. Our results: (i)~unbroken antilinear symmetry
-is exactly the condition for a probability-conserving indivisible process to
-exist, but the metric-corrected process is the ordinary process of the
+is exactly the condition for a probability-conserving indivisible process
+to exist \emph{without enlarging the configuration space}---on
+beables generically rotated from the original
+configurations---and the metric-corrected process is the ordinary
+process of the
 isospectral Hermitian partner; (ii)~a non-Hermitian Hamiltonian admits a
 \emph{fixed-beable} representation iff its couplings satisfy a Kolmogorov
 detailed-balance criterion, and the resulting process is unique---in gauge
@@ -59,32 +62,39 @@ vanishes, making the non-Hermitian skin effect the exact obstruction;
 (iii)~the broken phase, treated as an open subsystem by dilation, supports a
 valid sub-stochastic process whose indivisibility is \emph{terminal} rather
 than recurrent---we prove exact closed forms, including the generator floor
-$-(\sin\theta+\tilde\kappa)$---while information backflow vanishes: the two
+$-(\sin\theta+\tilde\kappa)$ (a floor on the indivisibility strength
+$|L_{12}|$, approached from below by the signed entry)---while
+late-time information backflow vanishes: the two
 notions of non-Markovianity dissociate; (iv)~the exceptional point is a
 coordinate singularity of the Hermitian dictionary, not of the process;
 (v)~the free Pais--Uhlenbeck ghost admits a perfectly valid fixed-beable
 process, whereas the no-ghost quantization exits the sample space;
 (vi)~interacting ghosts realize the probabilist's classification
 conservative/transient/explosive, and (vii)~a deficiency-index/Feller
-analysis proves an ``explosion dictionary'': one classical integral decides
+analysis proves an ``explosion dictionary'' for the one-dimensional
+monotone mechanism model: one classical integral decides
 classical completeness, quantum self-adjointness, and stochastic
 conservativity, with (viii)~a rigorous channel-based multidimensional
 extension in which conservative completions carry an infinite-dimensional,
 channel-mixing $S$-matrix at infinity. For the exact quartic
-Pais--Uhlenbeck operator we further prove an exact channelization whose
-sign prediction the numerics confirm ($\lambda>0$: limit-circle channels;
+Pais--Uhlenbeck operator we further prove an exact displaced-oscillator
+identity whose channelization (exact to $O(k^{2})$) carries a sign
+prediction the numerics confirm ($\lambda>0$: limit-circle channels;
 $\lambda<0$: a quantum-completion candidate despite classical blowup),
 settle deficiency stability at every finite channel number, certify the
-one-dimensional fiber non-self-adjoint by a glued-tail von Neumann
+one-dimensional fiber non-self-adjoint, in a computer-assisted sense,
+by a glued-tail von Neumann
 certificate---no compactly supported function can witness
-deficiency---and reduce the remaining $M\to\infty$ step to Gaussian-beam
-assembly along numerically characterized escape rays. The ghost problem,
+deficiency---and conjecturally reduce the remaining $M\to\infty$
+step to Gaussian-beam
+assembly and error control along numerically characterized escape
+rays. The ghost problem,
 viewed in the
 stochastic currency, is a recurrence-classification problem, and the
 minimal explosive process is its only canonical resolution.
 \end{abstract}
 
-\bigskip
+\newpage
 \begin{quote}
 \small\noindent\textbf{Note on provenance.} This manuscript is an
 experiment in AI-conducted research as much as a physics paper. The
@@ -102,10 +112,16 @@ independent review by professional physicists. Accordingly, nothing
 here should be taken on trust: every theorem is stated with a full proof,
 and every numerical claim is reproducible from the public scripts
 (see \hyperref[sec:code]{Code availability}), where the originating
-conversation and project briefing are also preserved.
+conversation and project briefing are also preserved. The manuscript is
+additionally subject to the program's release
+gate: repeated adversarial audit passes by fresh AI agents---each independently
+re-deriving every proof, re-running every script and tracing every
+quoted number to its output, and verifying every reference against
+primary records---with circulation requiring three consecutive passes
+with zero findings; the pass-by-pass ledger of findings and fixes is
+public in the repository (\texttt{AUDIT.md} and \texttt{histories/}).
 \end{quote}
 
-\newpage
 \tableofcontents
 \newpage
 
@@ -141,7 +157,9 @@ be exorcised by $\PT$-symmetric quantization \cite{BenderMannheim2008}.
 
 These programs have, to our knowledge, never been brought into contact
 (a recent study of divisibility within the correspondence
-\cite{DivisibleIndivisible2025} remains entirely within Hermitian maps).
+\cite{DivisibleIndivisible2025} remains within the standard
+Hermitian/unitary-generated setting and does not treat non-Hermitian
+or antilinear dynamics).
 Barandes' construction rests on ordinary unitarity in a fixed inner product;
 Mannheim's unitarity lives in a Hamiltonian-dependent inner product. The
 natural question is:
@@ -184,7 +202,8 @@ numerically verified, and each feeding the next. Our main results:
   (Theorem~\ref{thm:terminal}) gives the generator in closed
   form: divisibility is lost at $t_c$ exactly when $\det\Gam$ crosses zero,
   permanently, with floor $-(\sin\theta+\tilde\kappa)$; the unbroken phase
-  is recurrent instead. Information backflow, by contrast, vanishes in the
+  is recurrent instead. Late-window information backflow, by contrast,
+  vanishes in the
   broken phase: Barandes indivisibility is the strictly finer probe.
 \item \textbf{The exceptional point is a coordinate singularity}
   (Sec.~\ref{sec:ep}). The metric collapses with Petermann scaling
@@ -207,10 +226,13 @@ numerically verified, and each feeding the next. Our main results:
   doubly stochastic process with balanced energy books. Malicious nonlinear
   interactions with finite-time classical escape make it \emph{explosive}.
 \item \textbf{The explosion dictionary} (Sec.~\ref{sec:dictionary}).
-  The \emph{explosion dictionary} (Theorem~\ref{thm:dictionary}): a
+  The \emph{explosion dictionary} (Theorem~\ref{thm:dictionary}, for
+  the one-dimensional monotone mechanism model; Sec.~\ref{sec:multiD}
+  records where it fails beyond that model): a
   single classical integral---the time of
   flight to infinity---decides classical completeness, quantum essential
-  self-adjointness (via the identity ``deficiency norm $=$ time of
+  self-adjointness (via the WKB identity ``deficiency norm $\approx$
+  time of
   flight''), and stochastic conservativity (Feller). Conservative
   completions reflect probability off infinity at the classical round-trip
   time; the canonical object is the minimal, explosive, sub-stochastic
@@ -224,14 +246,16 @@ numerically verified, and each feeding the next. Our main results:
   completions carry a channel-mixing \emph{$S$-matrix at infinity}. The
   essential self-adjointness of the exact quartic-PU operator is posed as
   a sharply delimited open problem---and then taken as far as computation
-  allows: an exact channelization with a confirmed sign prediction
+  allows: an exact displaced-oscillator identity, its channelization
+  (exact to $O(k^{2})$) carrying a confirmed sign prediction
   (Proposition~\ref{prop:bo}), deficiency stability at every finite
   channel number (Theorem~\ref{thm:stability}) with its $\lambda<0$
   mirror (Corollary~\ref{cor:dichotomy}), the no-compact-witness
   principle (Remark~\ref{rem:nocompact}) together with a genuine
   glued-tail von Neumann certificate for the one-dimensional fiber, and a
-  Maslov feasibility study reducing the remaining $M\to\infty$ step to
-  Gaussian-beam assembly along the escape rays.
+  Maslov feasibility study conjecturally reducing the remaining
+  $M\to\infty$ step to
+  Gaussian-beam assembly and error control along the escape rays.
 \end{enumerate}
 
 All numerical claims are reproducible from short standalone scripts
@@ -264,8 +288,9 @@ The stochastic--quantum dictionary represents
 \Gam_{ij}=|U_{ij}|^{2},
 \label{eq:dictionary}
 \end{equation}
-with $\odot$ the entrywise product; $|U|^{2}$ is doubly stochastic iff $U$
-is unitary, and indivisibility expresses interference,
+with $\odot$ the entrywise product; $|U|^{2}$ is doubly stochastic if $U$
+is unitary (the converse fails: stochasticity of $|U|^2$ fixes only
+the moduli), and indivisibility expresses interference,
 $|UV|^{2}\ne|U|^{2}|V|^{2}$. Two facts matter below: the family
 $\Gam(t)$ need not compose (indivisibility \emph{is} its failure to
 compose), and only per-time unistochasticity is required.
@@ -324,8 +349,23 @@ metric-corrected process is the ordinary Barandes process of the Hermitian
 partner $h$.
 \end{proposition}
 
-Numerically, at $s=1$ the naive column sums of $|U|^2$ are $(3.23,1.30)$,
-while the corrected process is
+\begin{proof}
+If $\eta=\rho^{2}$ solves \eqref{eq:intertwine} with $\rho$ positive
+definite, then $h:=\rho H\rho^{-1}$ obeys
+$h^{\dagger}=\rho^{-1}H^{\dagger}\rho
+=\rho^{-1}(\eta H\eta^{-1})\rho=h$, so $h$ is Hermitian,
+$\rho\,\ee^{-\ii Ht}\rho^{-1}=\ee^{-\ii ht}$ is unitary, and the
+entrywise moduli-squared of a unitary are doubly stochastic
+(unistochastic). Indivisibility at generic $t$ is exhibited
+numerically below. In the broken phase the spectrum contains a
+complex-conjugate pair; similarity to a Hermitian $h$ would force a
+real spectrum, so no positive-definite solution of
+\eqref{eq:intertwine}---and hence no process of this form---exists.
+\end{proof}
+
+Numerically, at $s=1$ the naive column sums of $|U|^2$ are $(3.23,1.30)$
+(here and throughout, $\norm{\cdot}$ on matrices is the Frobenius
+norm), while the corrected process is
 $\Gam=\bigl(\begin{smallmatrix}0.368&0.632\\0.632&0.368\end{smallmatrix}\bigr)$
 with $\norm{\Gam(2t)-\Gam(t)^{2}}\approx 0.93$; at $s=0.5$ (spectrum
 $0.7071\pm 0.5\ii$) every Hermitian intertwiner is indefinite and
@@ -393,7 +433,7 @@ solver reproduces the constructive $d$):
 
 \emph{(a) $n=2$.} Cycles beyond pairs are absent, so (K4) is vacuous:
 fixed-beable $\Leftrightarrow$ $H_{11},H_{22}\in\mathbb R$ and
-$H_{12}H_{21}>0$. The dimer \eqref{eq:dimer} fails (K1) for every
+$H_{12}H_{21}>0$ (or $H_{12}=H_{21}=0$, the decoupled case). The dimer \eqref{eq:dimer} fails (K1) for every
 $\theta\ne 0,\pi$: within that family, fixed beables $\Leftrightarrow$
 Hermiticity, consistent with the rotation found in
 Sec.~\ref{sec:deflation}. The cycle condition first bites at $n\ge 3$.
@@ -463,13 +503,20 @@ gauge transformation $\eta=\mathrm{diag}(\ee^{-2\chi})$, and
 $\Gam_{jk}(t)=\ee^{2(\chi_k-\chi_j)}|U_{jk}(t)|^{2}$. The \emph{real} flux
 (magnetic field) is unconstrained.
 \item[(ii)] With classical rates $q(j{\to}k)=|H_{kj}|$, the imaginary flux
-is the cycle affinity of the rate graph: it vanishes iff the classical
+is half the cycle affinity of the rate graph: it vanishes iff the classical
 chain is reversible (Kolmogorov), and nonzero imaginary flux is equivalent
 to a nonzero steady-state cycle current.
 \item[(iii)] (Hatano--Nelson) A ring with uniform $w$ carries flux $Nw$:
-no fixed beables exist---indeed the periodic-boundary spectrum is a
+no fixed beables exist. For the \emph{uniform} ring (uniform $t$,
+uniform $w$, constant on-site potential) the periodic-boundary
+spectrum is moreover a
 complex loop (the spectral winding that classifies the skin effect
-\cite{Okuma2020}), so no closed process exists at all. An open chain is a
+\cite{Okuma2020}), so there no closed process exists at all; a
+non-uniform ring with nonzero net flux still has no fixed beables,
+but its flux can be too
+weak to break spectral reality, leaving a closed rotated-beable
+process possible (the diagonally dominated triangle below is exactly
+such a case). An open chain is a
 tree: fixed beables exist at every finite $N$ with weights
 $d_i=\ee^{2wi}$; the boundary-condition dichotomy of the skin effect is
 the flux/pure-gauge dichotomy.
@@ -724,18 +771,23 @@ both sides; backflow is not.}
 \label{fig:dissociation}
 \end{figure}
 
-Thus the broken phase is \emph{backflow-Markovian yet Barandes-indivisible}:
+Thus the broken phase is \emph{backflow-Markovian in the late window
+yet permanently Barandes-indivisible}:
 the two notions genuinely dissociate, indivisibility being strictly finer.
-That divisibility- and information-flow-based notions of Markovianity are
-inequivalent in general is known for quantum channels
-\cite{ChruscinskiRS2018}; the $\PT$ dimer makes the dissociation exact,
+That the relation between divisibility- and information-flow-based
+notions of Markovianity is subtle for quantum channels---equivalent
+for invertible maps \cite{ChruscinskiRS2018}, genuinely inequivalent
+for noninvertible ones \cite{Rivas2022}---is known; the $\PT$ dimer
+makes the dissociation exact,
 phase-locked, and---in the broken phase---permanent, at the level of the
 classical configuration process.
 A closed Hermitian system, being quasi-periodic, can only be recurrently
 indivisible; terminal indivisibility with monotone leak is the stochastic
 signature of the broken phase. (At $n=2$ every lossy two-site Hamiltonian
-is a shifted $\PT$ dimer, so ``overdamped open dynamics'' and ``broken
-$\PT$'' coincide.)
+\emph{with degenerate site frequencies} is a shifted $\PT$ dimer, so
+there ``overdamped open dynamics'' and ``broken
+$\PT$'' coincide; a detuned pair adds a real $\sigma_z$ component the
+$\PT$ form does not carry.)
 
 %=====================================================================
 \section{The exceptional point is a coordinate singularity}
@@ -752,7 +804,7 @@ boundary, and $\rho$ does not exist.
 Approaching from the unbroken side, $s=s_*(1+\varepsilon)$,
 $\kappa\simeq\sin\theta\sqrt{2\varepsilon}$, we find clean power laws
 (Fig.~\ref{fig:ep}; log--log fits over $\varepsilon=10^{-1}\dots10^{-7}$,
-all within $\pm0.002$):
+all within $\pm0.0025$):
 \begin{center}
 \begin{tabular}{lll}
 \toprule
@@ -920,7 +972,9 @@ two-mode-squeezing laws
 P\bigl(n_1\le K\bigr)=1-\tanh^{2K+2}(gt)\;\longrightarrow\;0 ,
 \label{eq:cascadelaws}
 \end{equation}
-both matched numerically to $\sim$4 decimals (Fig.~\ref{fig:cascade};
+both matched numerically to $\sim$4 decimals in the resolved regime
+($\langle n\rangle\lesssim$ a few, before the $34^2$ Fock truncation
+sets in at the last tabulated time) (Fig.~\ref{fig:cascade};
 Fock truncation $34^2$, $g=0.15$; detuned growth consistent with
 $(g^{2}/\kappa^{2})\sinh^{2}\kappa t$, $\kappa=\sqrt{g^{2}-\delta^{2}/4}$),
 while $\Gam$ remains doubly stochastic to $2\times10^{-14}$ and the energy
@@ -934,9 +988,9 @@ $E_{\rm ghost}=-8.301$, $\avg{H}=0$ conserved).
 ($\omega_1=\omega_2$, $g=0.15$): a valid, exactly doubly stochastic
 process that is \emph{transient}. Left: occupation growth
 $\avg{n_1(t)}=\sinh^2(gt)$ (line: exact law; circles: Fock-space
-numerics), while the normal-sign twin (squares) stays bounded near
-$10^{-3}$---the instability threshold collapses from the sum to the
-difference frequency. Right: escape from the occupation ball $n_1\le10$
+numerics), while the normal-sign twin (squares) stays bounded below
+$3\times10^{-2}$---the instability threshold collapses from the sum
+to the difference frequency. Right: escape from the occupation ball $n_1\le10$
 follows the exact two-mode-squeezing law
 \eqref{eq:cascadelaws}.}
 \label{fig:cascade}
@@ -971,18 +1025,25 @@ confinement, not physics (a fact that itself echoes
 Sec.~\ref{sec:dictionary}: a non-\esa{} operator has no faithful finite
 truncation). In the resolved regime, quantum probability arrives at every
 probed radius at times bounded by the classical finite-time law, with bulk
-weight, while the free control never passes $r\approx6$.
+weight, while the free control never passes $r\approx7$.
 
 In the standard vocabulary of stochastic processes, the hierarchy is:
 free/normal-sign $=$ \emph{conservative}; ghost with quadratic (or benign
 nonlinear) interaction $=$ \emph{transient}; ghost with malicious
 nonlinearity $=$ \emph{explosive} (mass leaves the state space in finite
 time). The Ostrogradski ghost is a recurrence-classification problem.
-Complementary operator-theoretic stability results for interacting
-ghosts---conserved quantities with discrete spectrum \cite{Deffayet2026}
-and exact moment bounds \cite{EwasiukProfumo2026}---identify interaction
+Complementary operator-theoretic and dynamical stability results for
+interacting
+ghosts---the global-stability classification program of Errasti
+D\'iez, Gaset Rif\`a, and Staudt \cite{ErrastiDiez2024} and its
+multidimensional classical-scattering extension by
+Held \cite{Held2025}, conserved quantities with discrete
+spectrum \cite{Deffayet2026},
+and exact moment bounds \cite{EwasiukProfumo2026}---identify
+interaction
 structures in which the cascade is arrested; in the present language,
-those are mechanisms enforcing recurrence.
+those are mechanisms enforcing recurrence (none of these works uses
+the stochastic/recurrence currency itself).
 
 %=====================================================================
 \section{The explosion dictionary}
@@ -996,21 +1057,29 @@ made a theorem.
 \begin{theorem}[explosion dictionary, 1D mechanism model]
 \label{thm:dictionary}
 Let $H=\tfrac12 p^{2}+V$ on the line with an escaping end
-($V\to-\infty$), and define the classical time of flight
+($V\to-\infty$ eventually monotonically and $C^{1}$ with
+$|V'|\,|V|^{-3/2}$ bounded, the standard regularity under which the
+limit-point/limit-circle criteria below apply---the mechanism model;
+Rauch--Reed's oscillatory one-dimensional counterexamples
+\cite{RauchReed1973} show this hypothesis cannot be dropped), and
+define the classical time of flight
 $T(E)=\int^{\infty}\dd x/\sqrt{2(E-V(x))}$.
 \begin{itemize}
 \item[(1)] If $T=\infty$ (e.g.\ $V\gtrsim-Kx^{2}$), the end is limit
-point: $H$ is \esa{} \cite{ReedSimon2}, there is a unique unitary $U(t)$
+point, and---with the non-escaping end confining, hence also limit
+point---$H$ is \esa{} \cite{ReedSimon2}, there is a unique unitary $U(t)$
 and a unique conservative process.
 \item[(2)] If $T<\infty$ (e.g.\ $V\lesssim -Kx^{2+\epsilon}$), the end is
-limit circle \cite{ReedSimon2}, by the identity
+limit circle \cite{ReedSimon2}, by the (WKB-asymptotic) identity
 \begin{equation}
 |\psi_{\pm}(x)|^{2}\;\approx\;\bigl[2(E-V(x))\bigr]^{-1/2}
 \quad\Longrightarrow\quad
-\int^{\infty}\!|\psi_{\pm}|^{2}\,\dd x \;=\; T :
+\int^{\infty}\!|\psi_{\pm}|^{2}\,\dd x \;\approx\; T :
 \label{eq:onelineidentity}
 \end{equation}
-\emph{the deficiency solution's norm is the classical time of flight}.
+\emph{the deficiency solution's norm is, to WKB accuracy, the
+classical time of flight} (the limit-point/limit-circle dichotomy
+itself is exact; the identity quantifies it semiclassically).
 Consequently:
 \begin{itemize}
 \item[(a)] there is no canonical unitary dynamics: self-adjoint extensions
@@ -1019,7 +1088,8 @@ completions that transmit through infinity), i.e.\ boundary data at
 infinity \cite{ReedSimon2};
 \item[(b)] every extension is conservative but returns probability from
 infinity after the finite classical round trip; its spectrum is discrete
-with local spacing $\Delta E=\pi/T_{\rm cross}(E)$, $T_{\rm cross}$ the
+with local spacing, semiclassically,
+$\Delta E\simeq\pi/T_{\rm cross}(E)$, $T_{\rm cross}$ the
 classical traversal time;
 \item[(c)] the regulator-independent object is the minimal (Feller)
 semigroup \cite{Feller1952}: a sub-stochastic, \emph{explosive} process
@@ -1036,9 +1106,11 @@ criteria of \cite{ReedSimon2} (Thms.~X.8--X.10); the WKB norms and the
 semiclassical spacing law are used at their standard validity.
 
 Numerical verification (representative $V=-x^{4}$, marginal control
-$V=-x^{2}$): the spacing law matches to $1$--$3.5\%$ in all eight
-$(V,L)$ cases tested and to $0.3\%$ at the largest box
-(Table~\ref{tab:spacing}); the eigenvalue nearest $E=10$ sweeps
+$V=-x^{2}$): the spacing law matches to $3.5\%$ or better in all eight
+$(V,L)$ cases tested and to $0.3\%$ at the largest box for
+$V=-x^{4}$ (Table~\ref{tab:spacing}); the eigenvalue nearest $E=10$
+(a tracked-level probe, distinct from the spacing window at $E=11$)
+sweeps
 erratically with the wall position (no completion has an $L\to\infty$
 limit) while the spacing is stable; a 1D absorbing-boundary evolution
 (where the lattice barrier is beatable) absorbs $98.6$--$98.8\%$ of the
@@ -1132,10 +1204,12 @@ the transient side.
 \label{thm:channels}
 Let $H=h_1\otimes\mathbf 1+\mathbf 1\otimes h_{\perp}$ on
 $L^{2}(\mathbb R\times\mathbb R^{m})$, with $h_1=\tfrac12p^{2}+V_1$
-super-quadratically falling (limit circle) and $h_{\perp}$ self-adjoint
+super-quadratically falling at every end (limit circle at both
+$\pm\infty$) and $h_{\perp}$ self-adjoint
 with orthonormal eigenbasis $\{\varphi_n,E_n\}$. Then for every $n$ and
 every solution $u$ of $\bigl(h_1-(\pm\ii-E_n)\bigr)u=0$ (all of which are
-$L^{2}$, since the limit-circle property is independent of the spectral
+$L^{2}$, since the limit-circle property at each end is independent of
+the spectral
 parameter), $u\otimes\varphi_n\in\ker(H^{*}\mp\ii)$. Hence the deficiency
 indices of $H$ are $(\infty,\infty)$.
 \end{theorem}
@@ -1159,7 +1233,8 @@ centrifugal terms are subquadratic).
 \begin{theorem}[non-separable channel mixing]
 \label{thm:kato}
 Let $H_0=\tfrac12p_2^{2}-|x_2|^{\alpha}+h_{\perp}(x_1)$, $\alpha>2$, and
-$B=\mu f(x_1)g(x_2)$ with $f,g$ bounded. Then $H_0+B$ has the same
+$B=\mu f(x_1)g(x_2)$ with $f,g$ bounded and real-valued. Then
+$H_0+B$ has the same
 (infinite) deficiency indices as $H_0$, while $B$ genuinely mixes the
 transverse channels.
 \end{theorem}
@@ -1178,7 +1253,9 @@ mixing): the wall-regularized level count in a window matches the channel
 sum $\sum_n\int T_{\rm cross}(E-E_n,L)\,\dd E/\pi$ (34 vs 32.3 at $L=8$;
 37 vs 37.1 at $L=12$), at $\mu=0$ the spectrum is exactly a union of
 shifted 1D ladders (deviation $10^{-12}$), switching on the bounded
-coupling leaves the counts unchanged (Kato stability made visible)---and a
+coupling leaves the counts essentially unchanged ($34\to34$ at $L=8$,
+$37\to36$ at $L=12$, a one-level window-edge shift within count
+granularity; Kato stability made visible)---and a
 packet sent to infinity in the transverse ground state returns as a
 channel mixture \emph{whose content depends on where infinity was
 regularized} (Fig.~\ref{fig:channels}): fractions
@@ -1256,7 +1333,8 @@ operator-theoretic precedent for completion by interaction.)
 The drift verdict for the quartic PU can, in fact, be given structural
 support, together with a falsifiable sign prediction:
 
-\begin{proposition}[exact channelization of the quartic PU]
+\begin{proposition}[displaced-oscillator identity (exact) and
+channelization (to $O(k^2)$) of the quartic PU]
 \label{prop:bo}
 In the Fourier-rotated representation ($p_1\to y$, $q_1\to-p_y$), the
 displaced-oscillator unitary $U=\exp[-\ii\,y\,p_2/(\gamma\Omega)]$,
@@ -1267,13 +1345,13 @@ U\,(H_{\rm PU}+\lambda q_1^4)\,U^{\dagger}
 +\frac{p_2^{2}}{2\gamma}+\frac{\gamma\Omega}{2}q_2^{2}
 -\frac{y^{2}}{2\gamma\Omega},
 \qquad
-T(p)=\lambda p^{4}-\frac{\gamma\bar\omega^{2}}{2}p^{2},
+T(p)=\lambda p^{4}-\frac{\gamma\Omega_0^{2}}{2}p^{2},
 \end{equation}
-with $\bar\omega^2=(\omega_1\omega_2)^2$ (verified in Fock space via the
+with $\Omega_0^2=(\omega_1\omega_2)^2$ (verified in Fock space via the
 terminating Baker--Campbell--Hausdorff series to $10^{-9}$). The
 mode-2-diagonal (channel) part is, in the $k=p_y$ representation and up
 to $O(k^{2})$ corrections, \emph{minus} the Schr\"odinger operator
-$\hat p^{2}/(2\gamma\Omega)-\lambda k^{4}+(\gamma\bar\omega^{2}/2)k^{2}$;
+$\hat p^{2}/(2\gamma\Omega)-\lambda k^{4}+(\gamma\Omega_0^{2}/2)k^{2}$;
 interchannel couplings are polynomial of degree $\le3$ in $k$,
 subordinate to the quartic diagonal. Hence for $\lambda>0$ every channel
 is limit circle (finite channel time of flight: $1.74$ for the parameters
@@ -1288,12 +1366,18 @@ signs.
 
 The sign prediction is confirmed by the drift diagnostic: the classically
 explosive $\lambda<0$ quartic PU sits near the essentially-self-adjoint
-baseline (ratios $0.17$--$0.46$ at two basis scales, none growing with
-truncation), separated from the $\lambda>0$ limit-circle signature
-(ratios up to $3.8$, persistently $O(1)$ and \emph{largest at the finest
-truncation} $N=64$; a single early window at one basis scale dips to
-$0.34$, but the trend never decays), while the $\lambda<0$ ghost pair
-remains at baseline up to $N=64$. The $\lambda<0$ quartic PU thus joins the $\lambda<0$ ghost pair
+baseline (ratios $0.17$--$0.46$ at two basis scales, none leaving
+the essentially-self-adjoint baseline band), separated from the
+$\lambda>0$ limit-circle signature
+(the extended truncations give $O(1)$ ratios---$3.77$ at
+$N=48{\to}56$, $1.06$ at $N=56{\to}64$---several times to an order
+of magnitude
+above the ${\sim}0.2$ e.s.a.\ baseline; a single
+early window at one basis scale dips to
+$0.34$), while the $\lambda<0$ ghost pair
+gives $0.49$ at $N=48{\to}56$ and $0.32$ at $N=56{\to}64$---the
+first value above the control bands but both well below the
+limit-circle signature. The $\lambda<0$ quartic PU thus joins the $\lambda<0$ ghost pair
 as a Rauch--Reed-type quantum-completion candidate: in both cases the
 classical escape appears to be walled off quantum mechanically, whereas
 the $\lambda>0$ quartic PU escapes through momentum space along
@@ -1420,15 +1504,21 @@ Such a certificate is implementable in one dimension: gluing WKB tails
 $a[q''/(4q)-\tfrac{5}{16}(q'/q)^{2}]$, $q=(z-U)/a$) to an exactly
 integrated interior yields, for the falling-quartic fiber, a
 machine-checked ratio $\norm{(S-\ii Z)\psi}/(Z\norm{\psi})=0.0011\ll1$:
-the 1D fiber operator is \emph{certified} not essentially self-adjoint.
+the 1D fiber operator is \emph{certified}---in the computer-assisted
+sense: the residual is evaluated numerically with a three-orders
+safety margin, not rigorously error-bounded---not essentially
+self-adjoint.
 The construction is intrinsically sharp: for the confining control the
 left continuation contains a non-$L^{2}$ real-exponential branch (no
 candidate exists), and for the marginal falling-quadratic case the
-growing branch is polynomial, $k^{+Z/1.12}$, non-$L^{2}$ precisely for
-$Z>1.12$. On the full two-dimensional operator, windowed candidates
+growing branch is polynomial, $|\psi|\sim k^{-1/2+Z/1.12}$,
+non-$L^{2}$ for every $Z>0$---consistent with the limit-point verdict
+of Theorem~\ref{thm:dictionary}(1). On the full two-dimensional
+operator, windowed candidates
 supply a \emph{closure-defect diagnostic}: falling-channel operators hug
-the forbidden bound (ratios $1.21$--$1.29$ for all five $\lambda>0$ beam
-launches, indistinguishable from the 1D limit-circle control at $1.22$),
+the forbidden bound (ratios $1.21$--$1.41$ for the five $\lambda>0$ beam
+launches---four at $1.21$--$1.29$, the outer-window launch at
+$1.41$---bracketing the 1D limit-circle control at $1.22$),
 while the $\lambda<0$ control sits at $641$ and the 1D confining control
 at $4.9$. The remaining mathematical content of the $M\to\infty$
 question is thereby isolated: a two-dimensional certificate requires
@@ -1437,7 +1527,7 @@ analytic beam tails along the escape rays.
 A Maslov feasibility study (\texttt{maslov\_feasibility.py}) settles the
 geometry of those tails. In the null-frame coordinates the ray equations
 of the symbol reduce \emph{exactly} to the quartic-PU law
-$s''''+\gamma\Omega s''+\gamma\bar\omega^{2}s=4\lambda s^{3}$, so the
+$s''''+\Omega s''+\Omega_0^{2}s=(4\lambda/\gamma)\,s^{3}$, so the
 escape-ray family is the classical blowup itself, with universal
 asymptotics $s\simeq S\,(t_*-t)^{-2}$, $S=\sqrt{30\gamma/\lambda}$:
 measured exponent $-1.999$ and amplitude $24.55$ against
@@ -1461,6 +1551,92 @@ certificate thus reduces to: numeric interior on a compact region,
 Gaussian-beam tails along the known rays, gluing where the residual
 proxy is small---assembly and quantitative error control rather than
 new asymptotic machinery.
+
+%=====================================================================
+\section{Experimental probes}
+\label{sec:probes}
+
+The closed forms of this paper are testable with existing devices;
+we collect the concrete predictions. \emph{(Added in v1.1.)}
+
+\emph{(a) The terminal-indivisibility theorem in a lossy photonic
+coupler.} The dimer \eqref{eq:dimer} is the standard system of
+experimental $\PT$ optics (coupled waveguides or resonators with
+engineered loss), and the correspondence's objects are normalized
+intensities, so classical light suffices. The apparatus exists:
+passive $\PT$ lossy couplers are characterized as functions of
+propagation length \cite{Klauck2019}, information-flow criticality
+at the exceptional point has been measured in single-photon dimers
+\cite{Xiao2019}, and divisibility \emph{classes} (P- vs
+CP-divisibility) are experimentally resolvable \cite{Bernardes2015}.
+What has not been extracted is precisely this paper's observable
+set: a closed-form divisibility-onset length, a generator floor,
+and the recurrent-window period. Protocol: measure the
+intensity transfer matrix $\Gam(t)$ at a sequence of propagation
+lengths, form the divisor $M=\Gam(t_2)\Gam(t_1)^{-1}$
+\eqref{eq:divisor}, and locate the onset of negativity.
+Theorem~\ref{thm:terminal} predicts, with no free parameters beyond
+the device constants $(\theta,s)$: onset at
+$t_c=\tilde\kappa^{-1}\mathrm{arcsinh}(\tilde\kappa/(s\sqrt2))$,
+\emph{permanent} thereafter in the broken phase, with the generator
+floor $-(\sin\theta+\tilde\kappa)$; \emph{recurrent} windows of
+period $\pi/\kappa$ in the unbroken phase; and $t_c$ continuous
+through the exceptional point. The dissociation of
+Sec.~\ref{sec:broken} is testable on the same data set by running
+the two analyses (trace-distance backflow versus divisibility) side
+by side: backflow dies at the exceptional point while the
+divisibility onset crosses it smoothly.
+
+\emph{(b) The conditioning signal on an entangled pair.} Applying
+the local lossy dimer to one arm of an entangled photon pair and
+post-selecting on survival shifts the partner's marginal by a
+closed-form amount with late-time magnitude
+$\sqrt{1-(s/\sin\theta)^{2}}$---zero at the exceptional point,
+approaching unity deep in the broken phase---while the
+\emph{unconditioned} marginal is exactly unchanged (derivation in
+the companion sequel, available in the same repository; the closed
+form follows from Theorem~\ref{thm:terminal}'s $p,q,r$). This is a direct laboratory
+test of the sample-space bookkeeping that this paper argues is the
+content of broken-$\PT$ physics, and it locates the apparent
+no-signaling violation of local $\PT$ operations reported in the
+literature in the post-selection, quantitatively. The
+entangled-pair-plus-tailored-loss platform exists
+\cite{Tang2016,Ehrhardt2022}; the closed-form magnitude is the new
+target.
+
+\emph{(c) The skin obstruction in circuits and lattices.}
+Hatano--Nelson physics is routinely realized in topolectrical
+circuits and photonic lattices; Theorem~\ref{thm:skin} identifies
+the measured skin envelope with the beable metric,
+$d_i=\ee^{2wi}$, and Corollary~\ref{cor:topology} predicts a
+specific new experiment: two opposite-field chains coupled by
+reciprocal rungs (the $\mathbb Z_2$-type ladder, net winding zero)
+are obstructed at \emph{any} rung coupling---observable as
+irreducible nonreciprocal transport that no local gauge
+transformation removes. The $\mathbb Z_2$ skin effect itself has
+recently been observed (acoustically and in programmable circuits
+\cite{Z2experiments}); the prediction here is not its existence but
+the \emph{beable-obstruction observable}: the irreducibility of the
+nonreciprocity, equivalently the detailed-balance violation of the
+underlying rate graph, which mode-localization measurements do not
+extract.
+
+\emph{(d) The explosion dictionary in engineered potentials.}
+Level-spacing \emph{saturation}, $\Delta E=\pi/T_{\rm cross}$
+independent of the box size (Table~\ref{tab:spacing}), is the
+spectroscopic fingerprint of reflection off infinity at finite
+recurrence time (the underlying boundary-condition spectra are
+classical mathematical physics \cite{BottomlessPotentials}; the
+saturation framing as an observable appears new); engineered
+super-quadratically falling potentials in cold-atom or circuit-QED
+simulators could exhibit it directly---inverted-oscillator BEC
+platforms with full state tomography now exist
+\cite{InvertedHO2026} and are one nonlinearity away from the
+$-x^{4}$ class. On the transient side, the cascade laws
+\eqref{eq:cascadelaws} are two-mode squeezing, already measured as
+vacuum pair creation in the dynamical Casimir effect
+\cite{WilsonDCE}; engineered superlinearly Bose-enhanced ladders
+would probe the transient-to-explosive transition itself.
 
 %=====================================================================
 \section{Discussion}
@@ -1548,7 +1724,7 @@ independently of their origin.
 All scripts, the running lab notes, and the \LaTeX{} source of this
 manuscript are publicly available at
 \begin{center}
-  \url{https://github.com/embeddetech/indivisible-ghosts}
+  \url{https://github.com/embeddetech/p01-indivisible-ghosts}
 \end{center}
 The repository also preserves the provenance record: the original
 conversation in which the research question was posed
@@ -1556,7 +1732,10 @@ conversation in which the research question was posed
 project briefing that seeded the working sessions
 (\texttt{PT\_stochastic\_handoff.md}).
 All results are reproducible from short standalone Python scripts
-(NumPy/SciPy), each of which runs in seconds to minutes on a laptop:
+(NumPy/SciPy); most run in seconds to minutes on a laptop, while the
+two long trajectory-integration scripts (\texttt{interacting\_pu.py},
+\texttt{completion\_candidates.py}) can take tens of minutes,
+machine- and SciPy-version-dependent:
 \begin{itemize}\setlength\itemsep{1pt}\raggedright
 \item Sec.~\ref{sec:deflation}: \texttt{pt\_barandes.py}
 \item Sec.~\ref{sec:kolmogorov}: \texttt{fixed\_beable\_kolmogorov.py},
@@ -1583,7 +1762,10 @@ All results are reproducible from short standalone Python scripts
 
 \bibitem{Barandes2023}
 J.~A.~Barandes,
-\emph{The stochastic--quantum correspondence},
+\emph{The stochastic-quantum correspondence},
+% Published title (LSE Press, DOI 10.31389/pop.186) uses a hyphen,
+% not an en-dash (verified 2026-07-13); prose en-dashes are house
+% style, not the title.
 Philos.\ Phys.\ \textbf{3}(1), 8 (2025), arXiv:2302.10778.
 
 \bibitem{Barandes2025}
@@ -1593,7 +1775,9 @@ arXiv:2507.21192.
 
 \bibitem{DivisibleIndivisible2025}
 L.~S.~Pimenta,
-\emph{Divisible and indivisible stochastic--quantum dynamics},
+\emph{Divisible and indivisible Stochastic-Quantum dynamics},
+% arXiv-only item; the arXiv record's capitalization
+% ("Stochastic-Quantum") governs (verified 2026-07-13).
 arXiv:2505.08785.
 
 \bibitem{BenderBoettcher1998}
@@ -1630,7 +1814,9 @@ Phys.\ Rev.\ \textbf{79}, 145 (1950).
 
 \bibitem{Mostafazadeh2002}
 A.~Mostafazadeh,
-\emph{Pseudo-Hermiticity versus $\PT$ symmetry},
+\emph{Pseudo-Hermiticity versus $\PT$ symmetry: The necessary
+condition for the reality of the spectrum of a non-Hermitian
+Hamiltonian},
 J.\ Math.\ Phys.\ \textbf{43}, 205 (2002);
 \emph{Pseudo-Hermitian representation of quantum mechanics},
 Int.\ J.\ Geom.\ Meth.\ Mod.\ Phys.\ \textbf{7}, 1191 (2010).
@@ -1750,10 +1936,31 @@ D.~Chru\'sci\'nski, \'A.~Rivas, and E.~St{\o}rmer,
 for noninvertible dynamical maps},
 Phys.\ Rev.\ Lett.\ \textbf{121}, 080407 (2018).
 
+\bibitem{Rivas2022}
+% journal record verified (jref on arXiv:2209.03584)
+\'A.~Rivas,
+\emph{Unidirectional information flow and positive divisibility are
+nonequivalent notions of quantum Markovianity for noninvertible
+dynamics},
+Open Syst.\ Inf.\ Dyn.\ \textbf{29}, 2250012 (2022),
+arXiv:2209.03584.
+
 \bibitem{SalvioStrumia2016}
 A.~Salvio and A.~Strumia,
 \emph{Quantum mechanics of 4-derivative theories},
 Eur.\ Phys.\ J.\ C \textbf{76}, 227 (2016).
+
+\bibitem{ErrastiDiez2024}
+% journal record verified via Crossref (DOI 10.1002/prop.202400268)
+V.~Errasti D\'iez, J.~Gaset Rif\`a, and G.~Staudt,
+\emph{Foundations of ghost stability},
+Fortschr.\ Phys.\ \textbf{73}, 2400268 (2025), arXiv:2408.16832.
+
+\bibitem{Held2025}
+A.~Held,
+\emph{Global stability of ghostly field theories: Classical
+scattering in $(N{+}1)$ dimensions},
+arXiv:2509.18049.
 
 \bibitem{Deffayet2026}
 C.~Deffayet, A.~Fathe Jalali, A.~Held, S.~Mukohyama, and A.~Vikman,
@@ -1775,6 +1982,66 @@ Phys.\ Rev.\ Lett.\ \textbf{124}, 086801 (2020).
 F.~Fischer, D.~Burgarth, and D.~Lonigro,
 \emph{Self-adjoint realizations of higher-order squeezing operators},
 J.\ Phys.\ A \textbf{59}, 255203 (2026), arXiv:2508.09044.
+
+\bibitem{Klauck2019}
+F.~Klauck, L.~Teuber, M.~Ornigotti, M.~Heinrich, S.~Scheel, and
+A.~Szameit,
+\emph{Observation of $\PT$-symmetric quantum interference},
+Nat.\ Photonics \textbf{13}, 883 (2019).
+
+\bibitem{Xiao2019}
+L.~Xiao, K.~Wang, X.~Zhan, Z.~Bian, K.~Kawabata, M.~Ueda, W.~Yi,
+and P.~Xue,
+\emph{Observation of critical phenomena in parity-time-symmetric
+quantum dynamics},
+Phys.\ Rev.\ Lett.\ \textbf{123}, 230401 (2019).
+
+\bibitem{Bernardes2015}
+N.~K.~Bernardes et al.,
+\emph{Experimental observation of weak non-Markovianity},
+Sci.\ Rep.\ \textbf{5}, 17520 (2015).
+
+\bibitem{Tang2016}
+J.-S.~Tang et al.,
+\emph{Experimental investigation of the no-signalling principle in
+parity--time symmetric theory using an open quantum system},
+Nat.\ Photonics \textbf{10}, 642 (2016).
+
+\bibitem{Ehrhardt2022}
+M.~Ehrhardt, M.~Heinrich, and A.~Szameit,
+\emph{Observation-dependent suppression and enhancement of
+two-photon coincidences by tailored losses},
+Nat.\ Photonics \textbf{16}, 191 (2022).
+
+\bibitem{Z2experiments}
+T.~Liu et al.,
+\emph{Observation of $\mathbb Z_2$ non-Hermitian skin effect in
+projective mirror-symmetric acoustic metamaterials},
+Adv.\ Mater.\ (2025);
+H.~Tang et al.,
+\emph{A non-Abelian route to $\mathbb Z_2$ non-Hermitian skin
+effects},
+arXiv:2604.00888.
+
+\bibitem{BottomlessPotentials}
+% fourth author verified via Crossref (DOI 10.1016/0003-4916(90)90125-8): Mende
+M.~Carreau, E.~Farhi, S.~Gutmann, and P.~F.~Mende,
+\emph{The functional integral for quantum systems with Hamiltonians
+unbounded from below},
+Ann.\ Phys.\ \textbf{204}, 186 (1990).
+
+\bibitem{InvertedHO2026}
+S.-C.~Ji, P.~Sch\"uttelkopf, N.~Bazhan, F.~Cataldini, M.~Tajik,
+F.~S.~M{\o}ller, I.~Mazets, S.~Erne, and J.~Schmiedmayer,
+\emph{Experimentally probing the quantum physics in the inverted
+harmonic oscillator},
+arXiv:2606.05125.
+
+\bibitem{WilsonDCE}
+C.~M.~Wilson et al.,
+\emph{Observation of the dynamical Casimir effect in a
+superconducting circuit},
+Nature \textbf{479}, 376 (2011).
 
 \bibitem{Ralston1982}
 J.~Ralston,

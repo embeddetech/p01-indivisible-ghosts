@@ -1,5 +1,5 @@
 """
-Section 5.4 of PT_stochastic_handoff.md:
+Section 5.4 of PT_stochastic_handoff.md (= paper Sec. 6):
 The Pais-Uhlenbeck oscillator and the stochastic-quantum correspondence.
 
 MODEL. L = (gamma/2)[xdd^2 - (w1^2 + w2^2) xd^2 + w1^2 w2^2 x^2].
@@ -36,13 +36,13 @@ WHAT THIS SCRIPT SHOWS.
     operator R = exp[(pi/2) D], D = (i/2)(a^dag^2 - a^2) (the y -> -iy
     dilation), has cond(R_N) growing EXPONENTIALLY with cutoff N, so the
     would-be metric (~ (R R^dag)^{-1}) is unbounded with unbounded inverse:
-    the beable map degenerates exponentially with energy -- the section 5.3
+    the beable map degenerates exponentially with energy -- the paper-Sec.-5
     collapse, but with no rescaled-time survivor.
  C. EQUAL FREQUENCIES (the PU exceptional point). The classical normal-mode
     matrix becomes DEFECTIVE (Jordan block, secular t sin(wt) growth), yet
     the Hermitian grid realization passes through smoothly: <x(t)> tracks
     the secular classical solution and Gamma stays exactly doubly
-    stochastic. PU-scale confirmation of section 5.3's verdict: the EP is a
+    stochastic. PU-scale confirmation of paper Sec. 5's verdict: the EP is a
     singularity of the normal-mode (non-Hermitian) dictionary, not of the
     process.
 
@@ -57,8 +57,8 @@ sample space itself.
 NOT addressed: interactions (where the ghost instability becomes physical
 via vacuum decay), the dense-spectrum subtleties, field theory.
 
-Run:  python pais_uhlenbeck.py   (~1-2 minutes: two 1296x1296 eigh + a few
-                                  1296^3 matrix products)
+Run:  python pais_uhlenbeck.py   (~1-2 minutes: two 1936x1936 eigh + a few
+                                  1936^3 matrix products)
 """
 
 import numpy as np
@@ -162,7 +162,7 @@ print("A. Ghost (Ostrogradski) PU as a Barandes process on (x, xdot)")
 print("=" * 72)
 run_sector(1.0, 0.5, tmax=8.0, label="unequal")
 print("  beables: FIXED. H is Hermitian on the configuration grid, so")
-print("  K1-K4 of section 5.1 hold trivially with eta = identity -- no")
+print("  K1-K4 of paper Sec. 3 hold trivially with eta = identity -- no")
 print("  metric correction, no beable rotation. The unbounded-below ENERGY")
 print("  never obstructs the PROBABILITY structure: at the free level the")
 print("  Ostrogradski ghost is invisible to the stochastic process.")
@@ -211,7 +211,7 @@ slope = np.polyfit(Ns, lc, 1)[0]
 print(f"  growth: ~{slope:.2f} decades per level -- cond EXPONENTIAL in the")
 print("  cutoff. The would-be metric (RR^dag)^{-1} is unbounded with")
 print("  unbounded inverse: the beable map degenerates exponentially with")
-print("  energy. This is the section 5.3 collapse at every scale at once,")
+print("  energy. This is the paper-Sec.-5 collapse at every scale at once,")
 print("  with no critical-rescaling survivor.")
 
 # ----------------------------------------------------------------------
@@ -231,4 +231,4 @@ print("  => the Hermitian realization crosses the PU exceptional point")
 print("  smoothly: <x(t)> tracks the SECULAR classical solution")
 print("  x(t) = 2 cos(wt) + w t sin(wt), and Gamma remains exactly doubly")
 print("  stochastic. The Jordan pathology lives in the normal-mode")
-print("  (non-Hermitian) dictionary only -- as in section 5.3.")
+print("  (non-Hermitian) dictionary only -- as in paper Sec. 5.")

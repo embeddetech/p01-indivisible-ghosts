@@ -2,7 +2,12 @@
 Companion to interacting_pu.py, section C2: quantum leak for the QUARTIC PU
 -- the case whose CLASSICAL escape is finite-time (t* = 5.13 for the packet
 center IC, from interacting_pu.py section B; blowup law x ~ A/(t*-t)^2 with
-A = sqrt(30 gamma / lam)).
+A = sqrt(30 gamma / lam)). NOTE: this script's own stricter escape event
+prints t* = 5.3361 for the same IC -- the difference is the escape-event
+criterion/tolerance (|z| threshold trips early on the third derivative,
+which blows up as (t*-t)^-5; 5.13 at rtol 1e-8 vs 5.336 at tighter
+tolerance), not a discrepancy. The paper quotes only the range 3.3-6.9,
+which is interacting_pu's own output.
 
 H = p1 q2 + p2^2/(2 gamma) + (gamma/2) Om q2^2 - (gamma/2) wb q1^2
     + lam q1^4,     Om = w1^2 + w2^2,  wb = (w1 w2)^2.
@@ -16,7 +21,7 @@ THE SUBTLETY THAT DECIDES THE TEST. Finite-time escape involves UNBOUNDED
 acceleration, so a grid with momentum cutoff k_max = pi/dx can only
 transport the wavefront while the required classical speed stays below
 k_max; beyond that the lattice artificially confines (this is the same
-structural fact as section 5.4-B: a Hamiltonian that is not essentially
+structural fact as handoff section 5.4-B (= paper Secs. 7-8): a Hamiltonian that is not essentially
 self-adjoint has no faithful finite truncation). Therefore:
 
  1. PROBE TEST (decisive): within one well-resolved run, the time at which
@@ -168,4 +173,4 @@ print("resolved regime, is the decisive comparison: if quantum arrival")
 print("tracks the classical law, whose t_r saturates at t* < infinity,")
 print("then in the continuum/infinite-volume limit probability reaches")
 print("infinity at finite time: no closed stochastic process on the real")
-print("configurations -- only a sub-stochastic (leaky, section-5.2) one.")
+print("configurations -- only a sub-stochastic (leaky, paper Sec. 4) one.")

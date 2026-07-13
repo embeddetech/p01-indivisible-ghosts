@@ -1,114 +1,61 @@
 # indivisible-ghosts
 
-![Stochastic ghost dynamics: a ghost escapes down V = -λx⁴ to infinity in finite time along a stochastic trajectory that scissors cannot cut](indivisible-ghosts-small.png)
+*Paper 1 of the [Indivisible Ghosts program](https://github.com/embeddetech/ghosts-program).*
 
-<sub>*Banner image: prompt written by Claude Fable 5 (Anthropic), rendered by ChatGPT (OpenAI).*</sub>
+![indivisible-ghosts](indivisible-ghosts.png)
 
-Numerical scripts, lab notes, and manuscript for:
+**Indivisible stochastic processes for non-Hermitian and higher-derivative
+quantum systems: detailed balance, broken PT symmetry, and the explosion
+of ghosts** — J. Torkelson (2026). The paper:
+[`indivisible-ghosts-paper.pdf`](indivisible-ghosts-paper.pdf), source in
+[`paper/`](paper/).
 
-> **Indivisible stochastic processes for non-Hermitian and higher-derivative
-> quantum systems: detailed balance, broken PT symmetry, and the explosion of
-> ghosts** — Jonathan Torkelson (2026).
-> **[Read the paper (PDF)](indivisible-ghosts-paper.pdf)**
+This manuscript is an experiment in AI-conducted research as much as a
+physics paper: the research program, theorems and proofs, numerical
+experiments, literature search, and text were produced by the large
+language model Claude Fable 5 (Anthropic), directed and reviewed by the
+author. Nothing here should be taken on trust — every theorem is stated
+with a full proof, and every numerical claim is reproducible from the
+scripts in this repository.
 
-The project connects two threads: Jacob Barandes' reconstruction of quantum
-mechanics as indivisible stochastic processes, and pseudo-Hermitian / PT-symmetric
-quantum mechanics (Bender, Mostafazadeh, Mannheim), including the Pais–Uhlenbeck
-higher-derivative oscillator and its ghost problem. Headline results:
+## Verification
 
-- **Detailed-balance theorem (K1–K4):** exactly which non-Hermitian Hamiltonians
-  admit a time-independent ("fixed-beable") diagonal metric — a Kolmogorov cycle
-  condition, with the stationary process satisfying detailed balance.
-- **Skin-effect obstruction:** the obstruction to fixed beables is an imaginary
-  gauge flux; its topological classification is `H¹(G, ℝ)`, realized by the
-  Hatano–Nelson model and non-Hermitian skin modes.
-- **Terminal indivisibility:** in the PT-broken phase, dynamics become a
-  survival-conditioned process that is indivisible *forever* (closed forms), while
-  information-backflow measures of non-Markovianity die at the exceptional point —
-  the two notions of non-Markovianity dissociate.
-- **Explosion of ghosts:** the Ostrogradski instability of interacting
-  Pais–Uhlenbeck systems is reinterpreted as *explosion* (sample-space exit) of the
-  corresponding stochastic process; a dictionary links classical time-of-flight,
-  Weyl limit-point/limit-circle, essential self-adjointness, and Feller
-  conservativity, with numerical deficiency evidence, an exact channelization of
-  the quartic PU model, and a certified 1D von Neumann deficiency certificate.
+This paper is audited under the program's release gate: repeated
+adversarial audit passes by fresh AI agents — cross-model (Claude Opus
+and Claude Fable), three independent lanes per pass — each re-deriving
+every proof from scratch, re-running every script and tracing every
+quoted number to its output, and verifying every reference against
+primary records (Crossref, arXiv, publisher pages). Circulation
+requires three consecutive passes with zero findings.
 
-## Provenance and status
+- The audit process: [`AUDIT.md`](AUDIT.md)
+- This paper's complete pass-by-pass referee trail — every finding,
+  every fix, every counter state:
+  [`histories/paper1-gate-history.md`](histories/paper1-gate-history.md)
 
-This research was carried out essentially in its entirety by the large language
-model **Claude Fable 5 (Anthropic)**, directed by Jonathan Torkelson, who posed
-the research direction, provided iterative review, and takes responsibility for
-circulating it. It began with a single question in a Claude Desktop conversation
-(preserved verbatim in this repository): *"Is it not possible that the antilinear
-PT/time-reversal symmetry element could maybe predict indivisible non-Markovian
-processes?"* See the paper's provenance note and "Author contributions and use
-of AI" section.
+Status of this snapshot: audited through 12 full passes (36 independent
+referee lanes); every finding raised has been fixed and re-verified;
+the formal three-consecutive-clean gate is in progress.
 
-**Timeline.** The question was posed around 6 P.M. on July 10, 2026. The paper
-was fully drafted by roughly 11 P.M. the same evening, with extensions continuing
-to about 2 A.M. — the research program and manuscript were, in wall-clock terms,
-one evening's work. This repository was first published around 2:30–3 A.M., and
-the following morning went to adversarial audits (reference verification,
-numerics cross-checks, error fixes), the provenance apparatus, and the final
-release. The lab notebook's dated entries (`notes.md`) reflect this chronology.
+## Reproducing the results
 
-*(For calibration: earlier that same day, AI had failed to help the author pair
-a replacement garage door opener remote. Draw whatever conclusions seem
-warranted.)*
+All results reproduce from the 19 standalone Python scripts in
+[`scripts/`](scripts/) (NumPy/SciPy; the paper's Code availability
+section maps scripts to sections) and the figure generator
+[`paper/make_figures.py`](paper/make_figures.py). Most scripts run in
+seconds to minutes; `interacting_pu.py` and `completion_candidates.py`
+take tens of minutes.
 
-**Not peer-reviewed.** Numerical claims are reproducible from the scripts below;
-analytic claims are stated with proofs or explicit verification checks in the
-paper, but none of it has been independently refereed. Read accordingly.
+## Provenance
 
-## Contents
-
-| File | What it does |
-|---|---|
-| `indivisible-ghosts-paper.pdf` | **The paper** (compiled PDF) |
-| `notes.md` | Running lab notebook — every result with exact numbers, in order |
-| `Conversation_Conformal_Gravity_PT_Barandes.pdf` | The original Claude Desktop conversation where the research question was posed |
-| `PT_stochastic_handoff.md` | The project briefing distilled from that conversation, which seeded the working sessions |
-| `paper/` | LaTeX source, figures, and `make_figures.py` (regenerates all figures) |
-| `scripts/` | All analysis scripts (below) |
-
-Scripts (each is self-contained; docstrings state what is being tested and the
-expected output):
-
-| Script | Result |
-|---|---|
-| `pt_barandes.py` | Baseline stochastic–quantum correspondence checks |
-| `fixed_beable_kolmogorov.py` | K1–K4 detailed-balance theorem (200/200 random verifications) |
-| `skin_effect_beables.py` | Imaginary-flux obstruction, Hatano–Nelson spectra, NESS currents |
-| `skin_topology_beables.py` | Topology of the obstruction: torus, cylinder, Z₂ ladder |
-| `dilation_bridge.py` | Broken PT phase as Halmos dilation / survival-conditioned process |
-| `lemma_terminal_indivisibility.py` | Closed-form terminal-indivisibility lemma checks |
-| `exceptional_point.py` | Exceptional point as coordinate singularity: scaling exponents |
-| `pais_uhlenbeck.py` | Free Pais–Uhlenbeck oscillator: spectra, Ehrenfest dynamics |
-| `interacting_pu.py` | Interacting ghosts: cascade laws, classical escape survey |
-| `quartic_pu_leak.py` | Lattice confinement diagnosis for the quartic PU model |
-| `explosion_theorem.py` | Explosion dictionary V1–V5 (time-of-flight, wall sweeps, wormhole completions) |
-| `deficiency_multiD.py` | Multidimensional deficiency: channels, S-matrix at infinity |
-| `pu_deficiency_evidence.py` | Fock-space drift evidence campaign for PU deficiency |
-| `pu_bo_channels.py` | Exact channelization of quartic PU (BCH identity, time-of-flight) |
-| `gap_closure_channels.py` | Finite-channel stability theorem checks |
-| `completion_candidates.py` | Completion-mechanism diagnostics for the two λ<0 candidates |
-| `tail_certificate.py` | No-compact-witness principle / closure-defect diagnostic |
-| `glued_certificate_1d.py` | Certified 1D glued von Neumann deficiency certificate |
-| `maslov_feasibility.py` | Gaussian-beam (Maslov) feasibility study for the 2D certificate |
-| `qft_bridge_stage2.py` | *(post-v1.0)* QFT bridge numerics: Feller onset, growth-law slopes, channel multiplicity, lattice UV trend |
-| `qft_bridge_stage3.py` | *(post-v1.0)* Boost-orbit factorization of the ghost vacuum rate; dimension ladder (Λ⁰/Λ⁴/Λ⁸) |
-
-## Running
-
-```
-pip install numpy scipy matplotlib
-python scripts/explosion_theorem.py    # or any other script; each runs standalone
-```
-
-Most scripts finish in seconds to a few minutes on a laptop. The paper compiles
-with `pdflatex main.tex` (twice) in `paper/`; the tracked copy of the compiled
-PDF lives at the repo root as `indivisible-ghosts-paper.pdf`.
+The originating conversation
+([`Conversation_Conformal_Gravity_PT_Barandes.pdf`](Conversation_Conformal_Gravity_PT_Barandes.pdf))
+and the project briefing
+([`PT_stochastic_handoff.md`](PT_stochastic_handoff.md)) that seeded
+this paper are preserved here. The program-wide research notebook,
+registries, and full audit ledgers live in the
+[program hub](https://github.com/embeddetech/ghosts-program).
 
 ## License
 
-MIT (see `LICENSE`).
+MIT — see [`LICENSE`](LICENSE).

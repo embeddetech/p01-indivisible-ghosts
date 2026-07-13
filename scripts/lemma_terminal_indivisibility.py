@@ -1,6 +1,6 @@
 """
 Analytic lemma: TERMINAL INDIVISIBILITY of the broken-PT reduced process.
-(Promotes finding 1 of section 5.2 / dilation_bridge.py to a theorem.)
+(Promotes finding 1 of handoff section 5.2 / dilation_bridge.py to a theorem; paper Sec. 4.)
 
 SETUP. Dimer H = cos(th) I + i sin(th) sigma_z + s sigma_x; loss frame
 H_loss = H - i sin(th) I; reduced process Gamma(t) = |exp(-i H_loss t)|^2

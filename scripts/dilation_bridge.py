@@ -1,5 +1,5 @@
 """
-Section 5.2 of PT_stochastic_handoff.md:
+Section 5.2 of PT_stochastic_handoff.md (= paper Sec. 4):
 Broken-PT dynamics as an OPEN SUBSYSTEM via unitary (Halmos) dilation.
 
 IDEA. The canonical 2x2 PT Hamiltonian is a balanced gain/loss dimer:

@@ -1,5 +1,5 @@
 """
-Section 5.1 of PT_stochastic_handoff.md:
+Section 5.1 of PT_stochastic_handoff.md (= paper Sec. 3):
 Fixed-beable / Kolmogorov-cycle characterization.
 
 QUESTION: which non-Hermitian H admit a metric eta that is DIAGONAL in the
