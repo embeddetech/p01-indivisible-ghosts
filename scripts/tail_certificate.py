@@ -143,13 +143,13 @@ print("=" * 72)
 Z = 30.0
 print()
 print("T1. 1D calibration:")
-certificate("falling quartic  U=-0.05k^4    (LC: must pass)",
+certificate("falling quartic  U=-0.05k^4    (LC: hugs bound ~1.2)",
             lambda k, p: np.full_like(p, -LAM * k ** 4, dtype=float),
             Z, 6.5, 13.0, 2.0, 2.0)
-certificate("falling quadratic U=-0.78k^2   (LP-marginal: must fail)",
+certificate("falling quadratic U=-0.78k^2   (LP-marginal: hugs bound)",
             lambda k, p: np.full_like(p, -0.78 * k ** 2, dtype=float),
             Z, 6.5, 13.0, 2.0, 2.0)
-certificate("confining quartic U=+0.05k^4   (e.s.a.: must fail)",
+certificate("confining quartic U=+0.05k^4   (e.s.a.: far above bound)",
             lambda k, p: np.full_like(p, +LAM * k ** 4, dtype=float),
             Z, 6.5, 13.0, 2.0, 2.0)
 

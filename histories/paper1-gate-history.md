@@ -421,3 +421,22 @@ provenance records, convention README with honest gate status:
 "audited through 12 passes, formal gate in progress"); notes.md
 and 8 non-p1 scripts REMOVED from the public repo. GitHub hold
 lifted FOR P01 ONLY. PASS 13 launching (Opus x3).
+
+## Pass 13 — 2026-07-13 (Opus x3) — session close
+
+- Bibliography: CLEAN (FTT optional-cite no-actioned, matching
+  the Fable pass-9 precedent on the same item).
+- Claims: 1 MINOR applied — S_M in the stability theorem is minus
+  Prop bo's channel operator; clarifying clause added ("standard
+  overall sign; deficiency indices invariant under A -> -A").
+- Numerics: manuscript-CLEAN (~115 traced, 0 mismatches; 8/8
+  figures byte-identical modulo metadata; independent
+  perturbation probes at fresh (theta,s) pairs and n up to 8);
+  2 script NITs applied: tail_certificate.py stale pre-correction
+  "must pass/fail" calibration labels relabeled to the corrected
+  closure-defect readings; interacting_pu.py runtime docstring
+  updated to observed ~15-20 min.
+
+Recompiled clean (31 pp). Counter: 0 of K=3. SESSION WIND-DOWN:
+no pass 14 this session (account switch). The published p01
+snapshot is being refreshed to this exact state.

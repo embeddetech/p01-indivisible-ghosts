@@ -37,7 +37,7 @@ C. NONLINEAR, QUANTUM. Split-step evolution of the ghost pair with an
    becomes a probability pathology, exactly where the classical flow is
    incomplete.
 
-Run:  python interacting_pu.py     (~4-6 minutes)
+Run: python interacting_pu.py   (~15-20 minutes observed; stdout buffered)
 """
 
 import functools
