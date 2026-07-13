@@ -440,3 +440,26 @@ lifted FOR P01 ONLY. PASS 13 launching (Opus x3).
 Recompiled clean (31 pp). Counter: 0 of K=3. SESSION WIND-DOWN:
 no pass 14 this session (account switch). The published p01
 snapshot is being refreshed to this exact state.
+
+## Pass 14 — 2026-07-13 (Opus x3)
+
+- Bibliography: CLEAN (eighth consecutive all-49).
+- Numerics: CLEAN (~95 traced, 0 mismatches; ALL 8 figures
+  pixel-identical, mean|delta|=0; deterministic).
+- Claims: 1 MINOR + 1 NIT. MINOR = the S_M clause I ADDED in
+  pass 13 stated a FALSE general fact ("deficiency indices
+  invariant under A->-A"); correct is that A->-A INTERCHANGES
+  them (n+(-A)=n-(A)), and S_M being real (conjugation-commuting)
+  gives n+=n- so the sign is immaterial. Conclusion (2M,2M)
+  unchanged; reasoning corrected. [META: the gate caught the
+  orchestrator's own pass-13 fix on the very next pass -- logged
+  for the meta-paper as an orchestrator-error-caught event.]
+  NIT = Cor 9.9 wrote the lambda<0 confining fiber's lower term
+  as "+O(k^2)" (misleading remainder notation for an EXACT
+  quadratic, inconsistent with the exact lambda>0 form); now
+  "(plus exact lower-order quadratic terms, not a remainder)" --
+  descriptive, no explicit coefficient asserted (avoids a
+  new-coefficient error).
+
+Recompiled clean. Counter: 0 of K=3. Published p01 refreshed to
+this state. Opus dry streak resets to 0 (accepted findings).
