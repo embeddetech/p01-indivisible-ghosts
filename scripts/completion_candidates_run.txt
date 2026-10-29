@@ -1,0 +1,40 @@
+completion_candidates.py -- full uncapped run (2026-07-14), stdout committed as
+provenance for the §10 completion-candidate numbers (the paper's kinetic-form
+ratios; this is the previously-uncaptured Part B/C the wall-cap could not reach).
+
+========================================================================
+A. Sign dichotomy: lam < 0 Galerkin models are e.s.a. --
+   wall-regularized spectra CONVERGE (M = 2, window [9, 13])
+========================================================================
+  L =  6.0: 6 levels in window
+  L =  8.0: 6 levels in window; max matched drift vs previous L = 2.90e-08
+  L = 10.0: 6 levels in window; max matched drift vs previous L = 2.45e-13
+=> (0,0) vs (2M,2M) -- sign dichotomy a theorem at every finite channel number.
+
+========================================================================
+B. Null-escape structure of the classical blowups
+========================================================================
+kinetic-form ratio along the escape (0 = null, 1 = definite):
+ amplitude   PU lam>0   PU lam<0  ghost lam<0
+     1e+02     0.9424     0.3500       0.0663
+     1e+03     0.9880     0.9916       0.0139
+     1e+04     0.9979     0.9782       0.0209
+     1e+05     0.9997     0.9998       0.0633
+=> deficiency (PU lam>0) escapes DEFINITE (ratio -> 1); ghost pair escapes NULL
+   (ratio -> 0); but the lam<0 PU ratio ALSO tends to one -> the naive conjecture
+   'quantum completion iff null classical escape' is FALSIFIED by the lam<0 PU, as
+   the paper reports; its completion evidence rides the channel tail.
+
+========================================================================
+C. Valley-adapted drift test: lam < 0 ghost pair in rotated (s,d) Fock bases
+========================================================================
+  lam = -0.05, (nu_s, nu_d) = (1.0, 1.0) [isotropic]:      ratios 0.364 / 0.189 / 0.428
+  lam = -0.05, (nu_s, nu_d) = (0.5, 1.5) [valley-adapted]: ratios 0.158 / 0.293 / 0.250
+  lam = -0.05, (nu_s, nu_d) = (0.3, 2.0) [strong-valley]:  ratios 0.184 / 0.173 / 0.445
+  control lam = 0 (free, e.s.a.), (0.5, 1.5):              ratios 0.090 / 0.303 / 0.200
+Read-out: the lam<0 ratios stay at the control's baseline across all squeezing
+choices -> the quantum-completion verdict is not a basis artifact.
+
+MAP TO PAPER: 0.9997 = PU lam>0 deficiency (definite); 0.01-0.07 = ghost lam<0
+(null, values 0.0663/0.0139/0.0209/0.0633); 0.16-0.45 = valley-adapted drift ratios
+(0.158-0.445). Part-A drift 3e-8 -> 1e-13 (2.90e-08 -> 2.45e-13). exit 0.
